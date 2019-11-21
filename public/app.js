@@ -19,7 +19,7 @@ firebase.initializeApp({ // This is all client-side safe.
  * Get currently authenticated supervisor's document
  * @returns {Object} Currently authenticated supervisor's doc
  */
-function supervisor() {
+function _supervisor() {
   return db.collection("supervisors").doc(user.uid);
 }
 
