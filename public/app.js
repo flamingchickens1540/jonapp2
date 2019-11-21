@@ -14,26 +14,6 @@ firebase.initializeApp({ // This is all client-side safe.
   measurementId: "G-77EKECDTF7"
 });
 
-/** Trigger Google OAuth popup and assign user variable. */
-function signIn() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-
-  firebase.auth().signInWithPopup(provider).then(result => {
-    user = result.user;
-
-    supervisor().get().then(function(doc) { // If the user is already a registered supervisor
-      if(!doc.exists) {
-        registerSupervisor()
-      } else {
-        console.log("Supervisor exists, no need to create it.")
-      }
-    }).catch(function(error) {
-      console.error("Error getting supervisor's document:", error);
-    });
-
-    document.getElementById("banner").innerHTML = user.displayName + " logged in.";
-  });
-}
 
 /**
  * Get currently authenticated supervisor's document
@@ -48,7 +28,7 @@ function supervisor() {
  * @param {array} endusers Array of end users.
  */
 function updateSupervisor(endusers) {
-  supervisor().set({
+  _supervisor().set({
     endusers: endusers
   }).then(function(docRef) {
     console.log("Update complete.");
@@ -57,9 +37,7 @@ function updateSupervisor(endusers) {
   });
 }
 
-/**
- * Register a new supervisor.
- */
+/** Register a new supervisor. */
 function registerSupervisor(){
   updateSupervisor([]); // Update (create) the curent authenticated user.
 }
@@ -69,7 +47,7 @@ function registerSupervisor(){
  * @param {string} eid End user's ID.
  */
 function assignEndUser(eid) {
-  supervisor().get().then(function(doc) {
+  _supervisor().get().then(function(doc) {
     if (doc.exists) {
       endUsers = doc.data()["endusers"];
       endUsers.push(eid);
@@ -99,11 +77,9 @@ function createEndUser(name) {
   });
 }
 
-/**
- * Show available end users
- */
+/** Show available end users */
 function showEndUsers() {
-  supervisor().get().then(function(doc) {
+  _supervisor().get().then(function(doc) {
     endUsers = doc.data()["endusers"];
 
     for (i = 0; i < endUsers.length; i++) {
@@ -113,5 +89,26 @@ function showEndUsers() {
       });
     }
 
+  });
+}
+
+/** Trigger Google OAuth popup and assign user variable. */
+function signIn() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+
+  firebase.auth().signInWithPopup(provider).then(result => {
+    user = result.user;
+
+    _supervisor().get().then(function(doc) { // If the user is already a registered supervisor
+      if(!doc.exists) {
+        registerSupervisor()
+      } else {
+        console.log("Supervisor exists, no need to create it.")
+      }
+    }).catch(function(error) {
+      console.error("Error getting supervisor's document:", error);
+    });
+
+    document.getElementById("banner").innerHTML = user.displayName + " logged in.";
   });
 }
