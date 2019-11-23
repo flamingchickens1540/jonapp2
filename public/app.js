@@ -1,17 +1,22 @@
-var user;
-const db = firebase.firestore();
-const storage = firebase.storage();
+let user; // Authenticated user object
+let db; // Firebase cloud firestore
+let storage; // Firebase GCP Bucket
 
+// Wait for the DOM to load. (Where the firebase libs are)
+document.addEventListener("DOMContentLoaded",event => {
+  firebase.initializeApp({ // This is all client-side safe.
+    apiKey: "AIzaSyDLGdqO7cCBoMWRvUD2Iy8gMVZ-bYUBGbE",
+    authDomain: "jonapp-2.firebaseapp.com",
+    databaseURL: "https://jonapp-2.firebaseio.com",
+    projectId: "jonapp-2",
+    storageBucket: "jonapp-2.appspot.com",
+    messagingSenderId: "851985231577",
+    appId: "1:851985231577:web:67563f2397c4d08dea18c8",
+    measurementId: "G-77EKECDTF7"
+  });
 
-firebase.initializeApp({ // This is all client-side safe.
-  apiKey: "AIzaSyDLGdqO7cCBoMWRvUD2Iy8gMVZ-bYUBGbE",
-  authDomain: "jonapp-2.firebaseapp.com",
-  databaseURL: "https://jonapp-2.firebaseio.com",
-  projectId: "jonapp-2",
-  storageBucket: "jonapp-2.appspot.com",
-  messagingSenderId: "851985231577",
-  appId: "1:851985231577:web:67563f2397c4d08dea18c8",
-  measurementId: "G-77EKECDTF7"
+  db = firebase.firestore();
+  storage = firebase.storage()
 });
 
 
@@ -30,7 +35,7 @@ function _supervisor() {
 function updateSupervisor(endusers) {
   _supervisor().set({
     endusers: endusers
-  }).then(function(docRef) {
+  }).then(function(docRef) { // Document ID
     console.log("Update complete.");
   }).catch(function(error) {
     console.error("Error updating supervisor: ", error);
@@ -39,7 +44,7 @@ function updateSupervisor(endusers) {
 
 /** Register a new supervisor. */
 function registerSupervisor(){
-  updateSupervisor([]); // Update (create) the curent authenticated user.
+  updateSupervisor([]); // Update (create) the current authenticated user.
 }
 
 /**
@@ -83,7 +88,7 @@ function showEndUsers() {
     endUsers = doc.data()["endusers"];
 
     for (i = 0; i < endUsers.length; i++) {
-      document.getElementById("endusers").innerHTML = ""
+      document.getElementById("endusers").innerHTML = "";
       db.collection("endusers").doc(endUsers[i]).get().then(function(doc) {
         document.getElementById("endusers").innerHTML += "<li>" + doc.data()["name"] + "</li>";
       });
