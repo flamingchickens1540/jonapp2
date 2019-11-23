@@ -4,19 +4,19 @@ let storage; // Firebase GCP Bucket
 
 // Wait for the DOM to load. (Where the firebase libs are)
 document.addEventListener("DOMContentLoaded", event => {
-  db = firebase.firestore();
-  storage = firebase.storage();
+    db = firebase.firestore();
+    storage = firebase.storage();
 
-  firebase.initializeApp({ // This is all client-side safe.
-    apiKey: "AIzaSyDLGdqO7cCBoMWRvUD2Iy8gMVZ-bYUBGbE",
-    authDomain: "jonapp-2.firebaseapp.com",
-    databaseURL: "https://jonapp-2.firebaseio.com",
-    projectId: "jonapp-2",
-    storageBucket: "jonapp-2.appspot.com",
-    messagingSenderId: "851985231577",
-    appId: "1:851985231577:web:67563f2397c4d08dea18c8",
-    measurementId: "G-77EKECDTF7"
-  });
+    firebase.initializeApp({ // This is all client-side safe.
+        apiKey: "AIzaSyDLGdqO7cCBoMWRvUD2Iy8gMVZ-bYUBGbE",
+        authDomain: "jonapp-2.firebaseapp.com",
+        databaseURL: "https://jonapp-2.firebaseio.com",
+        projectId: "jonapp-2",
+        storageBucket: "jonapp-2.appspot.com",
+        messagingSenderId: "851985231577",
+        appId: "1:851985231577:web:67563f2397c4d08dea18c8",
+        measurementId: "G-77EKECDTF7"
+    });
 });
 
 /**
@@ -78,41 +78,5 @@ function createEndUser(name) {
         assignEndUser(docRef.id);
     }).catch(function (error) {
         console.error("Error creating end user: ", error);
-    });
-}
-
-/** Show available end users */
-function showEndUsers() {
-    _supervisor().get().then(function (doc) {
-        endUsers = doc.data()["endusers"];
-
-        for (i = 0; i < endUsers.length; i++) {
-            document.getElementById("endusers").innerHTML = "";
-            db.collection("endusers").doc(endUsers[i]).get().then(function (doc) {
-                document.getElementById("endusers").innerHTML += "<li>" + doc.data()["name"] + "</li>";
-            });
-        }
-
-    });
-}
-
-/** Trigger Google OAuth popup and assign user variable. */
-function signIn() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-
-    firebase.auth().signInWithPopup(provider).then(result => {
-        user = result.user;
-
-        _supervisor().get().then(function (doc) { // If the user is already a registered supervisor
-            if (!doc.exists) {
-                registerSupervisor()
-            } else {
-                console.log("Supervisor exists, no need to create it.")
-            }
-        }).catch(function (error) {
-            console.error("Error getting supervisor's document:", error);
-        });
-
-        document.getElementById("banner").innerHTML = user.displayName + " logged in.";
     });
 }

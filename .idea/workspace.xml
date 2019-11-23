@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0c00f4e0-7298-403f-86c0-b4ff01f54dd9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/app.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,7 +45,7 @@
       <option name="presentableId" value="Default" />
       <updated>1574351904933</updated>
       <workItem from="1574351914318" duration="15000" />
-      <workItem from="1574481485735" duration="2703000" />
+      <workItem from="1574481485735" duration="3174000" />
     </task>
     <task id="LOCAL-00001" summary="Add DOMContentLoaded listener.">
       <created>1574483153688</created>
@@ -75,7 +75,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574484125159</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add input label">
+      <created>1574484199143</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1574484199143</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -99,6 +106,7 @@
     <MESSAGE value="Reformat spacing" />
     <MESSAGE value="Fix DOM loading error due to async firebase loading" />
     <MESSAGE value="Add html lang attribute" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add html lang attribute" />
+    <MESSAGE value="Add input label" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add input label" />
   </component>
 </project>
