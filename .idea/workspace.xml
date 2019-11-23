@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0c00f4e0-7298-403f-86c0-b4ff01f54dd9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -46,7 +45,7 @@
       <option name="presentableId" value="Default" />
       <updated>1574351904933</updated>
       <workItem from="1574351914318" duration="15000" />
-      <workItem from="1574481485735" duration="2519000" />
+      <workItem from="1574481485735" duration="2703000" />
     </task>
     <task id="LOCAL-00001" summary="Add DOMContentLoaded listener.">
       <created>1574483153688</created>
@@ -62,7 +61,21 @@
       <option name="project" value="LOCAL" />
       <updated>1574483773804</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fix DOM loading error due to async firebase loading">
+      <created>1574484097779</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1574484097779</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Add html lang attribute">
+      <created>1574484125159</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1574484125159</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -84,6 +97,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add DOMContentLoaded listener." />
     <MESSAGE value="Reformat spacing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reformat spacing" />
+    <MESSAGE value="Fix DOM loading error due to async firebase loading" />
+    <MESSAGE value="Add html lang attribute" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add html lang attribute" />
   </component>
 </project>
