@@ -1,4 +1,3 @@
-
 /** Show available end users */
 function showEndUsers() {
     let supervisor = _supervisor();

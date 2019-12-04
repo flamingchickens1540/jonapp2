@@ -24,7 +24,10 @@ document.addEventListener("DOMContentLoaded", event => {
  * @returns {Object} Currently authenticated supervisor's doc
  */
 function _supervisor() {
-    return db.collection("supervisors").doc(user.uid);
+  if (typeof user == "undefined") {
+    return;
+  }
+  return db.collection("supervisors").doc(user.uid);
 }
 
 /**
@@ -70,13 +73,16 @@ function assignEndUser(eid) {
  * @returns {string} ID in endusers collection.
  */
 function createEndUser(name) {
-    db.collection("endusers").add({
-        name: name,
-        supervisors: [user.uid]
-    }).then(function (docRef) {
-        console.log("Created end user.");
-        assignEndUser(docRef.id);
-    }).catch(function (error) {
-        console.error("Error creating end user: ", error);
-    });
+  if (typeof user == "undefined") {
+    return;
+  }
+  db.collection("endusers").add({
+      name: name,
+      supervisors: [user.uid]
+  }).then(function (docRef) {
+      console.log("Created end user.");
+      assignEndUser(docRef.id);
+  }).catch(function (error) {
+      console.error("Error creating end user: ", error);
+  });
 }
