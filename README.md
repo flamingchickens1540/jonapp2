@@ -10,3 +10,6 @@ Jon App 2 for the Catlin Gabel InvenTeam.
 4. Run the local firebase dev server `firebase serve`
 5. The application will be running on http://localhost:5000
 
+#### CI
+
+All commits to master will be deployed to firebase. Public url https://jonapp-2.web.app/
