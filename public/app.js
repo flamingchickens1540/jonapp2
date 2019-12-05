@@ -6,8 +6,9 @@ let storage; // Firebase GCP Bucket
 document.addEventListener("DOMContentLoaded", event => {
     db = firebase.firestore();
     storage = firebase.storage();
-
-    firebase.initializeApp({ // This is all client-side safe.
+    
+    if (!firebase.apps.length) {
+       firebase.initializeApp({ // This is all client-side safe.
         apiKey: "AIzaSyDLGdqO7cCBoMWRvUD2Iy8gMVZ-bYUBGbE",
         authDomain: "jonapp-2.firebaseapp.com",
         databaseURL: "https://jonapp-2.firebaseio.com",
@@ -16,7 +17,8 @@ document.addEventListener("DOMContentLoaded", event => {
         messagingSenderId: "851985231577",
         appId: "1:851985231577:web:67563f2397c4d08dea18c8",
         measurementId: "G-77EKECDTF7"
-    });
+      });
+    }
 });
 
 /**
