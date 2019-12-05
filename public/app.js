@@ -6,18 +6,18 @@ let storage; // Firebase GCP Bucket
 document.addEventListener("DOMContentLoaded", event => {
     db = firebase.firestore();
     storage = firebase.storage();
-    
+
     if (!firebase.apps.length) {
-       firebase.initializeApp({ // This is all client-side safe.
-        apiKey: "AIzaSyDLGdqO7cCBoMWRvUD2Iy8gMVZ-bYUBGbE",
-        authDomain: "jonapp-2.firebaseapp.com",
-        databaseURL: "https://jonapp-2.firebaseio.com",
-        projectId: "jonapp-2",
-        storageBucket: "jonapp-2.appspot.com",
-        messagingSenderId: "851985231577",
-        appId: "1:851985231577:web:67563f2397c4d08dea18c8",
-        measurementId: "G-77EKECDTF7"
-      });
+        firebase.initializeApp({ // This is all client-side safe.
+            apiKey: "AIzaSyDLGdqO7cCBoMWRvUD2Iy8gMVZ-bYUBGbE",
+            authDomain: "jonapp-2.firebaseapp.com",
+            databaseURL: "https://jonapp-2.firebaseio.com",
+            projectId: "jonapp-2",
+            storageBucket: "jonapp-2.appspot.com",
+            messagingSenderId: "851985231577",
+            appId: "1:851985231577:web:67563f2397c4d08dea18c8",
+            measurementId: "G-77EKECDTF7"
+        });
     }
 });
 
@@ -26,10 +26,10 @@ document.addEventListener("DOMContentLoaded", event => {
  * @returns {Object} Currently authenticated supervisor's doc
  */
 function _supervisor() {
-  if (typeof user == "undefined") {
-    return;
-  }
-  return db.collection("supervisors").doc(user.uid);
+    if (typeof user == "undefined") {
+        return;
+    }
+    return db.collection("supervisors").doc(user.uid);
 }
 
 /**
@@ -75,16 +75,16 @@ function assignEndUser(eid) {
  * @returns {string} ID in endusers collection.
  */
 function createEndUser(name) {
-  if (typeof user == "undefined") {
-    return;
-  }
-  db.collection("endusers").add({
-      name: name,
-      supervisors: [user.uid]
-  }).then(function (docRef) {
-      console.log("Created end user.");
-      assignEndUser(docRef.id);
-  }).catch(function (error) {
-      console.error("Error creating end user: ", error);
-  });
+    if (typeof user == "undefined") {
+        return;
+    }
+    db.collection("endusers").add({
+        name: name,
+        supervisors: [user.uid]
+    }).then(function (docRef) {
+        console.log("Created end user.");
+        assignEndUser(docRef.id);
+    }).catch(function (error) {
+        console.error("Error creating end user: ", error);
+    });
 }

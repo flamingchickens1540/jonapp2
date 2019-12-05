@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0c00f4e0-7298-403f-86c0-b4ff01f54dd9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/app.js" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,22 +13,28 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1TtRRsHUUk7uJFYxTSLutHzu486" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
+  <component name="ServiceViewManager">
+    <option name="viewStates">
       <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
       </list>
     </option>
   </component>
@@ -46,6 +50,8 @@
       <updated>1574351904933</updated>
       <workItem from="1574351914318" duration="15000" />
       <workItem from="1574481485735" duration="3174000" />
+      <workItem from="1575575585762" duration="5000" />
+      <workItem from="1575575618513" duration="1021000" />
     </task>
     <task id="LOCAL-00001" summary="Add DOMContentLoaded listener.">
       <created>1574483153688</created>
@@ -88,6 +94,9 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.rules" />
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -108,5 +117,11 @@
     <MESSAGE value="Add html lang attribute" />
     <MESSAGE value="Add input label" />
     <option name="LAST_COMMIT_MESSAGE" value="Add input label" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="444" y="183" width="1031" height="736" key="SettingsEditor" timestamp="1575575658445">
+      <screen x="0" y="24" width="1920" height="1056" />
+    </state>
+    <state x="444" y="183" width="1031" height="736" key="SettingsEditor/0.24.1920.1056@0.24.1920.1056" timestamp="1575575658445" />
   </component>
 </project>

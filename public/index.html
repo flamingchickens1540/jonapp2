@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <!--suppress HtmlUnknownTarget -->
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>JonApp 2</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JonApp 2</title>
 
-    <script src="/__/firebase/7.4.0/firebase-app.js"></script>
-    <script src="/__/firebase/7.4.0/firebase-auth.js"></script>
-    <script src="/__/firebase/7.4.0/firebase-storage.js"></script>
-    <script src="/__/firebase/7.4.0/firebase-firestore.js"></script>
-    <script src="/__/firebase/init.js"></script>
-    <script defer src="app.js"></script>
-    <script defer src="user.js"></script>
+  <script src="/__/firebase/7.4.0/firebase-app.js"></script>
+  <script src="/__/firebase/7.4.0/firebase-auth.js"></script>
+  <script src="/__/firebase/7.4.0/firebase-storage.js"></script>
+  <script src="/__/firebase/7.4.0/firebase-firestore.js"></script>
+  <script src="/__/firebase/init.js"></script>
+  <script defer src="app.js"></script>
+  <script defer src="user.js"></script>
 
-  </head>
-  <body>
-    <p id="banner"></p>
+</head>
+<body>
+<p id="banner"></p>
 
-    <button onclick="signIn()">Sign In</button>
-    <button onclick="showEndUsers()">Show End Users</button>
-    <h1>Jon App 2</h1>
-    <p>End Users:</p>
-    <ul id="endusers"></ul>
+<button onclick="signIn()">Sign In</button>
+<button onclick="showEndUsers()">Show End Users</button>
+<h1>Jon App 2</h1>
+<p>End Users:</p>
+<ul id="endusers"></ul>
 
-    <label for="newUserName">End User Name: </label><input id="newUserName">
-    <button onclick="createEndUser(document.getElementById('newUserName').value);showEndUsers();">Create End User</button>
-  </body>
+<label for="newUserName">End User Name: </label><input id="newUserName">
+<button onclick="createEndUser(document.getElementById('newUserName').value);showEndUsers();">Create End User</button>
+</body>
 </html>
