@@ -1,3 +1,5 @@
+Sentry.init({ dsn: 'https://1002ee32b7c54af59e488770552db12d@sentry.io/1847053' }); // Sentry error tracking
+
 let user; // Authenticated user object
 let db; // Firebase cloud firestore
 let storage; // Firebase GCP Bucket
