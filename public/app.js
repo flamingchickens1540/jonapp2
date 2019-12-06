@@ -21,9 +21,6 @@ document.addEventListener("DOMContentLoaded", event => {
             measurementId: "G-77EKECDTF7"
         });
     }
-    
-    anUndefinedFunction(); // TODO: This is just a test.
-    
 });
 
 /**
