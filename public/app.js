@@ -21,9 +21,6 @@ document.addEventListener("DOMContentLoaded", event => {
             measurementId: "G-77EKECDTF7"
         });
     }
-    
-    thisIsAnIntentionalError();
-    
 });
 
 /**
