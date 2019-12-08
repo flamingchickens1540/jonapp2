@@ -5,7 +5,7 @@ let db; // Firebase cloud firestore
 let storage; // Firebase GCP Bucket
 
 // Wait for the DOM to load. (Where the firebase libs are)
-document.addEventListener("DOMContentLoaded", event => {
+document.addEventListener("DOMContentLoaded", () => {
     db = firebase.firestore();
     storage = firebase.storage();
 
@@ -28,25 +28,25 @@ document.addEventListener("DOMContentLoaded", event => {
  * Authenticate a supervisor.
  */
 function supervisorSignIn() {
-  const provider = new firebase.auth.GoogleAuthProvider();
+    const provider = new firebase.auth.GoogleAuthProvider();
 
-  firebase.auth().signInWithPopup(provider).then(result => {
-      user = result.user;
+    firebase.auth().signInWithPopup(provider).then(result => {
+        user = result.user;
 
-      let supervisor = db.collection("supervisors").doc(user.uid);
+        let supervisor = db.collection("supervisors").doc(user.uid);
 
-      supervisor.get().then(function (doc) {
-          if (!doc.exists) { // If supervisor is not alredy registered...
-            supervisor.set({
-                users: [] // Initialize empty users array
-            });
-          } else {
-            console.log("Supervisor already registered.");
-          }
-      });
+        supervisor.get().then(function (doc) {
+            if (!doc.exists) { // If supervisor is not alredy registered...
+                supervisor.set({
+                    users: [] // Initialize empty users array
+                });
+            } else {
+                console.log("Supervisor already registered.");
+            }
+        });
 
-      alert(user.displayName + " logged in.");
-  });
+        alert(user.displayName + " logged in.");
+    });
 }
 
 
@@ -55,15 +55,15 @@ function supervisorSignIn() {
  * @param {string} name The end user's name.
  */
 function createUser(name) {
-  db.collection("users").add({ // Create the user
-    name: name,
-    supervisors: [user.uid], // With the current supervisor pre-authorized.
-    projects: []
-  }).then(function (docRef) {
-    db.collection("supervisors").doc(user.uid).update({
-      users: firebase.firestore.FieldValue.arrayUnion(docRef.id)
+    db.collection("users").add({ // Create the user
+        name: name,
+        supervisors: [user.uid], // With the current supervisor pre-authorized.
+        projects: []
+    }).then(function (docRef) {
+        db.collection("supervisors").doc(user.uid).update({
+            users: firebase.firestore.FieldValue.arrayUnion(docRef.id)
+        });
     });
-  });
 }
 
 
@@ -74,9 +74,9 @@ function createUser(name) {
  * @returns {Promise} db operation
  */
 function addSupervisor(supervisor, user) {
-  return db.collection("users").doc(user).update({
-    supervisors: firebase.firestore.FieldValue.arrayUnion(supervisor)
-  });
+    return db.collection("users").doc(user).update({
+        supervisors: firebase.firestore.FieldValue.arrayUnion(supervisor)
+    });
 }
 
 
@@ -87,9 +87,9 @@ function addSupervisor(supervisor, user) {
  * @returns {Promise} db operation
  */
 function removeSupervisor(supervisor, user) {
-  return db.collection("users").doc(user).update({
-    supervisors: firebase.firestore.FieldValue.arrayRemove(supervisor)
-  });
+    return db.collection("users").doc(user).update({
+        supervisors: firebase.firestore.FieldValue.arrayRemove(supervisor)
+    });
 }
 
 
@@ -98,15 +98,15 @@ function removeSupervisor(supervisor, user) {
  * @returns {array} Users
  */
 function getUsers() {
-  db.collection("supervisors").doc(user.uid).get().then(function (doc) {
-    users = doc.data()["users"];
+    db.collection("supervisors").doc(user.uid).get().then(function (doc) {
+        users = doc.data()["users"];
 
-    for (i = 0; i < users.length; i++) {
-      db.collection("users").doc(users[i]).get().then(function (doc) {
-        console.log(doc.data());
-      });
-    }
-  });
+        for (i = 0; i < users.length; i++) {
+            db.collection("users").doc(users[i]).get().then(function (doc) {
+                console.log(doc.data());
+            });
+        }
+    });
 }
 
 
@@ -117,13 +117,13 @@ function getUsers() {
  * @param {string} image_url URL of image
  */
 function createProject(name, desc, image_url) {
-  db.collection("projects").add({ // Create the user
-    name: name,
-    desc: desc,
-    image_url: image_url,
-    authorized_users: [user.uid], // Pre-authorize current supervisor for use in this project.
-    tasks: []
-  }).then(function (docRef) {
-    console.log("Created project " + docRef.id);
-  });
+    db.collection("projects").add({ // Create the user
+        name: name,
+        desc: desc,
+        image_url: image_url,
+        authorized_users: [user.uid], // Pre-authorize current supervisor for use in this project.
+        tasks: []
+    }).then(function (docRef) {
+        console.log("Created project " + docRef.id);
+    });
 }
