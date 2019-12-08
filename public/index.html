@@ -12,19 +12,10 @@
   <script src="/__/firebase/7.4.0/firebase-firestore.js"></script>
   <script src="/__/firebase/init.js"></script>
   <script defer src="app.js"></script>
-  <script defer src="user.js"></script>
-
 </head>
+
 <body>
-<p id="banner"></p>
-
-<button onclick="signIn()">Sign In</button>
-<button onclick="showEndUsers()">Show End Users</button>
-<h1>Jon App 2</h1>
-<p>End Users:</p>
-<ul id="endusers"></ul>
-
-<label for="newUserName">End User Name: </label><input id="newUserName">
-<button onclick="createEndUser(document.getElementById('newUserName').value);showEndUsers();">Create End User</button>
+  <button onclick="supervisorSignIn()">Supervisor Sign In</button>
 </body>
+
 </html>

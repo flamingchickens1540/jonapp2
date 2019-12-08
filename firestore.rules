@@ -4,16 +4,16 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write: if false;
     }
-    
-    match /supervisors/{userId} {
+
+    match /supervisors/{userId} { // Allow supervisor to update itself if authenticated.
       allow read, update, delete: if request.auth.uid == userId;
-      allow create: if request.auth.uid != null;
+      allow create: if request.auth.uid != null; // Allow supervisor create if logged in.
     }
-    
-    match /endusers/{enduserId} {
-      allow read, update, delete: if request.auth.uid in resource.data.supervisors;
-      allow create: if request.auth.uid != null;          
+
+    match /users/{userId} {
+      allow read, update, delete: if request.auth.uid in resource.data.supervisors; // Allow supervisor to update user if in end user's authorized_supervisors.
+      allow create: if request.auth.uid != null; // Allow user create if logged in.
     }
-    
+
   }
 }

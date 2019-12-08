@@ -1,4 +1,4 @@
-Sentry.init({ dsn: 'https://9bf86cf07c6f4411ae05cf83a031c332@sentry.io/1848400' });
+// Sentry.init({ dsn: 'https://9bf86cf07c6f4411ae05cf83a031c332@sentry.io/1848400' });
 
 let user; // Authenticated user object
 let db; // Firebase cloud firestore
@@ -23,70 +23,107 @@ document.addEventListener("DOMContentLoaded", event => {
     }
 });
 
+
 /**
- * Get currently authenticated supervisor's document
- * @returns {Object} Currently authenticated supervisor's doc
+ * Authenticate a supervisor.
  */
-function _supervisor() {
-    if (typeof user == "undefined") {
-        return;
-    }
-    return db.collection("supervisors").doc(user.uid);
+function supervisorSignIn() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+
+  firebase.auth().signInWithPopup(provider).then(result => {
+      user = result.user;
+
+      let supervisor = db.collection("supervisors").doc(user.uid);
+
+      supervisor.get().then(function (doc) {
+          if (!doc.exists) { // If supervisor is not alredy registered...
+            supervisor.set({
+                users: [] // Initialize empty users array
+            });
+          } else {
+            console.log("Supervisor already registered.");
+          }
+      });
+
+      alert(user.displayName + " logged in.");
+  });
 }
+
 
 /**
- * Register/update a new supervisor.
- * @param {array} endusers Array of end users.
- */
-function updateSupervisor(endusers) {
-    _supervisor().set({
-        endusers: endusers
-    }).then(function (docRef) { // Document ID
-        console.log("Update complete.");
-    }).catch(function (error) {
-        console.error("Error updating supervisor: ", error);
-    });
-}
-
-/** Register a new supervisor. */
-function registerSupervisor() {
-    updateSupervisor([]); // Update (create) the current authenticated user.
-}
-
-/**
- * Assign given end user to supervisor.
- * @param {string} eid End user's ID.
- */
-function assignEndUser(eid) {
-    _supervisor().get().then(function (doc) {
-        if (doc.exists) {
-            endUsers = doc.data()["endusers"];
-            endUsers.push(eid);
-            updateSupervisor(endUsers)
-        } else {
-            console.log("Error: Supervisor doesn't exist.");
-        }
-    }).catch(function (error) {
-        console.error("Error getting supervisor's document:", error);
-    });
-}
-
-/**
- * Create a new end user. (Does not assign to a supervisor)
+ * Create a new end user and assign current supervisor to it.
  * @param {string} name The end user's name.
- * @returns {string} ID in endusers collection.
  */
-function createEndUser(name) {
-    if (typeof user == "undefined") {
-        return;
-    }
-    db.collection("endusers").add({
-        name: name,
-        supervisors: [user.uid]
-    }).then(function (docRef) {
-        console.log("Created end user.");
-        assignEndUser(docRef.id);
-    }).catch(function (error) {
-        console.error("Error creating end user: ", error);
+function createUser(name) {
+  db.collection("users").add({ // Create the user
+    name: name,
+    supervisors: [user.uid], // With the current supervisor pre-authorized.
+    projects: []
+  }).then(function (docRef) {
+    db.collection("supervisors").doc(user.uid).update({
+      users: firebase.firestore.FieldValue.arrayUnion(docRef.id)
     });
+  });
+}
+
+
+/**
+ * Authorize a supervisor for a user.
+ * @param {string} supervisor Supervisor's ID
+ * @param {string} user User's ID
+ * @returns {Promise} db operation
+ */
+function addSupervisor(supervisor, user) {
+  return db.collection("users").doc(user).update({
+    supervisors: firebase.firestore.FieldValue.arrayUnion(supervisor)
+  });
+}
+
+
+/**
+ * Remove a supervisor from a user.
+ * @param {string} supervisor Supervisor's ID
+ * @param {string} user User's ID
+ * @returns {Promise} db operation
+ */
+function removeSupervisor(supervisor, user) {
+  return db.collection("users").doc(user).update({
+    supervisors: firebase.firestore.FieldValue.arrayRemove(supervisor)
+  });
+}
+
+
+/**
+ * Get array of users
+ * @returns {array} Users
+ */
+function getUsers() {
+  db.collection("supervisors").doc(user.uid).get().then(function (doc) {
+    users = doc.data()["users"];
+
+    for (i = 0; i < users.length; i++) {
+      db.collection("users").doc(users[i]).get().then(function (doc) {
+        console.log(doc.data());
+      });
+    }
+  });
+}
+
+
+/**
+ * Create a new project
+ * @param {string} name Name
+ * @param {string} desc Description
+ * @param {string} image_url URL of image
+ */
+function createProject(name, desc, image_url) {
+  db.collection("projects").add({ // Create the user
+    name: name,
+    desc: desc,
+    image_url: image_url,
+    authorized_users: [user.uid], // Pre-authorize current supervisor for use in this project.
+    tasks: []
+  }).then(function (docRef) {
+    console.log("Created project " + docRef.id);
+  });
 }
