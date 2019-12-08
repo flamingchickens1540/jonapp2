@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0c00f4e0-7298-403f-86c0-b4ff01f54dd9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/firestore.rules" beforeDir="false" afterPath="$PROJECT_DIR$/firestore.rules" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +55,8 @@
       <workItem from="1574481485735" duration="3174000" />
       <workItem from="1575575585762" duration="5000" />
       <workItem from="1575575618513" duration="1021000" />
+      <workItem from="1575769894092" duration="3000" />
+      <workItem from="1575769923151" duration="1047000" />
     </task>
     <task id="LOCAL-00001" summary="Add DOMContentLoaded listener.">
       <created>1574483153688</created>

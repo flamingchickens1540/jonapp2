@@ -53,9 +53,10 @@ function supervisorSignIn() {
 /**
  * Create a new end user and assign current supervisor to it.
  * @param {string} name The end user's name.
+ * @returns {Promise} db operation
  */
 function createUser(name) {
-    db.collection("users").add({ // Create the user
+    return db.collection("users").add({ // Create the user
         name: name,
         supervisors: [user.uid], // With the current supervisor pre-authorized.
         projects: []
@@ -95,7 +96,7 @@ function removeSupervisor(supervisor, user) {
 
 /**
  * Get array of users
- * @returns {array} Users
+ * @returns {array} Users //TODO
  */
 function getUsers() {
     db.collection("supervisors").doc(user.uid).get().then(function (doc) {
@@ -115,9 +116,10 @@ function getUsers() {
  * @param {string} name Name
  * @param {string} desc Description
  * @param {string} image_url URL of image
+ * @returns {Promise} db operation
  */
 function createProject(name, desc, image_url) {
-    db.collection("projects").add({ // Create the user
+    return db.collection("projects").add({ // Create the user
         name: name,
         desc: desc,
         image_url: image_url,
