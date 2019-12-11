@@ -119,7 +119,7 @@ function getUsers() {
  * @returns {Promise} db operation
  */
 function createProject(name, desc, image_url) {
-    return db.collection("projects").add({ // Create the user
+    return db.collection("projects").add({ // Create the project
         name: name,
         desc: desc,
         image_url: image_url,
