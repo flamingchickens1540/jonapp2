@@ -1,24 +1,41 @@
 <!DOCTYPE html>
-<!--suppress HtmlUnknownTarget -->
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>JonApp 2</title>
-    <script src="https://browser.sentry-cdn.com/5.10.0/bundle.min.js"
-            integrity="sha384-YAdWhYzOvLE0Ljm0m9rfuzS/WFm/lvK7UTAw0C9dYmBTl2ygdHiD0MaZ30S7frq8"
-            crossorigin="anonymous"></script>
-    <script src="/__/firebase/7.4.0/firebase-app.js"></script>
-    <script src="/__/firebase/7.4.0/firebase-auth.js"></script>
-    <script src="/__/firebase/7.4.0/firebase-storage.js"></script>
-    <script src="/__/firebase/7.4.0/firebase-firestore.js"></script>
-    <script src="/__/firebase/init.js"></script>
-    <script defer src="app.js"></script>
+  <title>JonApp 2</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="jonapp.css">
+  <script src="https://browser.sentry-cdn.com/5.10.0/bundle.min.js"
+          integrity="sha384-YAdWhYzOvLE0Ljm0m9rfuzS/WFm/lvK7UTAw0C9dYmBTl2ygdHiD0MaZ30S7frq8"
+          crossorigin="anonymous"></script>
+  <script src="/__/firebase/7.4.0/firebase-app.js"></script>
+  <script src="/__/firebase/7.4.0/firebase-auth.js"></script>
+  <script src="/__/firebase/7.4.0/firebase-storage.js"></script>
+  <script src="/__/firebase/7.4.0/firebase-firestore.js"></script>
+  <script src="/__/firebase/init.js"></script>
+  <script defer src="app.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
-
 <body>
-  <h1>Test</h1>
-<button onclick="supervisorSignIn()">Supervisor Sign In</button>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark text-white fixed-top">
+  <a class="navbar-brand" href="file:///C:/Users/knightss/Desktop/Jon%20App/jonapp2-master/public/splash.html">Jon App</a>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <button type="button" class="btn btn-dark my-*-1" onclick="supervisorSignIn()">Sign In</button>
+      </li>
+    </ul>
+</nav>
+  <div class="container-fluid h-100 bg-blue w-50">
+      <div class="row align-items-center h-100">
+          <div class="col-6 mx-auto">
+              <div class="jumbotron shadow-lg text-center bg-offwhite pt-3 pb-5">
+                  <h1 class="display-4 my-3">Jon App</h1>
+                  <p class="lead pt-3 pb-3">Revolutionizing employment for those with cognitive disabilities.</p>
+                    <button type="button" class="btn btn-dark my-*-1" onclick="supervisorSignIn()">Register with Google</button>
+              </div>
+          </div>
+      </div>
+  </div>
 </body>
-
 </html>
