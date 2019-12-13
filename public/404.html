@@ -1,16 +1,34 @@
 <!DOCTYPE html>
-<!--suppress JSUnresolvedLibraryURL, HtmlUnknownTarget -->
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>404 - Page Not Found</title>
+  <title>404 - Page Not Found</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <base href="https://jonapp.nate.to/" target="_self">
+  <script defer src="app.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="message">
-    <h2>404</h2>
-    <h1>Page Not Found</h1>
-    <p>The specified file was not found on this website. Please check the URL for mistakes and try again.</p>
-</div>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark text-white fixed-top">
+  <a class="navbar-brand" href="/">Jon App</a>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <button type="button" class="btn btn-dark my-*-1" onclick="supervisorSignIn()">Sign In</button>
+      </li>
+    </ul>
+</nav>
+  <div class="container-fluid h-100 bg-blue w-50">
+      <div class="row align-items-center h-100">
+          <div class="col-6 mx-auto">
+              <div class="jumbotron shadow-lg text-center bg-offwhite pt-3 pb-5">
+                  <h1 class="display-4 my-3">404</h1>
+                  <p class="lead pt-3 pb-3">The specified file was not found on this website. Please check the URL for mistakes and try again.</p>
+                    <a type="button" class="btn btn-dark" href="index.html">Return to Home</a>
+              </div>
+          </div>
+      </div>
+  </div>
 </body>
 </html>
