@@ -31,6 +31,11 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/supervisor" />
+    </key>
+  </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
       <list>
@@ -158,10 +163,10 @@
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
     <state x="646" y="274" width="624" height="553" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.24.1920.1056@0.24.1920.1056" timestamp="1576185512868" />
-    <state x="860" y="65" width="847" height="987" key="CommitChangelistDialog2" timestamp="1576199387716">
+    <state x="860" y="57" width="847" height="987" key="CommitChangelistDialog2" timestamp="1576199398380">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
-    <state x="860" y="65" width="847" height="987" key="CommitChangelistDialog2/0.24.1920.1056@0.24.1920.1056" timestamp="1576199387716" />
+    <state x="860" y="57" width="847" height="987" key="CommitChangelistDialog2/0.24.1920.1056@0.24.1920.1056" timestamp="1576199398380" />
     <state x="444" y="183" width="1031" height="736" key="SettingsEditor" timestamp="1575575658445">
       <screen x="0" y="24" width="1920" height="1056" />
     </state>
