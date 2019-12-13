@@ -11,6 +11,16 @@ html, body {
   align-items: center;
 }
 
+col {
+  max-width: 100%;
+  min-width: 30%;
+}
+
+.jumbotron {
+  max-width: 100%;
+  min-width: 10%;
+}
+
 .bg-blue {
     background-color: #17234E;
 }
