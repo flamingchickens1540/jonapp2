@@ -11,6 +11,25 @@ html, body {
   align-items: center;
 }
 
+#userListCont {
+  height: 100%;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+}
+
+#userListTable {
+  height: 100%;
+  width: 50%;
+}
+
+tbody {
+  font-size: 15px;
+}
+
+thead {
+  font-size: 20px;
+}
 
 .bg-blue { /*Main background color*/
     background-color: #17234E;
