@@ -40,6 +40,13 @@ function loggedIn() {
 }
 
 /**
+ * Log out current user
+ */
+function logOut() {
+    firebase.auth().signOut();
+}
+
+/**
  * Check if a document exists
  * @param docRef Firestore document. For example db.collection("supervisors").doc(_user().uid)
  * @return {boolean} Does the doc exist?
