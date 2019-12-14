@@ -36,7 +36,7 @@ function supervisorSignIn() {
         let supervisor = db.collection("supervisors").doc(user.uid);
 
         supervisor.get().then(function (doc) {
-            if (!doc.exists) { // If supervisor is not alredy registered...
+            if (!doc.exists) { // If supervisor is not already registered...
                 supervisor.set({
                     users: [] // Initialize empty users array
                 });
