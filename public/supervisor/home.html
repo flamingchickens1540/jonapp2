@@ -45,15 +45,15 @@
             </thead>
             <tbody>
               <tr onclick="console.log('John clicked.');">
-                <td>John</td>
+                <td data-toggle="modal" href="#myModal">John</td>
                 <td>1</td>
               </tr>
               <tr onclick="console.log('Mary clicked.');">
-                <td>Mary</td>
+                <td data-toggle="modal" href="#myModal">Mary</td>
                 <td>2</td>
               </tr>
               <tr onclick="console.log('July clicked.');">
-                <td>July</td>
+                <td data-toggle="modal" href="#myModal">July</td>
                 <td>5</td>
               </tr>
             </tbody>
@@ -61,6 +61,30 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="myModal">
+       <div class="modal-dialog">
+         <div class="modal-content">
+
+           <!-- Modal Header -->
+           <div class="modal-header">
+             <h4 class="modal-title">Edit User</h4>
+             <button type="button" class="close" data-dismiss="modal">×</button>
+           </div>
+
+           <!-- Modal body -->
+           <div class="modal-body">
+             Task 1: Blah
+           </div>
+
+           <!-- Modal footer -->
+           <div class="modal-footer">
+             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+           </div>
+
+         </div>
+       </div>
+     </div>
 
 </div>
 
