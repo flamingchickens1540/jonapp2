@@ -25,9 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
 /**
  * Get current user
  * @returns {*} currentUser object
- * @private
  */
-function _user() {
+function user() {
     return firebase.auth().currentUser;
 }
 
@@ -36,7 +35,7 @@ function _user() {
  * @returns {boolean}
  */
 function loggedIn() {
-    return _user() != null;
+    return user() != null;
 }
 
 /**
@@ -48,7 +47,7 @@ function logOut() {
 
 /**
  * Check if a document exists
- * @param docRef Firestore document. For example db.collection("supervisors").doc(_user().uid)
+ * @param docRef Firestore document. For example db.collection("supervisors").doc(user().uid)
  * @return {boolean} Does the doc exist?
  * @private
  */
@@ -66,7 +65,7 @@ function supervisorSignIn() {
         const provider = new firebase.auth.GoogleAuthProvider();
 
         firebase.auth().signInWithPopup(provider).then(() => {
-            let supervisor = db.collection("supervisors").doc(_user().uid);
+            let supervisor = db.collection("supervisors").doc(user().uid);
 
             if (!_exists(supervisor)) { // If supervisor doesn't exist
                 console.log("supervisorSignIn(): Supervisor doesn't exist.");
@@ -96,10 +95,10 @@ function supervisorSignIn() {
 function createUser(name) {
     return db.collection("users").add({ // Create the user
         name: name,
-        supervisors: [_user().uid], // With the current supervisor pre-authorized.
+        supervisors: [user().uid], // With the current supervisor pre-authorized.
         projects: []
     }).then(function (docRef) {
-        db.collection("supervisors").doc(_user().uid).update({
+        db.collection("supervisors").doc(user().uid).update({
             users: firebase.firestore.FieldValue.arrayUnion(docRef.id)
         });
     });
@@ -137,7 +136,7 @@ function removeSupervisor(supervisor, user) {
  * @returns {array} Users //TODO
  */
 function getUsers() {
-    db.collection("supervisors").doc(_user().uid).get().then(function (doc) {
+    db.collection("supervisors").doc(user().uid).get().then(function (doc) {
         users = doc.data()["users"];
 
         for (i = 0; i < users.length; i++) {
@@ -161,7 +160,7 @@ function createProject(name, desc, image_url) {
         name: name,
         desc: desc,
         image_url: image_url,
-        authorized_users: [_user().uid], // Pre-authorize current supervisor for use in this project.
+        authorized_users: [user().uid], // Pre-authorize current supervisor for use in this project.
         tasks: []
     }).then(function (docRef) {
         console.log("Created project " + docRef.id);
