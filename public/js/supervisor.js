@@ -67,9 +67,10 @@ function logIn() {
 
 /**
  * Log out current user
+ * @returns {Promise} logout completion
  */
 function logOut() {
-    firebase.auth().signOut();
+    return firebase.auth().signOut();
 }
 
 /**
