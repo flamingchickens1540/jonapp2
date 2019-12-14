@@ -5,23 +5,30 @@
     <title>JonApp 2</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--  CSS  -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
-    <script src="/js/jquery-3.4.1.min.js"></script>
+
+    <!--  Firebase  -->
     <script src="/__/firebase/7.4.0/firebase-app.js"></script>
     <script src="/__/firebase/7.4.0/firebase-auth.js"></script>
     <script src="/__/firebase/7.4.0/firebase-storage.js"></script>
     <script src="/__/firebase/7.4.0/firebase-firestore.js"></script>
     <script src="/__/firebase/init.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/app.js"></script>
-    <script src="/js/user.js"></script>
+
+    <!--  Frontend libraries  -->
+    <script defer src="/js/jquery-3.4.1.min.js"></script>
+    <script defer src="/js/bootstrap.min.js"></script>
+
+    <script src="/js/supervisor.js"></script>
 </head>
 
-<body onload="displaySupervisorBanner()">
+<body>
 <nav id="supervisorNav" class="navbar navbar-expand-sm bg-dark navbar-dark text-white fixed-top">
     <a class="navbar-brand" href="/">Jon App</a>
     <button type="button" class="btn btn-dark my-*-1">Projects</button>
+    <button type="button" class="btn btn-dark my-*-1" onclick="logIn()">Login</button>
     <button type="button" class="btn btn-dark my-*-1" onclick="logOut()">Logout</button>
 
     <ul class="navbar-nav text-right">
@@ -44,16 +51,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr onclick="console.log('John clicked.');">
-                <td data-toggle="modal" href="#myModal">John</td>
+              <tr onclick="displayUserModal('John');">
+                <td>John</td>
                 <td>1</td>
               </tr>
-              <tr onclick="console.log('Mary clicked.');">
-                <td data-toggle="modal" href="#myModal">Mary</td>
+              <tr onclick="displayUserModal('Mary');">
+                <td>Mary</td>
                 <td>2</td>
               </tr>
-              <tr onclick="console.log('July clicked.');">
-                <td data-toggle="modal" href="#myModal">July</td>
+              <tr onclick="displayUserModal('July');">
+                <td>July</td>
                 <td>5</td>
               </tr>
             </tbody>
@@ -62,13 +69,13 @@
       </div>
     </div>
 
-    <div class="modal fade" id="myModal">
+    <div class="modal fade" id="taskModal">
        <div class="modal-dialog">
          <div class="modal-content">
 
            <!-- Modal Header -->
            <div class="modal-header">
-             <h4 class="modal-title">Edit User</h4>
+             <h4 class="modal-title">Edit User - <a id="mName"></a></h4>
              <button type="button" class="close" data-dismiss="modal">×</button>
            </div>
 
