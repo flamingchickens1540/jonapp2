@@ -1,7 +1,15 @@
-html, body {
+html {
     height: 100%;
     background-color: #17234E;
     width: 100%;
+    padding-top: 100px;
+}
+
+body {
+  height: 100%;
+  background-color: #17234E;
+  width: 100%;
+  padding-top: navbar-height;
 }
 
 #indexContainer { /*Main centered container for index*/
@@ -18,9 +26,22 @@ html, body {
   align-items: center;
 }
 
+#userListJumbo {
+  height: 200%;
+  width: 100%;
+}
+
 #userListTable {
   height: 100%;
-  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  word-break: break-word;
 }
 
 tbody {
