@@ -41,6 +41,7 @@ function loggedIn() {
  */
 function logOut() {
     firebase.auth().signOut();
+    window.location = "/";
 }
 
 /**
