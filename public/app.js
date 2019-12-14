@@ -32,6 +32,14 @@ function _user() {
 }
 
 /**
+ * Check if the user is logged in already
+ * @returns {boolean}
+ */
+function loggedIn() {
+    return _user() == null;
+}
+
+/**
  * Check if a document exists
  * @param docRef Firestore document. For example db.collection("supervisors").doc(_user().uid)
  * @return {boolean} Does the doc exist?
