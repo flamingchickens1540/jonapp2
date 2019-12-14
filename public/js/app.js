@@ -71,10 +71,10 @@ function supervisorSignIn() {
                     users: [] // Initialize empty users array
                 });
             }
-            window.location = "supervisor/home.html";
+            window.location = "../supervisor/home.html";
         });
     } else {
-        window.location = "supervisor/home.html";
+        window.location = "../supervisor/home.html";
     }
 }
 
