@@ -1,8 +1,8 @@
-// let db; // Firebase cloud firestore
-// let storage; // Firebase GCP Bucket
+let db; // Firebase cloud firestore
+let storage; // Firebase GCP Bucket
 
 // Wait for the DOM to load. (Where the firebase libs are)
-// document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     db = firebase.firestore();
     storage = firebase.storage();
 
@@ -18,7 +18,7 @@
             measurementId: "G-77EKECDTF7"
         });
     }
-// });
+});
 
 /**
  * Get current user
@@ -156,5 +156,13 @@ function createProject(name, desc, image_url) {
         tasks: []
     }).then(function (docRef) {
         console.log("Created project " + docRef.id);
+    });
+}
+
+function displaySupervisorBanner() {
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            document.getElementById("banner").innerText = "Logged in as " + user.displayName;
+        }
     });
 }
