@@ -23,6 +23,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+/**
+ * Does doc exist?
+ * @param {object} docRef Firestore document. For example db.collection("supervisors").doc(user.uid)
+ */
+function _exists(docRef) {
+    docRef.get().then(function (doc) {
+        return doc.exists;
+    });
+}
 
 /**
  * Authenticate a supervisor.
@@ -35,15 +44,17 @@ function supervisorSignIn() {
 
         let supervisor = db.collection("supervisors").doc(user.uid);
 
-        supervisor.get().then(function (doc) {
-            if (!doc.exists) { // If supervisor is not already registered...
-                supervisor.set({
-                    users: [] // Initialize empty users array
-                });
-            } else {
-                console.log("Supervisor already registered.");
-            }
-        });
+        if (!_exists(supervisor)) { // If supervisor doesn't exist
+            console.log("supervisorSignIn(): Supervisor doesn't exist.");
+
+            supervisor.set({
+                users: [] // Initialize empty users array
+            });
+        } else {
+            console.log("supervisorSignIn(): Already registered.");
+        }
+
+        console.log("supervisorSignIn(): Done.");
 
         window.location = "supervisor/home.html";
     });
