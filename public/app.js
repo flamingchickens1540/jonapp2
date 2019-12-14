@@ -36,7 +36,7 @@ function _user() {
  * @returns {boolean}
  */
 function loggedIn() {
-    return _user() == null;
+    return _user() != null;
 }
 
 /**
