@@ -32,8 +32,10 @@ function _user() {
 }
 
 /**
- * Does doc exist?
- * @param {object} docRef Firestore document. For example db.collection("supervisors").doc(_user().uid)
+ * Check if a document exists
+ * @param docRef Firestore document. For example db.collection("supervisors").doc(_user().uid)
+ * @return {boolean} Does the doc exist?
+ * @private
  */
 function _exists(docRef) {
     docRef.get().then(function (doc) {
