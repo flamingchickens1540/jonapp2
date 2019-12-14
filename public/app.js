@@ -55,25 +55,29 @@ function _exists(docRef) {
  * Authenticate a supervisor.
  */
 function supervisorSignIn() {
-    const provider = new firebase.auth.GoogleAuthProvider();
+    if (!loggedIn()) {
+        const provider = new firebase.auth.GoogleAuthProvider();
 
-    firebase.auth().signInWithPopup(provider).then(() => {
-        let supervisor = db.collection("supervisors").doc(_user().uid);
+        firebase.auth().signInWithPopup(provider).then(() => {
+            let supervisor = db.collection("supervisors").doc(_user().uid);
 
-        if (!_exists(supervisor)) { // If supervisor doesn't exist
-            console.log("supervisorSignIn(): Supervisor doesn't exist.");
+            if (!_exists(supervisor)) { // If supervisor doesn't exist
+                console.log("supervisorSignIn(): Supervisor doesn't exist.");
 
-            supervisor.set({
-                users: [] // Initialize empty users array
-            });
-        } else {
-            console.log("supervisorSignIn(): Already registered.");
-        }
+                supervisor.set({
+                    users: [] // Initialize empty users array
+                });
+            } else {
+                console.log("supervisorSignIn(): Already registered.");
+            }
 
-        console.log("supervisorSignIn(): Done.");
+            console.log("supervisorSignIn(): Done.");
 
-        window.location = "supervisor/home.html";
-    });
+
+        });
+    }
+
+    window.location = "supervisor/home.html";
 }
 
 
