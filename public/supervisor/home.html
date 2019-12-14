@@ -52,8 +52,8 @@
                     </thead>
                     <tbody>
 
-                    <tr onclick="$('.collapse1').collapse('toggle')">
-                        <td>
+                    <tr>
+                        <td onclick="$('.collapse1').collapse('toggle')">
                             <div class="panel-group" id="accordion">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
@@ -69,13 +69,12 @@
                                 </div>
                             </div>
                         </td>
-                        <td>1</td>
+                        <td onclick="$('.collapse1').collapse('toggle')">1</td>
                         <td>
                             <button class="btn btn-danger" onclick="displayUserModal('John')" type="button">Edit
                             </button>
                         </td>
                     </tr>
-
                 </table>
             </div>
         </div>
