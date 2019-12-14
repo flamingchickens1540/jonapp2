@@ -1,8 +1,8 @@
-let db; // Firebase cloud firestore
-let storage; // Firebase GCP Bucket
+// let db; // Firebase cloud firestore
+// let storage; // Firebase GCP Bucket
 
 // Wait for the DOM to load. (Where the firebase libs are)
-document.addEventListener("DOMContentLoaded", () => {
+// document.addEventListener("DOMContentLoaded", () => {
     db = firebase.firestore();
     storage = firebase.storage();
 
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
             measurementId: "G-77EKECDTF7"
         });
     }
-});
+// });
 
 /**
  * Get current user
