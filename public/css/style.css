@@ -11,17 +11,6 @@ html, body {
   align-items: center;
 }
 
-#loginAlertCont {
-  width:100%;
-  height: 100%;
-}
-
-#loginAlert {
-  position: fixed;
-  bottom: 5px;
-  left:2%;
-  width: 96%;
-}
 
 .bg-blue { /*Main background color*/
     background-color: #17234E;
