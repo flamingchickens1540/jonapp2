@@ -51,16 +51,63 @@
               </tr>
             </thead>
             <tbody>
-              <tr onclick="displayUserModal('John');">
-                <td>John</td>
+              <tr>
+                <td>
+                <div class="panel-group" id="accordion">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h5 class="panel-title">
+                       <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">John</a>
+                     </h5>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse in">
+                      <div class="panel-body">
+                        <p>Name: John <br> Other Info Here<p>
+                        <a onclick="displayUserModal('John')" href="#">Edit<a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
                 <td>1</td>
               </tr>
-              <tr onclick="displayUserModal('Mary');">
-                <td>Mary</td>
+              <tr>
+                <td><div class="panel-group" id="accordion1">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h5 class="panel-title">
+                       <a data-toggle="collapse" data-parent="#accordion1" href="#collapse2">Mary</a>
+                     </h5>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse in">
+                      <div class="panel-body">
+                        <p>Name: Mary <br> Other Info Here<p>
+                        <a onclick="displayUserModal('Mary')" href="#">Edit<a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </td>
                 <td>2</td>
               </tr>
-              <tr onclick="displayUserModal('July');">
-                <td>July</td>
+              <tr>
+                <td>
+                  <div class="panel-group" id="accordion2">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h5 class="panel-title">
+                       <a data-toggle="collapse" data-parent="#accordion2" href="#collapse3">July</a>
+                     </h5>
+                    </div>
+                    <div id="collapse3" class="panel-collapse collapse in">
+                      <div class="panel-body">
+                        <p>Name: July <br> Other Info Here<p>
+                        <a onclick="displayUserModal('July')" href="#">Edit<a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </td>
                 <td>5</td>
               </tr>
             </tbody>
