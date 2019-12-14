@@ -45,7 +45,7 @@ function supervisorSignIn() {
             }
         });
 
-        alert(user.displayName + " logged in.");
+        window.location = "supervisor/home.html";
     });
 }
 
