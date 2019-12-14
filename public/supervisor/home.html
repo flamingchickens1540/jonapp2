@@ -52,17 +52,18 @@
                     </thead>
                     <tbody>
 
-                    <tr data-parent="#accordion" data-toggle="collapse" href="#collapse1">
+                    <tr onclick="$('.collapse1').collapse('toggle')">
                         <td>
                             <div class="panel-group" id="accordion">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h5 class="panel-title">John</h5>
                                     </div>
-                                    <div class="panel-collapse collapse in" id="collapse1">
+                                    <div class="panel-collapse collapse in collapse1">
                                         <div class="panel-body">
                                             <p>Name: John <br> Other Info Here
                                             <p>
+                                            <button class="btn btn-danger" onclick="alert('Removing...')" type="button">Remove</button>
                                         </div>
                                     </div>
                                 </div>
@@ -75,53 +76,6 @@
                         </td>
                     </tr>
 
-                    <tr data-parent="#accordion1" data-toggle="collapse" href="#collapse2">
-                        <td>
-                            <div class="panel-group" id="accordion1">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h5 class="panel-title">Mary</h5>
-                                    </div>
-                                    <div class="panel-collapse collapse in" id="collapse2">
-                                        <div class="panel-body">
-                                            <p>Name: Mary <br> Other Info Here
-                                            <p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>2</td>
-                        <td>
-                            <button class="btn btn-danger" onclick="displayUserModal('Mary')" type="button">Edit
-                            </button>
-                        </td>
-                    </tr>
-
-                    <tr data-parent="#accordion2" data-toggle="collapse" href="#collapse3">
-                        <td>
-                            <div class="panel-group" id="accordion2">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h5 class="panel-title">July</h5>
-                                    </div>
-                                    <div class="panel-collapse collapse in" id="collapse3">
-                                        <div class="panel-body">
-                                            <p>Name: July <br> Other Info Here
-                                            <p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>5</td>
-                        <td>
-                            <button class="btn btn-danger" onclick="displayUserModal('July')" type="button">Edit
-                            </button>
-                        </td>
-
-                    </tr>
-                    </tbody>
                 </table>
             </div>
         </div>
