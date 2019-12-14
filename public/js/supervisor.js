@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
     firebase.auth().onAuthStateChanged(_user => {
         if (_user) {
             user = _user;
-            document.getElementById("banner").innerText = "Logged in as " + user.displayName;
+            displaySupervisorBanner();
         } else {
             logIn().then(() => { // Log in and display the banner.
-                document.getElementById("banner").innerText = "Logged in as " + user.displayName;
+                displaySupervisorBanner();
             });
         }
     });
@@ -81,4 +81,11 @@ function displayUserModal(user) {
     var name = document.getElementById("mName");
     name.innerText = user;
     $("#taskModal").modal(); // Show the modal
+}
+
+/**
+ * Display supervisor banner
+ */
+function displaySupervisorBanner() {
+    document.getElementById("banner").innerText = "Logged in as " + user.displayName;
 }
