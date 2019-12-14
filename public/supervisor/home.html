@@ -4,11 +4,11 @@
 <head>
     <title>JonApp 2</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
 
     <!--  CSS  -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/style.css">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 
     <!--  Firebase  -->
     <script src="/__/firebase/7.4.0/firebase-app.js"></script>
@@ -25,119 +25,131 @@
 </head>
 
 <body>
-<nav id="supervisorNav" class="navbar navbar-expand-sm bg-dark navbar-dark text-white fixed-top">
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark text-white fixed-top" id="supervisorNav">
     <a class="navbar-brand" href="/">Jon App</a>
-    <button type="button" class="btn btn-dark my-*-1">Projects</button>
-    <button type="button" class="btn btn-dark my-*-1" onclick="logOut()">Logout</button>
+    <button class="btn btn-dark my-*-1" type="button">Projects</button>
+    <button class="btn btn-dark my-*-1" onclick="logOut()" type="button">Logout</button>
 
     <ul class="navbar-nav text-right">
         <li>
-            <a id="banner" class="nav-link" href="#"></a>
+            <a class="nav-link" href="#" id="banner"></a>
         </li>
     </ul>
 </nav>
 
-<div id="userListCont" class="container h-100 p-0">
+<div class="container h-100 p-0" id="userListCont">
     <div class="col mx-auto">
-      <div id="userListJumbo" class="jumbotron shadow-lg text-center">
-        <h1 class="display-4">Test Table</h1>
-          <div id="userListTable" type="container">
-            <table class="table table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th>Name</th>
-                <th>Tasks</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                <div class="panel-group" id="accordion">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h5 class="panel-title">
-                       <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">John</a>
-                     </h5>
-                    </div>
-                    <div id="collapse1" class="panel-collapse collapse in">
-                      <div class="panel-body">
-                        <p>Name: John <br> Other Info Here<p>
-                        <a onclick="displayUserModal('John')" href="#">Edit</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </td>
-                <td>1</td>
-              </tr>
-              <tr>
-                <td><div class="panel-group" id="accordion1">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h5 class="panel-title">
-                       <a data-toggle="collapse" data-parent="#accordion1" href="#collapse2">Mary</a>
-                     </h5>
-                    </div>
-                    <div id="collapse2" class="panel-collapse collapse in">
-                      <div class="panel-body">
-                        <p>Name: Mary <br> Other Info Here<p>
-                        <a onclick="displayUserModal('Mary')" href="#">Edit</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                </td>
-                <td>2</td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="panel-group" id="accordion2">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h5 class="panel-title">
-                       <a data-toggle="collapse" data-parent="#accordion2" href="#collapse3">July</a>
-                     </h5>
-                    </div>
-                    <div id="collapse3" class="panel-collapse collapse in">
-                      <div class="panel-body">
-                        <p>Name: July <br> Other Info Here<p>
-                        <a onclick="displayUserModal('July')" href="#">Edit</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                </td>
-                <td>5</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="jumbotron shadow-lg text-center" id="userListJumbo">
+            <h1 class="display-6">Users</h1>
+            <div id="userListTable" type="container">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Tasks</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr data-parent="#accordion" data-toggle="collapse" href="#collapse1">
+                        <td>
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">John</h5>
+                                    </div>
+                                    <div class="panel-collapse collapse in" id="collapse1">
+                                        <div class="panel-body">
+                                            <p>Name: John <br> Other Info Here
+                                            <p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>1</td>
+                        <td>
+                            <button class="btn btn-danger" onclick="displayUserModal('John')" type="button">Edit
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr data-parent="#accordion1" data-toggle="collapse" href="#collapse2">
+                        <td>
+                            <div class="panel-group" id="accordion1">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">Mary</h5>
+                                    </div>
+                                    <div class="panel-collapse collapse in" id="collapse2">
+                                        <div class="panel-body">
+                                            <p>Name: Mary <br> Other Info Here
+                                            <p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>2</td>
+                        <td>
+                            <button class="btn btn-danger" onclick="displayUserModal('Mary')" type="button">Edit
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr data-parent="#accordion2" data-toggle="collapse" href="#collapse3">
+                        <td>
+                            <div class="panel-group" id="accordion2">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title">July</h5>
+                                    </div>
+                                    <div class="panel-collapse collapse in" id="collapse3">
+                                        <div class="panel-body">
+                                            <p>Name: July <br> Other Info Here
+                                            <p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>5</td>
+                        <td>
+                            <button class="btn btn-danger" onclick="displayUserModal('July')" type="button">Edit
+                            </button>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="modal fade" id="taskModal">
-       <div class="modal-dialog">
-         <div class="modal-content">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-           <!-- Modal Header -->
-           <div class="modal-header">
-             <h4 class="modal-title">Edit User - <a id="mName"></a></h4>
-             <button type="button" class="close" data-dismiss="modal">×</button>
-           </div>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit User - <a id="mName"></a></h4>
+                    <button class="close" data-dismiss="modal" type="button">×</button>
+                </div>
 
-           <!-- Modal body -->
-           <div class="modal-body">
-             Task 1: Blah
-           </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Task 1: Blah
+                </div>
 
-           <!-- Modal footer -->
-           <div class="modal-footer">
-             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-           </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-dismiss="modal" type="button">Close</button>
+                </div>
 
-         </div>
-       </div>
-     </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
