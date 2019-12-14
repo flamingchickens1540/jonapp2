@@ -20,62 +20,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-/**
- * Get current user
- * @returns {*} currentUser object
- */
-function user() {
-    return firebase.auth().currentUser;
-}
-
-/**
- * Check if the user is logged in already
- * @returns {boolean}
- */
-function loggedIn() {
-    return user() != null;
-}
-
-/**
- * Log out current user
- */
-function logOut() {
-    firebase.auth().signOut();
-    window.location = "/";
-}
 
 /**
  * Check if a document exists
- * @param docRef Firestore document. For example db.collection("supervisors").doc(user().uid)
+ * @param docRef Firestore document. For example db.collection("supervisors").doc(user.uid)
  * @return {boolean} Does the doc exist?
- * @private
  */
-function _exists(docRef) {
+function exists(docRef) {
     docRef.get().then(function (doc) {
         return doc.exists;
     });
-}
-
-/**
- * Authenticate a supervisor.
- */
-function supervisorSignIn() {
-    if (!loggedIn()) {
-        const provider = new firebase.auth.GoogleAuthProvider();
-
-        firebase.auth().signInWithPopup(provider).then(() => {
-            let supervisor = db.collection("supervisors").doc(user().uid);
-
-            if (!_exists(supervisor)) { // If supervisor doesn't exist
-                supervisor.set({
-                    users: [] // Initialize empty users array
-                });
-            }
-            window.location = "/supervisor/home.html";
-        });
-    } else {
-        window.location = "/supervisor/home.html";
-    }
 }
 
 
@@ -87,10 +41,10 @@ function supervisorSignIn() {
 function createUser(name) {
     return db.collection("users").add({ // Create the user
         name: name,
-        supervisors: [user().uid], // With the current supervisor pre-authorized.
+        supervisors: [user.uid], // With the current supervisor pre-authorized.
         projects: []
     }).then(function (docRef) {
-        db.collection("supervisors").doc(user().uid).update({
+        db.collection("supervisors").doc(user.uid).update({
             users: firebase.firestore.FieldValue.arrayUnion(docRef.id)
         });
     });
@@ -128,14 +82,16 @@ function removeSupervisor(supervisor, user) {
  * @returns {array} Users //TODO
  */
 function getUsers() {
-    db.collection("supervisors").doc(user().uid).get().then(function (doc) {
-        users = doc.data()["users"];
+    firebase.auth().onAuthStateChanged(user => {
+        db.collection("supervisors").doc(user.uid).get().then(function (doc) {
+            users = doc.data()["users"];
 
-        for (i = 0; i < users.length; i++) {
-            db.collection("users").doc(users[i]).get().then(function (doc) {
-                console.log(doc.data());
-            });
-        }
+            for (i = 0; i < users.length; i++) {
+                db.collection("users").doc(users[i]).get().then(function (doc) {
+                    console.log(doc.data());
+                });
+            }
+        });
     });
 }
 
@@ -152,17 +108,9 @@ function createProject(name, desc, image_url) {
         name: name,
         desc: desc,
         image_url: image_url,
-        authorized_users: [user().uid], // Pre-authorize current supervisor for use in this project.
+        authorized_users: [user.uid], // Pre-authorize current supervisor for use in this project.
         tasks: []
     }).then(function (docRef) {
         console.log("Created project " + docRef.id);
-    });
-}
-
-function displaySupervisorBanner() {
-    firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-            document.getElementById("banner").innerText = "Logged in as " + user.displayName;
-        }
     });
 }
