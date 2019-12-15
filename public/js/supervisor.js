@@ -79,8 +79,8 @@ function logOut() {
  * @param user
  */
 function displayUserModal(user) {
-    var name = document.getElementById("mName");
-    name.innerText = user;
+    var name = document.getElementById("modal-name");
+    name.placeholder = user;
     $("#taskModal").modal(); // Show the modal
 }
 
