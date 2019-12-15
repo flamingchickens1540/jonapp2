@@ -117,15 +117,45 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="container">
-                        <table class="table table-hover">
-                            <tbody>
-                            <tr>
-                                <td class="align-middle">Name</td>
-                                <td class="align-middle"><!--suppress HtmlFormInputWithoutLabel -->
-                                    <input class="form-control" id="modal-name" type="text"></td>
-                            </tr>
-                            </tbody>
-                        </table>
+                      <div class="container mt-3">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                          <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#home">Info</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#projects">Projects</a>
+                          </li>
+                        </ul>
+                        <!-- Nav tab content -->
+                        <div class="tab-content">
+                          <div id="home" class="container tab-pane active"><br>
+                            <table class="table table-hover">
+                                <tbody>
+                                <tr>
+                                    <td class="align-middle">Name</td>
+                                    <td class="align-middle"><!--suppress HtmlFormInputWithoutLabel -->
+                                        <input class="form-control" id="modal-name" type="text"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                          </div>
+                          <div id="projects" class="container tab-pane fade"><br>
+                            <table class="table table-hover">
+                              <tbody>
+                              <tr>
+                                  <td class="align-middle">Task1</td>
+                                  <td class="align-middle">Do this.</td>
+                                  <td>
+                                  <button class="btn btn-danger" data-target"#deleteModal" data-toggle="modal" type="button">Edit
+                                  </button>
+                                  </td>
+                              </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                 </div>
 
