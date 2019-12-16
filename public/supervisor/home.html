@@ -105,14 +105,16 @@
                     </button>
                 </div>
                 <div class="modal-body" onclick="copyUserCode()">
-                    <div id="qr"></div> <!-- TODO center this -->
+                    <div id="qr" class="d-flex justify-content-center w-100"></div>
                     <br>
                     <label for="qr-text">Tap to copy user code.</label>
                     <input class="form-control" id="qr-text" placeholder="Loading..." readonly type="text">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger" data-dismiss="modal" type="button" onclick="deleteAccount()">Delete account</button> <!-- TODO far left justify -->
-                    <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Close</button>
+                    <div class="d-flex justify-content-between w-100">
+                        <button class="btn btn-danger" data-dismiss="modal" type="button" onclick="deleteAccount()">Delete account</button>
+                        <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
