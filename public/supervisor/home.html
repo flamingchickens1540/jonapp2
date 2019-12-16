@@ -21,6 +21,7 @@
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
 
+    <script src="/js/qrcode.min.js"></script>
     <script src="/js/supervisor.js"></script>
 </head>
 
@@ -32,7 +33,7 @@
 
     <ul class="navbar-nav text-right">
         <li>
-            <span class="nav-link" id="banner" data-target="#qrModal" data-toggle="modal"></span>
+            <span class="nav-link" data-target="#qrModal" data-toggle="modal" id="banner"></span>
         </li>
     </ul>
 </nav>
@@ -69,7 +70,10 @@
                                         <div class="panel-body">
                                             <p>Name: Jon's Project <br> Other Info Here </p>
 
-                                            <button class="btn btn-danger" type="button" onclick="confirm('Are you sure you want to delete this project?')">Delete
+                                            <button class="btn btn-danger"
+                                                    onclick="confirm('Are you sure you want to delete this project?')"
+                                                    type="button">
+                                                Delete
                                             </button>
                                         </div>
                                     </div>
@@ -94,13 +98,16 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">QR Code</h5>
+                    <h5 class="modal-title">User code</h5>
                     <button class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <h1>test123</h1>
+                <div class="modal-body" onclick="copyUserCode()">
+                    <div id="qr"></div> <!-- TODO center this -->
+                    <br>
+                    <label for="qr-text">Tap to copy user code.</label>
+                    <input class="form-control" id="qr-text" placeholder="Loading..." readonly type="text">
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Close</button>
@@ -175,7 +182,11 @@
                                         <tr>
                                             <td class="align-middle">Jon</td>
                                             <td>
-                                                <button class="btn btn-danger float-right" type="button" onclick="confirm('Are you sure you want to remove this user from your project?')">Delete</button>
+                                                <button class="btn btn-danger float-right"
+                                                        onclick="confirm('Are you sure you want to remove this user from your project?')"
+                                                        type="button">
+                                                    Delete
+                                                </button>
                                             </td>
                                         </tr>
                                         </tbody>

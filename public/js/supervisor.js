@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             logIn().then(() => { // Log in and display the banner.
                 displaySupervisorBanner();
+                loadUserQr();
             });
         }
     });
@@ -89,4 +90,19 @@ function displayProjectModal(user) {
  */
 function displaySupervisorBanner() {
     document.getElementById("banner").innerText = "Logged in as " + user.displayName;
+}
+
+function loadUserQr() {
+    new QRCode(document.getElementById("qr"), {
+        text: user.uid,
+        correctLevel: QRCode.CorrectLevel.H
+    });
+    document.getElementById("qr-text").value = user.uid;
+}
+
+function copyUserCode() {
+    const copyText = document.getElementById("qr-text");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
 }
