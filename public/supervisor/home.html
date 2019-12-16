@@ -32,7 +32,7 @@
 
     <ul class="navbar-nav text-right">
         <li>
-            <span class="nav-link" id="banner"></span>
+            <span class="nav-link" id="banner" data-target="#qrModal" data-toggle="modal"></span>
         </li>
     </ul>
 </nav>
@@ -85,6 +85,26 @@
                         </td>
                     </tr>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <!--  QR modal  -->
+    <div class="modal fade" id="qrModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">QR Code</h5>
+                    <button class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h1>test123</h1>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Close</button>
+                </div>
             </div>
         </div>
     </div>
