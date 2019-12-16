@@ -43,10 +43,10 @@
     <div class="col mx-auto">
         <div class="jumbotron shadow-lg text-center" id="projectListJumbo">
             <div class="d-flex justify-content-between w-100 overflow-auto mb-2" id="projectListHeader">
-                <button class="btn btn-success m-2 invisible" type="button">Add Project</button>
+                <button class="btn btn-success m-2 invisible" type="button">Create Project</button>
                 <h1 class="display-6">Projects</h1>
                 <button class="btn btn-success m-2" data-target="#addModal" data-toggle="modal" id="addUserButton"
-                        type="button">Add Project
+                        type="button">Create Project
                 </button>
             </div>
             <div id="projectListTable" type="container">
@@ -56,7 +56,7 @@
                         <th>Name</th>
                         <th>Assigned Users</th>
                         <th>Tasks</th>
-                        <th></th>
+                        <th></th> <!-- Edit button -->
                     </tr>
                     </thead>
                     <tbody>
@@ -66,148 +66,190 @@
                             <div class="panel-group" id="accordion">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <h5 class="panel-title mb-0">Jon's Project</h5>
+                                        <h5 class="panel-title mb-0">Camera inventory</h5>
                                     </div>
                                     <div class="panel-collapse collapse in collapse1">
                                         <div class="panel-body">
-                                            <p>Name: Jon's Project <br> Other Info Here </p>
+                                            <p>Take inventory of the cameras</p>
 
-                                            <button class="btn btn-danger" onclick="deleteProject()" type="button">Delete</button>
+                                            <div class="container">
+                                                <div class=""> <!-- TODO: Shrink this a bit -->
+                                                    <img alt="" class="img-fluid" src="https://nate.to/img/triangle.png">
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </td>
+
                         <td class="align-middle" onclick="$('.collapse1').collapse('toggle')">1</td>
                         <td class="align-middle" onclick="$('.collapse1').collapse('toggle')">3</td>
                         <td class="align-middle">
-                            <button class="btn btn-danger" onclick="displayProjectModal('Jon\'s Project')"
-                                    type="button">
-                                Edit
-                            </button>
+                            <button class="btn btn-danger" onclick="displayProjectModal('Jon\'s Project')" type="button">Edit</button>
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
-
-    <!--  QR modal  -->
-    <div class="modal fade" id="userModal" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">User Information - <span class="text-secondary" id="user-email"></span></h5>
-                    <button class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" onclick="copyUserCode()">
-                    <div id="qr" class="d-flex justify-content-center w-100"></div>
-                    <br>
-                    <label for="qr-text">Tap to copy user code.</label>
-                    <input class="form-control" id="qr-text" placeholder="Loading..." readonly type="text">
-                </div>
-                <div class="modal-footer">
-                    <div class="d-flex justify-content-between w-100">
-                        <button class="btn btn-danger" data-dismiss="modal" type="button" onclick="deleteAccount()">Delete account</button>
-                        <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Close</button>
-                    </div>
+</div>
+<!--  QR modal  -->
+<div class="modal fade" id="userModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">User Information - <span class="text-secondary" id="user-email"></span></h5>
+                <button class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" onclick="copyUserCode()">
+                <div class="d-flex justify-content-center w-100" id="qr"></div>
+                <br>
+                <label for="qr-text">Tap to copy user code.</label>
+                <input class="form-control" id="qr-text" placeholder="Loading..." readonly type="text">
+            </div>
+            <div class="modal-footer">
+                <div class="d-flex justify-content-between w-100">
+                    <button class="btn btn-danger" data-dismiss="modal" onclick="deleteAccount()" type="button">Delete account</button>
+                    <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Close</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Project add modal -->
-    <div class="modal fade" id="addModal" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add Project</h5>
-                    <button class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <button class="btn btn-success" type="button">
-                        <input accept="image/*" type="file">Scan QR Code
-                    </button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Cancel</button>
-                    <button class="btn btn-success" data-dismiss="modal" type="button">Add Project</button>
-                </div>
+<!-- Project add modal -->
+<div class="modal fade" id="addModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Project</h5>
+                <button class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- TODO: Make this form -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Cancel</button>
+                <button class="btn btn-success" data-dismiss="modal" type="button">Create Project</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!--  Project edit modal  -->
-    <div class="modal fade" id="projectModal" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+<!--  Project edit modal  -->
+<div class="modal fade" id="projectModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Project</h4>
-                    <button class="close" data-dismiss="modal" type="button">×</button>
-                </div>
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Project</h4>
+                <button class="close" data-dismiss="modal" type="button">×</button>
+            </div>
 
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="container mt-3">
-                            <!-- Nav tabs -->
-                            <ul class="nav nav-tabs">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#home">Info</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#users">Users</a>
-                                </li>
-                            </ul>
-                            <!-- Nav tab content -->
-                            <div class="tab-content">
-                                <div class="container tab-pane active" id="home"><br>
-                                    <table class="table table-hover">
-                                        <tbody>
-                                        <tr>
-                                            <td class="align-middle">Name</td>
-                                            <td class="align-middle"><!--suppress HtmlFormInputWithoutLabel -->
-                                                <input class="form-control" id="modal-name" type="text"></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="container tab-pane fade" id="users"><br>
-                                    <table class="table table-hover">
-                                        <tbody>
-                                        <tr>
-                                            <td class="align-middle">Jon</td>
-                                            <td>
-                                                <button class="btn btn-danger float-right"
-                                                        onclick="confirm('Are you sure you want to remove this user from your project?')"
-                                                        type="button">
-                                                    Delete
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <div class="container mt-3">
+
+                        <!-- <button type="button" class="btn btn-primary">Add User</button>  --> <!-- TODO: Button aligned right of tabs -->
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#home">Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#users">Users</a>
+                            </li>
+                        </ul>
+                        <!-- Nav tab content -->
+                        <div class="tab-content">
+                            <div class="container tab-pane active" id="home"><br>
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <td class="align-middle">Name</td>
+                                        <td class="align-middle">
+                                            <label for="modal-name"></label><input class="form-control" id="modal-name" type="text">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="align-middle">Description</td>
+                                        <td class="align-middle">
+                                            <label for="modal-desc"></label><input class="form-control" id="modal-desc" type="text">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="align-middle">
+                                            <img alt="" class="image-fluid" src="https://nate.to/img/triangle.png"> <!-- TODO: Shrink this -->
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="container tab-pane fade" id="users"><br>
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <td class="align-middle">Jon</td>
+                                        <td>
+                                            <button class="btn btn-danger float-right"
+                                                    onclick="confirm('Are you sure you want to remove this user from your project?')"
+                                                    type="button">
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Modal footer -->
-                <div class="modal-footer">
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <div class="d-flex justify-content-between w-100">
+                    <button class="btn btn-danger" onclick="deleteProject()" type="button">Delete</button>
                     <button class="btn btn-success" data-dismiss="modal" type="button">Save</button>
                 </div>
-
             </div>
         </div>
     </div>
+</div>
 
+<!-- Assign user to project modal -->
+<div class="modal fade" id="userAssignModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Project</h5>
+                <button class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <!-- TODO: Make this form -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Cancel</button>
+                <button class="btn btn-success" data-dismiss="modal" type="button">Add user</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
