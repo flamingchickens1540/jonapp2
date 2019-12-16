@@ -38,5 +38,5 @@ function displaySupervisorBanner() {
 }
 
 function deleteProject() {
-    confirm('Are you sure you want to delete this project?');
+    confirm('DANGER! Deleting this project will also remove it from all users and supervisors. Are you sure you want to delete this project?');
 }
