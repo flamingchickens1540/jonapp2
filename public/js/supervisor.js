@@ -36,3 +36,7 @@ function displayProjectModal(user) {
 function displaySupervisorBanner() {
     document.getElementById("banner").innerText = "Logged in as " + user.displayName;
 }
+
+function deleteProject() {
+    confirm('Are you sure you want to delete this project?');
+}
