@@ -40,10 +40,12 @@
 <div class="container" id="projectListCont">
     <div class="col mx-auto">
         <div class="jumbotron shadow-lg text-center" id="projectListJumbo">
-            <div id="projectListHeader" class="d-flex justify-content-between w-100 overflow-auto">
+            <div class="d-flex justify-content-between w-100 overflow-auto" id="projectListHeader">
                 <button class="btn btn-success m-2 invisible" type="button">Add Project</button>
                 <h1 class="display-6">Projects</h1>
-                <button id="addUserButton" class="btn btn-success m-2" type="button" data-target="#addModal" data-toggle="modal">Add Project</button>
+                <button class="btn btn-success m-2" data-target="#addModal" data-toggle="modal" id="addUserButton"
+                        type="button">Add Project
+                </button>
             </div>
             <div id="projectListTable" type="container">
                 <table class="table table-hover">
@@ -67,8 +69,7 @@
                                         <div class="panel-body">
                                             <p>Name: Jon's Project <br> Other Info Here </p>
 
-                                            <button class="btn btn-danger" data-target="#deleteModal" data-toggle="modal"
-                                                    type="button">Delete
+                                            <button class="btn btn-danger" type="button" onclick="confirm('Are you sure you want to delete this project?')">Delete
                                             </button>
                                         </div>
                                     </div>
@@ -77,32 +78,13 @@
                         </td>
                         <td class="align-middle" onclick="$('.collapse1').collapse('toggle')">1</td>
                         <td class="align-middle">
-                            <button class="btn btn-danger" onclick="displayUserModal('Jon\'s Project')" type="button">Edit
+                            <button class="btn btn-danger" onclick="displayProjectModal('Jon\'s Project')"
+                                    type="button">
+                                Edit
                             </button>
                         </td>
                     </tr>
                 </table>
-            </div>
-        </div>
-    </div>
-
-    <!--  Project delete modal  -->
-    <div class="modal fade" id="deleteModal" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Are you sure you want to delete this project?</h5>
-                    <button class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    This action cannot be reversed.
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Cancel</button>
-                    <button class="btn btn-danger" data-dismiss="modal" type="button">Delete Project</button>
-                </div>
             </div>
         </div>
     </div>
@@ -119,7 +101,7 @@
                 </div>
                 <div class="modal-body">
                     <button class="btn btn-success" type="button">
-                    <input type="file" accept="image/*">Scan QR Code</input>
+                        <input accept="image/*" type="file">Scan QR Code
                     </button>
                 </div>
                 <div class="modal-footer">
@@ -131,7 +113,7 @@
     </div>
 
     <!--  Project edit modal  -->
-    <div class="modal fade" id="taskModal" role="dialog" tabindex="-1">
+    <div class="modal fade" id="projectModal" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
@@ -144,45 +126,43 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="container">
-                      <div class="container mt-3">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs">
-                          <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#home">Info</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#users">Users</a>
-                          </li>
-                        </ul>
-                        <!-- Nav tab content -->
-                        <div class="tab-content">
-                          <div id="home" class="container tab-pane active"><br>
-                            <table class="table table-hover">
-                                <tbody>
-                                <tr>
-                                    <td class="align-middle">Name</td>
-                                    <td class="align-middle"><!--suppress HtmlFormInputWithoutLabel -->
-                                        <input class="form-control" id="modal-name" type="text"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                          </div>
-                          <div id="users" class="container tab-pane fade"><br>
-                            <table class="table table-hover">
-                              <tbody>
-                              <tr>
-                                  <td class="align-middle">Jon</td>
-                                  <td class="align-middle">15 Tasks</td>
-                                  <td>
-                                  <button class="btn btn-danger" data-target"#deleteModal" data-toggle="modal" type="button">Edit
-                                  </button>
-                                  </td>
-                              </tr>
-                              </tbody>
-                            </table>
-                          </div>
+                        <div class="container mt-3">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#home">Info</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#users">Users</a>
+                                </li>
+                            </ul>
+                            <!-- Nav tab content -->
+                            <div class="tab-content">
+                                <div class="container tab-pane active" id="home"><br>
+                                    <table class="table table-hover">
+                                        <tbody>
+                                        <tr>
+                                            <td class="align-middle">Name</td>
+                                            <td class="align-middle"><!--suppress HtmlFormInputWithoutLabel -->
+                                                <input class="form-control" id="modal-name" type="text"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="container tab-pane fade" id="users"><br>
+                                    <table class="table table-hover">
+                                        <tbody>
+                                        <tr>
+                                            <td class="align-middle">Jon</td>
+                                            <td>
+                                                <button class="btn btn-danger float-right" type="button" onclick="confirm('Are you sure you want to remove this user from your project?')">Delete</button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                      </div>
                     </div>
                 </div>
 

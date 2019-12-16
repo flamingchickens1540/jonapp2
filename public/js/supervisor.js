@@ -78,10 +78,10 @@ function logOut() {
  * Trigger a modal popup.
  * @param user
  */
-function displayUserModal(user) {
+function displayProjectModal(user) {
     var name = document.getElementById("modal-name");
-    name.placeholder = user;
-    $("#taskModal").modal(); // Show the modal
+    name.value = user;
+    $("#projectModal").modal(); // Show the modal
 }
 
 /**
