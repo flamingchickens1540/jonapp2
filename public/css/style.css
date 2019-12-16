@@ -1,19 +1,18 @@
-@media (max-width:500px) {
+@media (max-width: 500px) {
 
-#addUserButton button {
-    visibility: hidden;
-}
-
-}
-
-@media (min-width:500px) {
-
-#addUserButton button {
-    visibility: visible;
-}
+    #addUserButton button {
+        visibility: hidden;
+    }
 
 }
 
+@media (min-width: 500px) {
+
+    #addUserButton button {
+        visibility: visible;
+    }
+
+}
 
 
 html {
@@ -24,50 +23,50 @@ html {
 }
 
 body {
-  height: 100%;
-  background-color: #17234E;
-  width: 100%;
-  padding-top: navbar-height;
+    height: 100%;
+    background-color: #17234E;
+    width: 100%;
+    padding-top: navbar-height;
 }
 
 #indexContainer { /*Main centered container for index*/
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #projectListCont {
-  height: 100%;
-  display: flex;
-  justify-content:center;
-  align-items: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #projectListJumbo {
-  height: 200%;
-  width: 100%;
+    height: 200%;
+    width: 100%;
 }
 
 #projectListTable {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 table {
-  table-layout: fixed;
-  width: 100%;
-  word-break: break-word;
+    table-layout: fixed;
+    width: 100%;
+    word-break: break-word;
 }
 
 tbody {
-  font-size: 15px;
+    font-size: 15px;
 }
 
 thead {
-  font-size: 20px;
+    font-size: 20px;
 }
 
 .bg-blue { /*Main background color*/
