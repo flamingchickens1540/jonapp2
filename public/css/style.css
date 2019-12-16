@@ -19,19 +19,20 @@ body {
   align-items: center;
 }
 
-#userListCont {
+#projectListCont {
   height: 100%;
   display: flex;
   justify-content:center;
   align-items: center;
 }
 
-#userListJumbo {
+#projectListJumbo {
   height: 200%;
   width: 100%;
+  text-align: center;
 }
 
-#userListTable {
+#projectListTable {
   height: 100%;
   display: flex;
   justify-content: center;
