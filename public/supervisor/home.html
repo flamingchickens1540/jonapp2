@@ -22,6 +22,7 @@
     <script src="/js/bootstrap.min.js"></script>
 
     <script src="/js/qrcode.min.js"></script>
+    <script src="/js/app.js"></script>
     <script src="/js/supervisor.js"></script>
 </head>
 
@@ -33,7 +34,7 @@
 
     <ul class="navbar-nav text-right">
         <li>
-            <span class="nav-link" data-target="#qrModal" data-toggle="modal" id="banner"></span>
+            <span class="nav-link" data-target="#userModal" data-toggle="modal" id="banner"></span>
         </li>
     </ul>
 </nav>
@@ -94,11 +95,11 @@
     </div>
 
     <!--  QR modal  -->
-    <div class="modal fade" id="qrModal" role="dialog" tabindex="-1">
+    <div class="modal fade" id="userModal" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">User code</h5>
+                    <h5 class="modal-title">User Information - <span class="text-secondary" id="user-email"></span></h5>
                     <button class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -110,6 +111,7 @@
                     <input class="form-control" id="qr-text" placeholder="Loading..." readonly type="text">
                 </div>
                 <div class="modal-footer">
+                    <button class="btn btn-danger" data-dismiss="modal" type="button" onclick="deleteAccount()">Delete account</button> <!-- TODO far left justify -->
                     <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Close</button>
                 </div>
             </div>
