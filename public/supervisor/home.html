@@ -137,15 +137,16 @@
                                 <input class="form-control" id="p-create-name" type="text">
 
                                 <label for="p-create-desc">Description</label>
-                                <textarea class="form-control" id="p-create-desc" rows="5"></textarea>
+                                <textarea class="form-control" id="p-create-desc" rows="7"></textarea>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <img alt="" class="img-fluid" id="p-create-img" src="/img/camera.png">
+                        <div class="col-6 my-auto mx-auto align-middle">
+                            <img alt="" class="img-fluid p-1" id="p-create-img" src="/img/camera.png">
 
-                            <input type="file" accept="image/*;capture=camera" id="p-create-file" style="display: none;" />
-                            <input type="button" value="Select new image" onclick="document.getElementById('p-create-file').click();" />
-
+                            <input type="file" class="p-1" accept="image/*;capture=camera" id="p-create-file" style="display: none;" />
+                            <div class="d-flex w-100">
+                                <button class="btn btn-success mx-auto mt-3" onclick="document.getElementById('p-create-file').click();" type="button">Add New Image</button>
+                            </div>
                             <script>
                                 function pCreateImgUpdate() {
                                     if (this.files && this.files[0]) {
