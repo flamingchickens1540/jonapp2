@@ -73,10 +73,7 @@
                                             <p>Take inventory of the cameras</p>
 
                                             <div class="container">
-                                                <div class=""> <!-- TODO: Shrink this a bit (Added p-4 for padding, not sure if you want more or less shrinkage) -->
-                                                    <img alt="" class="img-fluid p-4" src="https://nate.to/img/triangle.png">
-                                                </div>
-
+                                                <img alt="" class="img-fluid p-4" src="https://nate.to/img/triangle.png">
                                             </div>
                                         </div>
                                     </div>
@@ -121,7 +118,7 @@
     </div>
 </div>
 
-<!-- Project add modal -->
+<!-- Project create modal -->
 <div class="modal fade" id="addModal" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -136,14 +133,38 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="addModal-name">Name</label>
-                                <input class="form-control" id="addModal-name" type="text">
-                                <label for="addModal-desc">Description</label>
-                                <textarea class="form-control" rows="5" id="addModal-desc"></textarea>
+                                <label for="p-create-name">Name</label>
+                                <input class="form-control" id="p-create-name" type="text">
+
+                                <label for="p-create-desc">Description</label>
+                                <textarea class="form-control" id="p-create-desc" rows="5"></textarea>
                             </div>
                         </div>
                         <div class="col-6">
-                            <img alt="" class="img-fluid p-4" src="https://nate.to/img/triangle.png">
+                            <img alt="" class="img-fluid" id="p-create-img" src="/img/camera.png">
+
+                            <input type="file" accept="image/*;capture=camera" id="p-create-file" style="display: none;" />
+                            <input type="button" value="Select new image" onclick="document.getElementById('p-create-file').click();" />
+
+                            <script>
+                                function pCreateImgUpdate() {
+                                    if (this.files && this.files[0]) {
+                                        const FR = new FileReader();
+
+                                        FR.addEventListener("load", function (e) {
+                                            document.getElementById("p-create-img").src = e.target.result; // e.target.result is the b64
+                                        });
+
+                                        FR.readAsDataURL(this.files[0]);
+                                    } else {
+                                        alert("Error uploading image.");
+                                        throw new Error("Error uploading image."); // TODO: make this work with sentry without breaking things
+                                    }
+                                }
+
+                                document.getElementById("p-create-file").addEventListener("change", pCreateImgUpdate);
+                            </script>
+
                         </div>
                     </div>
                 </div>
@@ -193,7 +214,7 @@
                                                 <label for="modal-name">Name</label>
                                                 <input class="form-control" id="modal-name" type="text">
                                                 <label for="comment">Description</label>
-                                                <textarea class="form-control" rows="5" id="comment"></textarea>
+                                                <textarea class="form-control" id="comment" rows="5"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-6 my-auto">
