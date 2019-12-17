@@ -132,21 +132,21 @@
                 </button>
             </div>
             <div class="modal-body">
-                <tbody>
-                    <tr>
-                        <td class="align-middle mb-2">Name</td>
-                        <td class="align-middle mb-2">
-                            <label for="addModal-name"></label><input class="form-control" id="addModal-name" type="text">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="align-middle mb-2">Description</td>
-                        <td class="align-middle">
-                            <label for="addModal-desc"></label><input class="form-control" id="addModal-desc" type="text">
-                        </td>
-                    </tr>
-                </tbody>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="modal-name">Name</label>
+                                <input class="form-control" id="modal-name" type="text">
+                                <label for="comment">Description</label>
+                                <textarea class="form-control" rows="5" id="comment"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <img alt="" class="img-fluid p-4" src="https://nate.to/img/triangle.png">
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Cancel</button>
@@ -177,7 +177,7 @@
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#home">Info</a>
+                                <a class="nav-link active" data-toggle="tab" href="#info">Info</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#users">Users</a>
@@ -185,31 +185,22 @@
                         </ul>
                         <!-- Nav tab content -->
                         <div class="tab-content">
-                            <div class="container tab-pane active" id="home"><br>
-                                <table class="table table-hover">
-                                    <tbody>
-                                    <tr>
-                                        <td class="align-middle">Name</td>
-                                        <td class="align-middle">
-                                            <label for="modal-name"></label><input class="form-control" id="modal-name" type="text">
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="align-middle">Description</td>
-                                        <td class="align-middle">
-                                            <label for="modal-desc"></label><input class="form-control" id="modal-desc" type="text">
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="align-middle">
-                                            <img alt="" class="image-fluid" src="https://nate.to/img/triangle.png"> <!-- TODO: Shrink this -->
-                                        </td>
-                                    </tr>
-
-                                    </tbody>
-                                </table>
+                            <div class="container tab-pane active" id="info"><br>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="modal-name">Name</label>
+                                                <input class="form-control" id="modal-name" type="text">
+                                                <label for="comment">Description</label>
+                                                <textarea class="form-control" rows="5" id="comment"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 my-auto">
+                                            <img alt="" class="img-fluid p-4" src="https://nate.to/img/triangle.png">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="container tab-pane fade" id="users"><br>
                                 <table class="table table-hover">
