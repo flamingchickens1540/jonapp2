@@ -19,20 +19,37 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    firebase.auth().onAuthStateChanged(_user => {
+    firebase.auth().onAuthStateChanged(_user => { // Update user global if the authentication state changes
         user = _user;
     });
 });
 
 
 /**
- * Check if a document exists
- * @param docRef Firestore document. For example db.collection("supervisors").doc(user.uid)
- * @return {boolean} Does the doc exist?
+ * Trigger login popup and redirect
+ * @return {Promise} login popup completion
  */
-function exists(docRef) {
-    docRef.get().then(function (doc) {
-        return doc.exists;
+function logIn() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    return firebase.auth().signInWithPopup(provider).then(result => {
+        user = result.user;
+
+        let userDoc = db.collection("users").doc(user.uid);
+
+        console.log("Starting login routine.");
+
+        userDoc.get().then(function (doc) {
+            if (doc.exists) {
+                console.log("User exists");
+            } else {
+                console.log("User does not exist");
+
+                userDoc.set({
+                    users: [] // Initialize empty users array so firebase doesn't auto remove it
+                });
+            }
+        });
     });
 }
 
@@ -48,26 +65,6 @@ function cleanLogin(url) {
             window.location = url;
         });
     }
-}
-
-/**
- * Trigger login popup and redirect
- * @return {Promise} login popup completion
- */
-function logIn() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-
-    return firebase.auth().signInWithPopup(provider).then(result => {
-        user = result.user;
-
-        let supervisor = db.collection("supervisors").doc(user.uid);
-
-        if (!exists(supervisor)) { // If supervisor doesn't exist
-            supervisor.set({
-                users: [] // Initialize empty users array
-            });
-        }
-    });
 }
 
 /**
