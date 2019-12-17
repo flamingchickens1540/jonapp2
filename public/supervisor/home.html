@@ -117,7 +117,7 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <img alt="" class="img-fluid" id="p-create-image" src="/img/camera.png">
+                            <img alt="Project Image" class="img-fluid" id="p-create-image" src="/img/camera.png">
 
                             <input accept="image/*;capture=camera" id="p-create-file" style="display: none;" type="file"/>
                             <input onclick="document.getElementById('p-create-file').click();" type="button" value="Select new image"/>
@@ -154,7 +154,7 @@
 </div>
 
 <!--  Project edit modal  -->
-<div class="modal fade" id="projectModal" role="dialog" tabindex="-1">
+<div class="modal fade" id="projectEditModal" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
@@ -188,14 +188,16 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label for="modal-name">Name</label>
-                                                <input class="form-control" id="modal-name" type="text">
-                                                <label for="comment">Description</label>
-                                                <textarea class="form-control" id="comment" rows="5"></textarea>
+                                                <label for="p-edit-name">Name</label>
+                                                <input class="form-control" id="p-edit-name" type="text">
+                                                <label for="p-edit-desc">Description</label>
+                                                <textarea class="form-control" id="p-edit-desc" rows="5"></textarea>
+
+                                                <input type="hidden" id="p-edit-id">
                                             </div>
                                         </div>
                                         <div class="col-6 my-auto">
-                                            <img alt="" class="img-fluid p-4" src="https://nate.to/img/triangle.png">
+                                            <img alt="Project Image" class="img-fluid p-4" src="" id="p-edit-image">
                                         </div>
                                     </div>
                                 </div>
@@ -220,8 +222,8 @@
             <!-- Modal footer -->
             <div class="modal-footer">
                 <div class="d-flex justify-content-between w-100">
-                    <button class="btn btn-danger" data-dismiss="modal" onclick="deleteProject()" type="button">Delete</button>
-                    <button class="btn btn-success" data-dismiss="modal" type="button">Save</button>
+                    <button class="btn btn-danger" data-dismiss="modal" onclick="deleteProject(document.getElementById('p-edit-id').value)" type="button">Delete</button>
+                    <button class="btn btn-success" data-dismiss="modal" type="button" onclick="updateProject()">Save</button>
                 </div>
             </div>
         </div>

@@ -47,13 +47,13 @@ function logIn() {
         console.log("Starting login routine.");
 
         userDoc.get().then(function (doc) { // Get the document
-            if (doc.exists) { // If the user exists (Is already registered in the database)
+            if (doc.data() && doc.data()["active"]) { // If the user exists (Is already registered in the database)
                 console.log("User exists");
             } else {
                 console.log("User does not exist");
 
                 userDoc.set({
-                    users: [] // Initialize empty users array so firebase wont auto remove it
+                    active: true,
                 });
             }
         });

@@ -27,18 +27,19 @@ function displayProjects() {
     let userDoc = db.collection("users").doc(user.uid); // Current supervisor's document
 
     userDoc.get().then(function (doc) { // Get the user doc
-        const projects = doc.data()["projects"]; // The projects that the supervisor has access to
+        if (doc.data() && doc.data()["active"]) { // If there is a doc
+            const projects = doc.data()["projects"]; // The projects that the supervisor has access to
 
-        if (projects != null) { // If there are any projects
-            console.log("Iterating over projects...");
+            if (projects != null) { // If there are any projects
+                console.log("Iterating over projects...");
 
-            for (let i = 0; i < projects.length; i++) {
-                const projectId = projects[i]; // Current project
+                for (let i = 0; i < projects.length; i++) {
+                    const projectId = projects[i]; // Current project
 
-                db.collection("projects").doc(projectId).get().then(function (doc) {
-                    project = doc.data();
+                    db.collection("projects").doc(projectId).get().then(function (doc) {
+                        project = doc.data();
 
-                    document.getElementById("table-body").innerHTML += `
+                        document.getElementById("table-body").innerHTML += `
                 <tr>
                     <td class="align-middle" onclick="$('.collapse` + projectId + `').collapse('toggle')">
                         <div class="panel-group" id="accordion">
@@ -65,10 +66,14 @@ function displayProjects() {
                         <button class="btn btn-danger" onclick="displayProjectModal('` + projectId + `')" type="button">Edit</button>
                     </td>
                 </tr>`
-                });
+                    });
+                }
+            } else {
+                console.log("No projects detected.");
             }
         } else {
-            console.log("No projects detected.");
+            console.log("Doc !data()");
+            logIn().then(r => location.reload());
         }
     });
 }
@@ -83,13 +88,26 @@ function initUserModal() {
 }
 
 /**
- * Trigger a modal popup.
- * @param user
+ * Trigger project edit modal popup
+ * @param id ID of project in question
  */
-function displayProjectModal(user) {
-    const name = document.getElementById("modal-name");
-    name.value = user;
-    $("#projectModal").modal(); // Show the modal
+function displayProjectModal(id) {
+    db.collection("projects").doc(id).get().then(function (doc) {
+        project = doc.data();
+
+        let name = document.getElementById("p-edit-name");
+        let desc = document.getElementById("p-edit-desc");
+        let image = document.getElementById("p-edit-image");
+        let pid = document.getElementById("p-edit-id");
+
+        name.value = project["name"];
+        desc.value = project["desc"];
+        image.src = project["image"];
+        pid.value = id;
+
+    }).then(() => {
+        $("#projectEditModal").modal(); // Show the modal
+    });
 }
 
 /**
@@ -100,20 +118,35 @@ function displaySupervisorBanner() {
 }
 
 /**
- * Delete a project and all it's users
- * @param id
+ * Delete a project and entry of all it's users
+ * @param id ID of project to delete
  */
 function deleteProject(id) {
-    if (confirm('DANGER! Deleting this project will also remove it from all users and supervisors. Are you sure you want to delete this project?')) {
-        console.log("Deleting project " + id + "...");
-        // TODO
 
-        // db.collection("projects").doc("DC").delete().then(function () {
-        //     console.log("Document successfully deleted!");
-        // }).catch(function (error) {
-        //     console.error("Error removing document: ", error);
-        // });
-    }
+    // if (confirm('DANGER! Deleting this project will also remove it from all users and supervisors. Are you sure you want to delete this project?')) {
+    //     console.log("Deleting project " + id + "...");
+    // }
+    //
+    db.collection("projects").doc(id).get().then(function (doc) {
+        const users = doc.data()["users"];
+
+        if (users != null) { // If there are any users
+            console.log("Iterating over users...");
+
+            for (let i = 0; i < users.length; i++) {
+                const userId = users[i]; // Current project
+
+                db.collection("users").doc(userId).update({
+                    projects: firebase.firestore.FieldValue.arrayRemove(id)
+                });
+            }
+        }
+    }).then(() => {
+        db.collection("projects").doc(id).delete().then(() => {
+            alert("Project deleted.");
+            displayProjects();
+        });
+    });
 }
 
 /**
@@ -121,7 +154,6 @@ function deleteProject(id) {
  * @param {string} name Name
  * @param {string} desc Description
  * @param {string} image base64 encoded image uri
- * @returns {string} document id
  */
 function createProject(name, desc, image) {
     db.collection("projects").add({ // Create the project
@@ -135,9 +167,31 @@ function createProject(name, desc, image) {
 
         db.collection("users").doc(user.uid).update({
             projects: firebase.firestore.FieldValue.arrayUnion(docRef.id)
+        }).then(() => {
+            displayProjects(); // Update the projects list
         });
+    });
+}
 
-        displayProjects(); // Update the projects list
-        return docRef.id;
+/**
+ * Edit an existing project from modal
+ */
+function updateProject() {
+    let name = document.getElementById("p-edit-name").value;
+    let desc = document.getElementById("p-edit-desc").value;
+    let image = document.getElementById("p-edit-image").src;
+    let id = document.getElementById("p-edit-id").value;
+
+    console.log("Going to update " + id);
+
+    db.collection("projects").doc(id).update({ // Create the project
+        name: name,
+        desc: desc,
+        image: image,
+        // users: [user.uid], // Pre-authorize current supervisor for use in this project.
+        // tasks: []
+    }).then(function () {
+        alert("Project \"" + name + "\" updated.");
+        displayProjects();
     });
 }
