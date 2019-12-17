@@ -90,7 +90,7 @@ function deleteAccount() {
     }
 }
 
-function renderUserModal() {
+function displayUserModal() {
     new QRCode(document.getElementById("qr"), {
         text: user.uid,
         correctLevel: QRCode.CorrectLevel.H

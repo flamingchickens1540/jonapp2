@@ -16,7 +16,7 @@ service cloud.firestore {
     }
 
     match /projects/{projectId} {
-      allow read, update, delete: if request.auth.uid in resource.data.authorized_users; // Allow supervisor or user update if in authorized_users.
+      allow read, update, delete: if request.auth.uid in resource.data.users; // Allow supervisor or user update if in authorized_users.
       allow create: if request.auth.uid != null; // Allow project create if logged in.
     }
 
