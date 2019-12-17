@@ -60,36 +60,7 @@
                     </tr>
                     </thead>
 
-                    <tbody>
-
-                    <tr>
-                        <td class="align-middle" onclick="$('.collapse` + id + `').collapse('toggle')">
-                            <div class="panel-group" id="accordion">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h5 class="panel-title mb-0">` + name + `</h5>
-                                    </div>
-                                    <div class="panel-collapse collapse in collapse` + id + `">
-                                        <div class="panel-body">
-                                            <p>` + desc + `</p>
-
-                                            <div class="container">
-                                                <img alt="" class="img-fluid p-4" src="` + image + `">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-
-                        <td class="align-middle" onclick="$('.collapse` + id + `').collapse('toggle')">` + user_len + `</td>
-                        <td class="align-middle" onclick="$('.collapse` + id + `').collapse('toggle')">` + task_len + `</td>
-                        <td class="align-middle">
-                            <button class="btn btn-danger" onclick="displayProjectModal('` + id + `')" type="button">Edit</button>
-                        </td>
-                    </tr>`
-
-                    </tbody>
+                    <tbody id="table-body"</tbody>
 
                 </table>
             </div>
