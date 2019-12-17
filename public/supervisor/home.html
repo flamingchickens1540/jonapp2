@@ -60,7 +60,36 @@
                     </tr>
                     </thead>
 
-                    <tbody id="table-body"></tbody>
+                    <tbody>
+
+                    <tr>
+                        <td class="align-middle" onclick="$('.collapse` + id + `').collapse('toggle')">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title mb-0">` + name + `</h5>
+                                    </div>
+                                    <div class="panel-collapse collapse in collapse` + id + `">
+                                        <div class="panel-body">
+                                            <p>` + desc + `</p>
+
+                                            <div class="container">
+                                                <img alt="" class="img-fluid p-4" src="` + image + `">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="align-middle" onclick="$('.collapse` + id + `').collapse('toggle')">` + user_len + `</td>
+                        <td class="align-middle" onclick="$('.collapse` + id + `').collapse('toggle')">` + task_len + `</td>
+                        <td class="align-middle">
+                            <button class="btn btn-danger" onclick="displayProjectModal('` + id + `')" type="button">Edit</button>
+                        </td>
+                    </tr>`
+
+                    </tbody>
 
                 </table>
             </div>
@@ -169,15 +198,16 @@
                 <div class="container">
                     <div class="container mt-3">
 
-                        <!-- <button type="button" class="btn btn-primary">Add User</button>  --> <!-- TODO: Button aligned right of tabs (I think I know how to do this) -->
-
                         <!-- Nav tabs -->
-                        <ul class="nav nav-tabs">
+                        <ul class="d-flex nav nav-tabs justify-content-between">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#info">Info</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#users">Users</a>
+                            </li>
+                            <li class="nav-item ml-auto">
+                                <button class="btn btn-primary" type="button">Add User</button>
                             </li>
                         </ul>
                         <!-- Nav tab content -->
