@@ -113,14 +113,19 @@
                                 <input class="form-control" id="p-create-name" type="text">
 
                                 <label for="p-create-desc">Description</label>
-                                <textarea class="form-control" id="p-create-desc" rows="5"></textarea>
+                                <textarea class="form-control" id="p-create-desc" rows="7"></textarea>
                             </div>
                         </div>
                         <div class="col-6">
                             <img alt="Project Image" class="img-fluid" id="p-create-image" src="/img/camera.png">
 
-                            <input accept="image/*;capture=camera" id="p-create-file" style="display: none;" type="file"/>
-                            <input onclick="document.getElementById('p-create-file').click();" type="button" value="Select new image"/>
+                                <input accept="image/*;capture=camera" id="p-create-file" style="display: none;" type="file"/>
+                            <div class="d-flex w-100">
+                                <button class="btn btn-success mt-3 mx-auto" onclick="document.getElementById('p-create-file').click();" type="button">
+                                    Select New Image
+                                </button>
+                            </div>
+
 
                             <script>
                                 function pCreateImgUpdate() {
