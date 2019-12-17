@@ -73,7 +73,7 @@ function displayProjects() {
             }
         } else {
             console.log("Doc !data()");
-            logIn().then(r => location.reload());
+            logIn().then(() => location.reload());
         }
     });
 }
@@ -131,8 +131,6 @@ function deleteProject(id) {
         const users = doc.data()["users"];
 
         if (users != null) { // If there are any users
-            console.log("Iterating over users...");
-
             for (let i = 0; i < users.length; i++) {
                 const userId = users[i]; // Current project
 
