@@ -8,26 +8,78 @@
 
 // Wait for the DOM to load
 document.addEventListener("DOMContentLoaded", () => {
-    firebase.auth().onAuthStateChanged(_user => {
-        if (_user) {
-            user = _user;
-            pageInit();
-        } else {
-            console.log("!_user");
-            logIn().then(() => { // Log in and display the banner.
-                pageInit();
-            });
+
+    firebase.auth().onAuthStateChanged(_user => { // Update page if the authentication state changes
+        if (_user) { // If logged in
+            // Load all the elements on the supervisor page
+            displayProjects(); // Display the projects
+            displaySupervisorBanner(); // Show the login banner ("Logged in as...")
+            initUserModal(); // Set up the user information modal.
         }
     });
 });
 
 /**
- * Initialize the page
+ * Display all a supervisor's projects on screen
  */
-function pageInit() {
-    displayProjects();
-    displaySupervisorBanner();
-    displayUserModal();
+function displayProjects() {
+    document.getElementById("table-body").innerHTML = ""; // Clear out the table
+    let userDoc = db.collection("users").doc(user.uid); // Current supervisor's document
+
+    userDoc.get().then(function (doc) { // Get the user doc
+        const projects = doc.data()["projects"]; // The projects that the supervisor has access to
+
+        if (projects != null) { // If there are any projects
+            console.log("Iterating over projects...");
+
+            for (let i = 0; i < projects.length; i++) {
+                const projectId = projects[i]; // Current project
+
+                db.collection("projects").doc(projectId).get().then(function (doc) {
+                    project = doc.data();
+
+                    document.getElementById("table-body").innerHTML += `
+                <tr>
+                    <td class="align-middle" onclick="$('.collapse` + projectId + `').collapse('toggle')">
+                        <div class="panel-group" id="accordion">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title mb-0">` + project["name"] + `</h5>
+                                </div>
+                                <div class="panel-collapse collapse in collapse` + projectId + `">
+                                    <div class="panel-body">
+                                        <p>` + project["desc"] + `</p>
+            
+                                        <div class="container">
+                                            <img alt="" class="img-fluid p-4" src="` + project["image"] + `">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+            
+                    <td class="align-middle" onclick="$('.collapse` + projectId + `').collapse('toggle')">` + project["users"].length + `</td>
+                    <td class="align-middle" onclick="$('.collapse` + projectId + `').collapse('toggle')">` + project["tasks"].length + `</td>
+                    <td class="align-middle">
+                        <button class="btn btn-danger" onclick="displayProjectModal('` + projectId + `')" type="button">Edit</button>
+                    </td>
+                </tr>`
+                });
+            }
+        } else {
+            console.log("No projects detected.");
+        }
+    });
+}
+
+function initUserModal() {
+    new QRCode(document.getElementById("qr"), {
+        text: user.uid,
+        correctLevel: QRCode.CorrectLevel.H
+    });
+    document.getElementById("qr-text").value = user.uid;
+    document.getElementById("user-email").innerText = user.email;
 }
 
 /**
@@ -81,73 +133,11 @@ function createProject(name, desc, image) {
     }).then(function (docRef) {
         alert("Project \"" + name + "\" created.");
 
-        db.collection("supervisors").doc(user.uid).update({
+        db.collection("users").doc(user.uid).update({
             projects: firebase.firestore.FieldValue.arrayUnion(docRef.id)
         });
 
         displayProjects(); // Update the projects list
         return docRef.id;
-    });
-}
-
-/**
- * Generate project html <tr>
- * @param id
- * @param name
- * @param desc
- * @param image
- * @param user_len
- * @param task_len
- * @returns {string} Generated HTML
- */
-function generateProjectHtml(id, name, desc, image, user_len, task_len) {
-    return `<tr>
-                <td class="align-middle" onclick="$('.collapse` + id + `').collapse('toggle')">
-                    <div class="panel-group" id="accordion">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h5 class="panel-title mb-0">` + name + `</h5>
-                            </div>
-                            <div class="panel-collapse collapse in collapse` + id + `">
-                                <div class="panel-body">
-                                    <p>` + desc + `</p>
-        
-                                    <div class="container">
-                                        <img alt="" class="img-fluid p-4" src="` + image + `">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-        
-                <td class="align-middle" onclick="$('.collapse` + id + `').collapse('toggle')">` + user_len + `</td>
-                <td class="align-middle" onclick="$('.collapse` + id + `').collapse('toggle')">` + task_len + `</td>
-                <td class="align-middle">
-                    <button class="btn btn-danger" onclick="displayProjectModal('` + id + `')" type="button">Edit</button>
-                </td>
-            </tr>`
-}
-
-function displayProjects() {
-
-    document.getElementById("table-body").innerHTML = ""; // Clear out the table
-
-    db.collection("supervisors").doc(user.uid).get().then(function (doc) {
-
-        for (const project_id in doc.data()["projects"]) {
-            const id = doc.data()["projects"][project_id];
-
-            db.collection("projects").doc(id).get().then(function (doc) {
-                document.getElementById("table-body").innerHTML += generateProjectHtml(id,
-                    doc.data()["name"],
-                    doc.data()["desc"],
-                    doc.data()["image"],
-                    doc.data()["users"].length,
-                    doc.data()["tasks"].length);
-            });
-
-            console.log(document.getElementById("table-body").innerHTML)
-        }
     });
 }

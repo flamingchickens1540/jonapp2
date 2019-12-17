@@ -95,16 +95,6 @@ function deleteAccount() {
     }
 }
 
-function displayUserModal() {
-    new QRCode(document.getElementById("qr"), {
-        text: user.uid,
-        correctLevel: QRCode.CorrectLevel.H
-    });
-    document.getElementById("qr-text").value = user.uid;
-    document.getElementById("user-email").innerText = user.email;
-}
-
-
 //
 // /**
 //  * Create a new end user and assign current supervisor to it.
