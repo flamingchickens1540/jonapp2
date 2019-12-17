@@ -1,10 +1,19 @@
-// Wait for the DOM to load. (Where the firebase libs are)
+// supervisor.js supervisor specific functions and frontend triggers for jonapp2
+// Author: Nate Sales
+//
+// This file provides all supervisor specific functions and frontend triggers.
+// It should be loaded after firebase and app.js. It depends on firebase and it's initialization.
+// Additionally, the supervisor must already be authenticated.
+
+
+// Wait for the DOM to load
 document.addEventListener("DOMContentLoaded", () => {
     firebase.auth().onAuthStateChanged(_user => {
         if (_user) {
             user = _user;
             pageInit();
         } else {
+            console.log("!_user");
             logIn().then(() => { // Log in and display the banner.
                 pageInit();
             });
@@ -54,7 +63,6 @@ function deleteProject(id) {
         // });
     }
 }
-
 
 /**
  * Create a new project
@@ -138,6 +146,8 @@ function displayProjects() {
                     doc.data()["users"].length,
                     doc.data()["tasks"].length);
             });
+
+            console.log(document.getElementById("table-body").innerHTML)
         }
     });
 }

@@ -1,13 +1,18 @@
+// app.js primary universal application file for jonapp2
+// Author: Nate Sales
+//
+// This file provides firebase objects as well as universal user account logic, popups, and control flow.
+// It should be loaded after firebase and before all other project JS files and depends on firebase.
+
 let user; // Currently authenticated user (supervisor)
 let db; // Firebase cloud firestore
-let storage; // Firebase GCP Bucket
 
+// Wait for the DOM to load
 document.addEventListener("DOMContentLoaded", () => {
     db = firebase.firestore();
-    storage = firebase.storage();
 
-    if (!firebase.apps.length) {
-        firebase.initializeApp({ // This is all client-side safe.
+    if (!firebase.apps.length) { // If firebase is not already initalized
+        firebase.initializeApp({ // Initialize firebase. (This is all client-side safe)
             apiKey: "AIzaSyDLGdqO7cCBoMWRvUD2Iy8gMVZ-bYUBGbE",
             authDomain: "jonapp-2.firebaseapp.com",
             databaseURL: "https://jonapp-2.firebaseio.com",
@@ -30,23 +35,25 @@ document.addEventListener("DOMContentLoaded", () => {
  * @return {Promise} login popup completion
  */
 function logIn() {
+    // OAuth provider
     const provider = new firebase.auth.GoogleAuthProvider();
 
+    // Return promise of popup completion
     return firebase.auth().signInWithPopup(provider).then(result => {
-        user = result.user;
+        user = result.user; // Update user global
 
-        let userDoc = db.collection("users").doc(user.uid);
+        let userDoc = db.collection("users").doc(user.uid); // The currently authenticating user's doc
 
         console.log("Starting login routine.");
 
-        userDoc.get().then(function (doc) {
-            if (doc.exists) {
+        userDoc.get().then(function (doc) { // Get the document
+            if (doc.exists) { // If the user exists (Is already registered in the database)
                 console.log("User exists");
             } else {
                 console.log("User does not exist");
 
                 userDoc.set({
-                    users: [] // Initialize empty users array so firebase doesn't auto remove it
+                    users: [] // Initialize empty users array so firebase wont auto remove it
                 });
             }
         });
@@ -68,10 +75,11 @@ function cleanLogin(url) {
 }
 
 /**
- * Log out current user
+ * Log out current user and redirect to index
  */
 function logOut() {
     firebase.auth().signOut().then(() => {
+        // Redirect once the operation is complete
         window.location = "/";
     });
 }
@@ -96,12 +104,6 @@ function displayUserModal() {
     document.getElementById("user-email").innerText = user.email;
 }
 
-function copyUserCode() {
-    const copyText = document.getElementById("qr-text");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
-    document.execCommand("copy");
-}
 
 //
 // /**
