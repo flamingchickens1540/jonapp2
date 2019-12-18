@@ -23,6 +23,7 @@
     <script src="/js/vendor/bootstrap.min.js"></script>
     <script src="/js/vendor/qrcode.min.js"></script>
 
+    <script src="/js/utils.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/supervisor.js"></script>
 </head>
@@ -248,24 +249,19 @@
             </div>
             <div class="modal-body">
 
-                <h4>Scan from File:</h4>
+                <h4>Scan QR Code</h4>
                 <input type="file" id="file-selector">
-                <h4 class="pt-3" >Detected QR code: </h4>
-                <span id="file-qr-result">None</span>
 
+                <label for="p-assign-id">User ID</label>
+                <input class="form-control" id="p-assign-id" placeholder="Scan or enter code" type="text">
+
+                <!--suppress JSFileReferences -->
                 <script type="module">
                     import QrScanner from "/js/vendor/qr-scanner.min.js";
 
                     QrScanner.WORKER_PATH = '/js/vendor/qr-scanner-worker.min.js';
                     const fileSelector = document.getElementById('file-selector');
-                    const fileQrResult = document.getElementById('file-qr-result');
-
-                    function setResult(label, result) {
-                        label.textContent = result;
-                        label.style.color = 'teal';
-                        clearTimeout(label.highlightTimeout);
-                        label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
-                    }
+                    const fileQrResult = document.getElementById("p-assign-id");
 
                     fileSelector.addEventListener('change', event => {
                         const file = fileSelector.files[0];
@@ -274,7 +270,7 @@
                         }
 
                         QrScanner.scanImage(file)
-                            .then(result => setResult(fileQrResult, result))
+                            .then(result => fileQrResult.value = result)
                             .catch(e => setResult(fileQrResult, e || 'No QR code found.'));
 
                         document.getElementById("file-selector").value = null;
