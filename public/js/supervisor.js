@@ -210,11 +210,11 @@ function addProjectUser(uid) {
         console.error("Error updating document: ", error);
     });
 
-    db.collection("users").doc(uid).update({
-        projects: firebase.firestore.FieldValue.arrayUnion(pid.value)
-    }).then(function () {
-        console.log('Project ' + pid.value + ' added to user: ' + uid);
-    }).catch(function (error) {
-        console.error("Error adding user to project: ", error);
-    })
+    //db.collection("users").doc(uid).update({
+    //    projects: firebase.firestore.FieldValue.arrayUnion(pid.value)
+    //}).then(function () {
+    //    console.log('Project ' + pid.value + ' added to user: ' + uid);
+    //}).catch(function (error) {
+    //    console.error("Error adding user to project: ", error);
+    //})
 }
