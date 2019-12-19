@@ -1,5 +1,5 @@
 // supervisor.js supervisor specific functions and frontend triggers for jonapp2
-// Author: Nate Sales
+// Authors: Nate Sales and Seth Knights
 //
 // This file provides all supervisor specific functions and frontend triggers.
 // It should be loaded after firebase and app.js. It depends on firebase and it's initialization.
@@ -195,7 +195,7 @@ function updateProject() {
     });
 }
 
-function addProjectUser(uid) {
+function addProjectUser(uid) { // Add user to project from QR code/user code. TODO: Write JS and DB rules to allow users to add projects to other users.
 
     let pid = document.getElementById("p-edit-id");
 
