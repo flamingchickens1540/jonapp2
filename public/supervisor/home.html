@@ -120,7 +120,7 @@
                         <div class="col-6">
                             <img alt="Project Image" class="img-fluid" id="p-create-image" src="/img/camera.png">
 
-                                <input accept="image/*;capture=camera" id="p-create-file" style="display: none;" type="file"/>
+                            <input accept="image/*;capture=camera" id="p-create-file" style="display: none;" type="file"/>
                             <div class="d-flex w-100">
                                 <button class="btn btn-success mt-3 mx-auto" onclick="document.getElementById('p-create-file').click();" type="button">
                                     Select New Image
@@ -153,7 +153,11 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Cancel</button>
-                <button class="btn btn-success" data-dismiss="modal" type="button" onclick="createProject(document.getElementById('p-create-name').value, document.getElementById('p-create-desc').value, document.getElementById('p-create-image').src)">Create Project</button>
+                <button class="btn btn-success" data-dismiss="modal"
+                        onclick="createProject(document.getElementById('p-create-name').value, document.getElementById('p-create-desc').value, document.getElementById('p-create-image').src)"
+                        type="button">Create
+                    Project
+                </button>
             </div>
         </div>
     </div>
@@ -184,7 +188,7 @@
                                 <a class="nav-link" data-toggle="tab" href="#users">Users</a>
                             </li>
                             <li class="nav-item ml-auto">
-                                <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#userAssignModal">Add User</button>
+                                <button class="btn btn-primary" data-dismiss="modal" data-target="#userAssignModal" data-toggle="modal" type="button">Add User</button>
                             </li>
                         </ul>
                         <!-- Nav tab content -->
@@ -199,11 +203,11 @@
                                                 <label for="p-edit-desc">Description</label>
                                                 <textarea class="form-control" id="p-edit-desc" rows="5"></textarea>
 
-                                                <input type="hidden" id="p-edit-id">
+                                                <input id="p-edit-id" type="hidden">
                                             </div>
                                         </div>
                                         <div class="col-6 my-auto">
-                                            <img alt="Project Image" class="img-fluid p-4" src="" id="p-edit-image">
+                                            <img alt="Project Image" class="img-fluid p-4" id="p-edit-image" src="">
                                         </div>
                                     </div>
                                 </div>
@@ -229,7 +233,7 @@
             <div class="modal-footer">
                 <div class="d-flex justify-content-between w-100">
                     <button class="btn btn-danger" data-dismiss="modal" onclick="deleteProject(document.getElementById('p-edit-id').value)" type="button">Delete</button>
-                    <button class="btn btn-success" data-dismiss="modal" type="button" onclick="updateProject()">Save</button>
+                    <button class="btn btn-success" data-dismiss="modal" onclick="updateProject()" type="button">Save</button>
                 </div>
             </div>
         </div>
@@ -248,38 +252,47 @@
             </div>
             <div class="modal-body">
 
-                <h4>Scan from File:</h4>
-                <input type="file" id="file-selector">
-                <h4 class="pt-3" >Detected QR code: </h4>
-                <span id="file-qr-result">None</span>
+                <input id="file-selector" style="display: none;" type="file">
 
+                <div class="input-group">
+                    <span class="input-group-btn pr-1">
+                        <input class="btn btn-primary" onclick="document.getElementById('file-selector').click();" type="button" value="Scan"/>
+                    </span>
+
+                    <label for="new-user-id"></label>
+                    <input class="form-control" id="new-user-id" placeholder="Scan or enter user code" type="text">
+                </div>
+
+
+                <!--suppress JSFileReferences -->
                 <script type="module">
                     import QrScanner from "/js/vendor/qr-scanner.min.js";
 
                     QrScanner.WORKER_PATH = '/js/vendor/qr-scanner-worker.min.js';
-                    const fileSelector = document.getElementById('file-selector');
-                    const fileQrResult = document.getElementById('file-qr-result');
 
-                    function setResult(label, result) {
-                        label.textContent = result;
-                        label.style.color = 'teal';
-                        clearTimeout(label.highlightTimeout);
-                        label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
-                    }
+                    const fileSelector = document.getElementById("file-selector");
+                    const uidBox = document.getElementById("new-user-id");
 
-                    fileSelector.addEventListener('change', event => {
-                        const file = fileSelector.files[0];
-                        if (!file) {
-                            return;
-                        }
+                    // Wait for modal in view
+                    $('#userAssignModal').on("shown.bs.modal", function () {
+                        QrScanner.hasCamera().then(hasCamera => {
+                            fileSelector.addEventListener('change', () => {
+                                const file = fileSelector.files[0];
+                                if (!file) {
+                                    return;
+                                }
 
-                        QrScanner.scanImage(file)
-                            .then(result => setResult(fileQrResult, result))
-                            .catch(e => setResult(fileQrResult, e || 'No QR code found.'));
-
-                        document.getElementById("file-selector").value = null;
+                                QrScanner.scanImage(file).then(result => {
+                                    console.log("Detected qr code: " + result);
+                                    uidBox.value = result;
+                                }).catch(() => {
+                                    console.log("ERROR: No data detected in image");
+                                });
+                            });
+                        });
                     });
                 </script>
+
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Cancel</button>

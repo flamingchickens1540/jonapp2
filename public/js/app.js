@@ -51,10 +51,6 @@ function logIn() {
                 console.log("User exists");
             } else {
                 console.log("User does not exist");
-
-                userDoc.set({
-                    active: true,
-                });
             }
         });
     });

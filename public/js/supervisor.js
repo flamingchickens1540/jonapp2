@@ -113,6 +113,7 @@ function displayProjectModal(id) {
 /**
  * Display supervisor banner
  */
+
 function displaySupervisorBanner() {
     document.getElementById("banner").innerText = "Logged in as " + user.displayName;
 }
