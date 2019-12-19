@@ -194,3 +194,27 @@ function updateProject() {
         displayProjects();
     });
 }
+
+function addProjectUser(uid) {
+
+    let pid = document.getElementById("p-edit-id");
+
+    console.log("Project ID " + pid.value);
+    console.log("User ID " + uid);
+
+    db.collection("projects").doc(pid.value).update({
+        users: firebase.firestore.FieldValue.arrayUnion(uid)
+    }).then(function () {
+        console.log('Project ' + pid.value + ' updated successfully');
+    }).catch(function (error) {
+        console.error("Error updating document: ", error);
+    });
+
+    db.collection("users").doc(uid).update({
+        projects: firebase.firestore.FieldValue.arrayUnion(pid.value)
+    }).then(function () {
+        console.log('Project ' + pid.value + ' added to user: ' + uid);
+    }).catch(function (error) {
+        console.error("Error adding user to project: ", error);
+    })
+}
