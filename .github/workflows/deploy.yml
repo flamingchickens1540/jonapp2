@@ -17,6 +17,8 @@ jobs:
       with:
         node-version: 12.x
     - name: Install NodeJS
-      run: npm install -g firebase-tools
+      run:
+        - npm install -g firebase-tools
+        - npm install -g firebase-functions@latest firebase-admin@latest
     - name: Firebase Deploy
       run: firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}"
