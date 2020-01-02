@@ -127,7 +127,6 @@ function deleteProject(id) {
     // if (confirm('DANGER! Deleting this project will also remove it from all users and supervisors. Are you sure you want to delete this project?')) {
     //     console.log("Deleting project " + id + "...");
     // }
-    //
     db.collection("projects").doc(id).get().then(function (doc) {
         const users = doc.data()["users"];
 
