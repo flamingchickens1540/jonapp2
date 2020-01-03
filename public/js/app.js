@@ -163,7 +163,7 @@ function deleteAccount() {
 //
 // /**
 //  * Get array of users
-//  * @returns {array} Users //TODO
+//  * @returns {array} Users
 //  */
 // function getUsers() {
 //     firebase.auth().onAuthStateChanged(user => {
