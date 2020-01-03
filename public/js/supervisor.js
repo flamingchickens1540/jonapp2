@@ -9,14 +9,14 @@
 // Wait for the DOM to load
 document.addEventListener("DOMContentLoaded", () => {
 
-    firebase.auth().onAuthStateChanged(_user => { // Update page if the authentication state changes
-        if (_user) { // If logged in
-            // Load all the elements on the supervisor page
-            displayProjects(); // Display the projects
-            displaySupervisorBanner(); // Show the login banner ("Logged in as...")
-            initUserModal(); // Set up the user information modal.
-        }
-    });
+    // firebase.auth().onAuthStateChanged(_user => { // Update page if the authentication state changes
+    //     if (user) { // If logged in
+    //         // Load all the elements on the supervisor page
+    //         displayProjects(); // Display the projects
+    //         displaySupervisorBanner(); // Show the login banner ("Logged in as...")
+    //         initUserModal(); // Set up the user information modal.
+    //     }
+    // });
 });
 
 /**
@@ -27,7 +27,7 @@ function displayProjects() {
     let userDoc = db.collection("users").doc(user.uid); // Current supervisor's document
 
     userDoc.get().then(function (doc) { // Get the user doc
-        if (doc.data() && doc.data()["active"]) { // If there is a doc
+        if (doc.data()) { // If there is a doc
             const projects = doc.data()["projects"]; // The projects that the supervisor has access to
 
             if (projects != null) { // If there are any projects
@@ -123,7 +123,6 @@ function displaySupervisorBanner() {
  * @param id ID of project to delete
  */
 function deleteProject(id) {
-
     // if (confirm('DANGER! Deleting this project will also remove it from all users and supervisors. Are you sure you want to delete this project?')) {
     //     console.log("Deleting project " + id + "...");
     // }

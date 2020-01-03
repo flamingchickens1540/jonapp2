@@ -11,7 +11,7 @@ let db; // Firebase cloud firestore
 document.addEventListener("DOMContentLoaded", () => {
     db = firebase.firestore();
 
-    if (!firebase.apps.length) { // If firebase is not already initalized
+    if (!firebase.apps.length) { // If firebase is not already initialized
         firebase.initializeApp({ // Initialize firebase. (This is all client-side safe)
             apiKey: "AIzaSyDLGdqO7cCBoMWRvUD2Iy8gMVZ-bYUBGbE",
             authDomain: "jonapp-2.firebaseapp.com",
@@ -24,9 +24,52 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    firebase.auth().onAuthStateChanged(_user => { // Update user global if the authentication state changes
-        user = _user;
+    firebase.auth().getRedirectResult().then(function (result) {
+
+        if (result.credential) { // If user logged in
+            user = result.user;
+
+            const userDoc = db.collection("users").doc(user.uid);
+
+            userDoc.get().then(function(doc) {
+                if (doc.exists) {
+                    console.log("User already exists.");
+
+                    window.location = "/supervisor/home";
+
+                } else {
+                    console.log("User doesnt exist. Creating user doc.");
+
+                    userDoc.set({
+                        projects: [],
+                        unauth_projects: []
+                    }).catch(function(error) {
+                        console.error(error);
+                    }).then(function() {
+                        console.log("New user created successfully");
+
+                        window.location = "/supervisor/home";
+                    });
+
+                }
+            });
+
+            // return db.collection("users").add({ // Create the user
+            //     name: name,
+            //     supervisors: [user.uid], // With the current supervisor pre-authorized.
+            //     projects: []
+            // }).then(function (docRef) {
+            //     db.collection("supervisors").doc(user.uid).update({
+            //         users: firebase.firestore.FieldValue.arrayUnion(docRef.id)
+            //     });
+            // });
+
+        }
+
+    }).catch(function (error) {
+        console.error("Login error: ", error);
     });
+
 });
 
 
@@ -34,46 +77,28 @@ document.addEventListener("DOMContentLoaded", () => {
  * Trigger login popup and redirect
  * @return {Promise} login popup completion
  */
-function logIn() {
+function login() {
     // OAuth provider
     const provider = new firebase.auth.GoogleAuthProvider();
 
-    // Return promise of popup completion
-    return firebase.auth().signInWithPopup(provider).then(result => {
-        user = result.user; // Update user global
-
-        let userDoc = db.collection("users").doc(user.uid); // The currently authenticating user's doc
-
-        console.log("Starting login routine.");
-
-        userDoc.get().then(function (doc) { // Get the document
-            if (doc.data() && doc.data()["active"]) { // If the user exists (Is already registered in the database)
-                console.log("User exists");
-            } else {
-                console.log("User does not exist");
-            }
-        });
-    });
+    firebase.auth().signInWithRedirect(provider);
 }
 
-/**
- * Log in if not already and redirect.
- * @param url
- */
-function cleanLogin(url) {
-    if (user) {
-        window.location = url;
-    } else {
-        logIn().then(() => {
-            window.location = url;
-        });
-    }
-}
+//
+// /**
+//  * Log in and redirect.
+//  * @param url URL to redirect to
+//  */
+// function loginRedir(url) {
+//     login().then(() => {
+//         window.location = url;
+//     });
+// }
 
 /**
  * Log out current user and redirect to index
  */
-function logOut() {
+function logout() {
     firebase.auth().signOut().then(() => {
         // Redirect once the operation is complete
         window.location = "/";
