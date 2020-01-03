@@ -9,7 +9,6 @@ body {
     height: 100%;
     background-color: #17234E;
     width: 100%;
-    padding-top: navbar-height;
 }
 
 #indexContainer { /*Main centered container for index*/
