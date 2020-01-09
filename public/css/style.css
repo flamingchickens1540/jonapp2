@@ -45,11 +45,19 @@ table {
 
 tbody {
     font-size: 15px;
+
 }
 
 thead {
     font-size: 20px;
+
 }
+
+tr{
+  align-items: center;
+}
+
+
 
 .bg-blue { /*Main background color*/
     background-color: #17234E;
@@ -58,4 +66,3 @@ thead {
 .bg-offwhite { /*White used for some containers*/
     color: #0C0C0D;
 }
-
