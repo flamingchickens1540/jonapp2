@@ -9,7 +9,6 @@ body {
     height: 100%;
     background-color: #17234E;
     width: 100%;
-    padding-top: navbar-height;
 }
 
 #indexContainer { /*Main centered container for index*/
@@ -46,11 +45,19 @@ table {
 
 tbody {
     font-size: 15px;
+
 }
 
 thead {
     font-size: 20px;
+
 }
+
+tr{
+  align-items: center;
+}
+
+
 
 .bg-blue { /*Main background color*/
     background-color: #17234E;
@@ -59,4 +66,3 @@ thead {
 .bg-offwhite { /*White used for some containers*/
     color: #0C0C0D;
 }
-

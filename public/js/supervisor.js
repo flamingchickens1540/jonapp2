@@ -1,5 +1,5 @@
 // supervisor.js supervisor specific functions and frontend triggers for jonapp2
-// Author: Nate Sales
+// Authors: Nate Sales and Seth Knights
 //
 // This file provides all supervisor specific functions and frontend triggers.
 // It should be loaded after firebase and app.js. It depends on firebase and it's initialization.
@@ -9,14 +9,14 @@
 // Wait for the DOM to load
 document.addEventListener("DOMContentLoaded", () => {
 
-    firebase.auth().onAuthStateChanged(_user => { // Update page if the authentication state changes
-        if (_user) { // If logged in
-            // Load all the elements on the supervisor page
-            displayProjects(); // Display the projects
-            displaySupervisorBanner(); // Show the login banner ("Logged in as...")
-            initUserModal(); // Set up the user information modal.
-        }
-    });
+    // firebase.auth().onAuthStateChanged(_user => { // Update page if the authentication state changes
+    //     if (user) { // If logged in
+    //         // Load all the elements on the supervisor page
+    //         displayProjects(); // Display the projects
+    //         displaySupervisorBanner(); // Show the login banner ("Logged in as...")
+    //         initUserModal(); // Set up the user information modal.
+    //     }
+    // });
 });
 
 /**
@@ -27,7 +27,7 @@ function displayProjects() {
     let userDoc = db.collection("users").doc(user.uid); // Current supervisor's document
 
     userDoc.get().then(function (doc) { // Get the user doc
-        if (doc.data() && doc.data()["active"]) { // If there is a doc
+        if (doc.data()) { // If there is a doc
             const projects = doc.data()["projects"]; // The projects that the supervisor has access to
 
             if (projects != null) { // If there are any projects
@@ -113,6 +113,7 @@ function displayProjectModal(id) {
 /**
  * Display supervisor banner
  */
+
 function displaySupervisorBanner() {
     document.getElementById("banner").innerText = "Logged in as " + user.displayName;
 }
@@ -122,11 +123,9 @@ function displaySupervisorBanner() {
  * @param id ID of project to delete
  */
 function deleteProject(id) {
-
     // if (confirm('DANGER! Deleting this project will also remove it from all users and supervisors. Are you sure you want to delete this project?')) {
     //     console.log("Deleting project " + id + "...");
     // }
-    //
     db.collection("projects").doc(id).get().then(function (doc) {
         const users = doc.data()["users"];
 
@@ -192,4 +191,28 @@ function updateProject() {
         alert("Project \"" + name + "\" updated.");
         displayProjects();
     });
+}
+
+function addProjectUser(uid) { // Add user to project from QR code/user code. TODO: Write JS and DB rules to allow users to add projects to other users.
+
+    let pid = document.getElementById("p-edit-id");
+
+    console.log("Project ID " + pid.value);
+    console.log("User ID " + uid);
+
+    db.collection("projects").doc(pid.value).update({
+        users: firebase.firestore.FieldValue.arrayUnion(uid)
+    }).then(function () {
+        console.log('Project ' + pid.value + ' updated successfully');
+    }).catch(function (error) {
+        console.error("Error updating document: ", error);
+    });
+
+    //db.collection("users").doc(uid).update({
+    //    projects: firebase.firestore.FieldValue.arrayUnion(pid.value)
+    //}).then(function () {
+    //    console.log('Project ' + pid.value + ' added to user: ' + uid);
+    //}).catch(function (error) {
+    //    console.error("Error adding user to project: ", error);
+    //})
 }

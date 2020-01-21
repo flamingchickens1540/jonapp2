@@ -18,6 +18,11 @@ service cloud.firestore {
       allow create: if request.auth.uid != null; // Allow user create if logged in.
     }
 
+    match /supervisors/{userId} {
+      allow read, update, delete: if isMe(userId);
+      allow create: if request.auth.uid != null; // Allow user create if logged in.
+    }
+
     match /projects/{projectId} {
       allow read, update, delete: if request.auth.uid in resource.data.users;
       allow create: if request.auth.uid != null; // Allow project create if logged in.
