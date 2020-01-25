@@ -15,7 +15,7 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-COPY . /app
+COPY v2 /app
 
 ENTRYPOINT [ "python" ]
 
