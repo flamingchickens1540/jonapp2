@@ -1,15 +1,20 @@
 import qrcode
+import base64
+from io import BytesIO
 
 
 # https://pypi.org/project/qrcode/
 def qr(data):
-    qr = qrcode.QRCode(
+    _qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_H,
         box_size=10,
         border=4,
     )
-    qr.add_data(data)
-    qr.make(fit=True)
+    _qr.add_data(data)
+    _qr.make(fit=True)
 
-    return qr.make_image(fill_color="black", back_color="white")
+    image = _qr.make_image(fill_color="black", back_color="white")
+    buffer = BytesIO()
+    image.save(buffer, format="JPEG")
+    return "<img src='data:image/png;base64, " + base64.b64encode(buffer.getvalue()).decode() + "'>"

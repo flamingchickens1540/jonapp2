@@ -31,9 +31,6 @@ class JonAppDatabase:
         content = entry.read()
         return "<img src='data:" + content_type + ";base64, " + base64.b64encode(content).decode() + "'>"
 
-    def delete_image(self, string_id):
-        return self._gridfs.delete(ObjectId(string_id))
-
     def add_supervisor(self, name, email):
         if not valid.email(email):
             raise ValueError("Invalid email in add_supervisor")
@@ -72,3 +69,7 @@ class JonAppDatabase:
             })
 
         return json.dumps(tasks_arr)
+
+    # def delete_task(self, string_id):
+    #     image_id = self._users.find_one({'_id': ObjectId(string_id)})["tasks"]
+    # # return self._gridfs.delete(ObjectId(string_id))

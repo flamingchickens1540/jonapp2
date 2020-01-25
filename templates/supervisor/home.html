@@ -1,0 +1,460 @@
+<!-- JonApp2 Supervisor Home HTML -->
+<!-- Authors: Seth Knights and Nate Sales -->
+<!-- This file contains all HTML for the current supervisor home page -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Jon App 2</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <!--  Open Graph Tags  -->
+    <meta content="Jon App 2" property="og:title"/>
+    <meta content="Revolutionizing employment for those with cognitive disabilities." property="og:description"/>
+    <meta content="en_US" property="og:locale"/>
+    <meta content="Jon App 2" property="og:site_name"/>
+    <meta content="https://jonapp.nate.to/" property="og:url"/>
+    <meta content="https://jonapp.nate.to/img/logo.png" property="og:image"/> <!-- TODO -->
+
+    <!--  CSS  -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+
+    <!--  Vendor libraries  -->
+    <script src="/static/js/vendor/jquery-3.4.1.min.js"></script>
+    <script src="/static/js/vendor/bootstrap.min.js"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark text-white fixed-top" id="supervisorNav">
+    <a class="navbar-brand" href="/">Jon App</a>
+    <button class="btn btn-dark my-*-1" onclick="window.location='/logout'" type="button">Logout</button>
+    <!--    TODO: Make this a darker color   -->
+    <span class="nav-link" data-target="#userModal" data-toggle="modal" id="banner">Logged in as {{ user_name }}</span>
+</nav>
+
+<div class="container" id="projectListCont">
+    <div class="col mx-auto">
+        <div class="jumbotron shadow-lg text-center" id="projectListJumbo">
+            <div class="d-flex justify-content-between w-100 overflow-auto mb-2" id="projectListHeader">
+                <button class="btn btn-success m-2 invisible" type="button">Create Project</button>
+                <h1 class="display-6">Projects</h1>
+                <button class="btn btn-success m-2" data-target="#addModal" data-toggle="modal" id="addUserButton"
+                        type="button">Create Project
+                </button>
+            </div>
+            <div id="projectListTable" type="container">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Assigned Users</th>
+                        <th>Tasks</th>
+                        <th></th> <!-- Edit button -->
+                    </tr>
+                    </thead>
+
+                    <tbody id="table-body">
+
+                    <tr>
+                        <td class="align-middle" onclick="$('.collapse_project1').collapse('toggle')">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h5 class="panel-title mb-0">Project Name</h5>
+                                    </div>
+                                    <div class="panel-collapse collapse in collapse_project1">
+                                        <div class="panel-body">
+                                            <p>Project Description</p>
+
+                                            <div class="container">
+                                                <img alt="" class="img-fluid p-4" src="Project Image">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="align-middle" onclick="$('.collapse_project1').collapse('toggle')">1</td>
+                        <td class="align-middle" onclick="$('.collapse_project1').collapse('toggle')">1</td>
+                        <td class="align-middle">
+                            <button class="btn btn-danger" onclick="$('#projectEditModal').modal();" type="button">Edit</button>
+                        </td>
+                    </tr>
+
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  User info (QR) modal  -->
+<div class="modal fade" id="userModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">User Information</h5>
+                <button class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--     TODO: Fix copy thing     -->
+            <div class="modal-body" onclick="this.select();document.execCommand('copy');">
+                <div class="d-flex justify-content-center w-100" id="qr">{{ user_qr }}</div>
+                <br>
+                <label for="qr-text">Tap to copy user code.</label>
+                <input class="form-control" id="qr-text" placeholder="{{ user_id }}" readonly type="text">
+            </div>
+            <div class="modal-footer">
+                <div class="d-flex justify-content-between w-100">
+                    <button class="btn btn-danger" data-dismiss="modal" onclick="window.location='/account/delete';" type="button">Delete account</button>
+                    <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Project create modal -->
+<div class="modal fade" id="addModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Project</h5>
+                <button class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form action="/add/project" enctype="multipart/form-data" method="POST">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="p-create-name">Name</label>
+                                    <input class="form-control" id="p-create-name" type="text">
+
+                                    <label for="p-create-desc">Description</label>
+                                    <textarea class="form-control" id="p-create-desc" rows="7"></textarea>
+
+                                    <input type="hidden" value="{{ project_id }}">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <img alt="" class="img-fluid" id="p-create-image" src="">
+
+                                <input accept="image/*;capture=camera" id="p-create-file" style="display: none;" type="file"/>
+                                <div class="d-flex w-100">
+                                    <button class="btn btn-success mt-3 mx-auto" onclick="document.getElementById('p-create-file').click();" type="button">
+                                        Select New Image
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Cancel</button>
+                <button class="btn btn-success" data-dismiss="modal" type="submit">Create Project</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#p-create-image').attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#p-create-file").change(function () {
+        readURL(this);
+    });
+
+</script>
+
+<!--
+Project;
+edit;
+modal  -->
+< div;
+class
+= "modal fade";
+id = "projectEditModal";
+role = "dialog";
+tabindex = "-1" >
+< div;
+class
+= "modal-dialog modal-dialog-centered" >
+< div;
+class
+= "modal-content" >
+
+<!-- Modal Header -->
+< div;
+class
+= "modal-header" >
+< h4;
+class
+= "modal-title" > Edit;
+Project < /h4>
+< button;
+class
+= "close";
+data - dismiss = "modal";
+type = "button" >;×<
+/button>
+< /div>
+
+<!-- Modal body -->
+< div;
+class
+= "modal-body" >
+< div;
+class
+= "container" >
+< div;
+class
+= "container mt-3" >
+
+<!-- Nav tabs -->
+< ul;
+class
+= "d-flex nav nav-tabs justify-content-between" >
+< li;
+class
+= "nav-item" >
+< a;
+class
+= "nav-link active";
+data - toggle = "tab";
+href = "#info" > Info < /a>
+< /li>
+< li;
+class
+= "nav-item" >
+< a;
+class
+= "nav-link";
+data - toggle = "tab";
+href = "#users" > Users < /a>
+< /li>
+< li;
+class
+= "nav-item ml-auto" >
+< button;
+class
+= "btn btn-primary";
+data - dismiss = "modal";
+data - target = "#userAssignModal";
+data - toggle = "modal";
+type = "button" > Add;
+User < /button>
+< /li>
+< /ul>
+<!-- Nav tab content -->
+< div;
+class
+= "tab-content" >
+< div;
+class
+= "container tab-pane active";
+id = "info" > < br >
+< div;
+class
+= "container" >
+< div;
+class
+= "row" >
+< div;
+class
+= "col-6" >
+< div;
+class
+= "form-group" >
+< label;
+for= "p-edit-name" > Name < /label>
+< input class
+= "form-control";
+id = "p-edit-name";
+type = "text" >
+< label;
+for= "p-edit-desc" > Description < /label>
+< textarea class
+= "form-control";
+id = "p-edit-desc";
+rows = "5" > < /textarea>
+
+< input;
+id = "p-edit-id";
+type = "hidden" >
+< /div>
+< /div>
+< div;
+class
+= "col-6 my-auto" >
+< img;
+alt = "Project Image";
+class
+= "img-fluid p-4";
+id = "p-edit-image";
+src = "" >
+< /div>
+< /div>
+< /div>
+< /div>
+< div;
+class
+= "container tab-pane fade";
+id = "users" > < br >
+< table;
+class
+= "table table-hover" >
+< tbody >
+< tr >
+< td;
+class
+= "align-middle" > Jon < /td>
+< td >
+< button;
+class
+= "btn btn-danger float-right";
+onclick = "confirm('Are you sure you want to remove this user from your project?')";
+type = "button" > Delete < /button>
+< /td>
+< /tr>
+< /tbody>
+< /table>
+< /div>
+< /div>
+< /div>
+< /div>
+< /div>
+
+<!-- Modal footer -->
+< div;
+class
+= "modal-footer" >
+< div;
+class
+= "d-flex justify-content-between w-100" >
+< button;
+class
+= "btn btn-danger";
+data - dismiss = "modal";
+onclick = "deleteProject(document.getElementById('p-edit-id').value)";
+type = "button" > Delete < /button>
+< button;
+class
+= "btn btn-success";
+data - dismiss = "modal";
+onclick = "updateProject()";
+type = "button" > Save < /button>
+< /div>
+< /div>
+< /div>
+< /div>
+< /div>
+
+<!-- Assign user to project modal -->
+< div;
+class
+= "modal fade";
+id = "userAssignModal";
+role = "dialog";
+tabindex = "-1" >
+< div;
+class
+= "modal-dialog modal-dialog-centered";
+role = "document" >
+< div;
+class
+= "modal-content" >
+< div;
+class
+= "modal-header" >
+< h5;
+class
+= "modal-title" > Add;
+Project;
+User < /h5>
+< button;
+class
+= "close";
+data - dismiss = "modal";
+type = "button" >
+< span;
+aria - hidden = "true" > & times;
+<
+/span>
+< /button>
+< /div>
+< div;
+class
+= "modal-body" >
+
+< input;
+id = "file-selector";
+style = "display: none;";
+type = "file" >
+
+< div;
+class
+= "input-group" >
+< span;
+class
+= "input-group-btn pr-1" >
+< input;
+class
+= "btn btn-primary";
+onclick = "document.getElementById('file-selector').click();";
+type = "button";
+value = "Scan" / >
+< /span>
+
+< label;
+for= "new-user-id" > < /label>
+< input class
+= "form-control";
+id = "new-user-id";
+placeholder = "Scan or enter user code";
+type = "text" >
+< /div>
+
+< /div>
+< div;
+class
+= "modal-footer" >
+< button;
+class
+= "btn btn-outline-primary";
+data - dismiss = "modal";
+type = "button" > Cancel < /button>
+< button;
+class
+= "btn btn-success";
+data - dismiss = "modal";
+onclick = "addProjectUser(document.getElementById('new-user-id').value)";
+type = "button" > Add;
+user < /button>
+< /div>
+< /div>
+< /div>
+< /div>
+
+< /body>;

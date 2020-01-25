@@ -1,45 +1,39 @@
 #!/usr/bin/python3
 # main.py
 
-from bson import ObjectId
 from flask import (
     Flask,
     request,
-    render_template
+    render_template,
+    Markup
 )
 
+from utils import qr
 from database import JonAppDatabase
 
 HOST = "127.0.0.1"
 PORT = 5001
-GLOBALURI = "http://" + HOST + ":" + str(PORT)  # No trailing '/'
 PRODUCTION = False
 VERSION = "0.1"
 
 SUCCESS = "Operation completed successfully."
 
-app = Flask(__name__, template_folder="templates/", static_folder="static/")
+app = Flask(__name__)
 database = JonAppDatabase("mongodb://10.255.70.10:5000/")
 
 
-@app.route("/ui/add/supervisor")
-def ui_add_supervisor():
-    return render_template("add_supervisor.html", GLOBALURI=GLOBALURI)
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 
-@app.route("/ui/add/user")
-def ui_add_user():
-    return render_template("add_user.html", GLOBALURI=GLOBALURI)
-
-
-@app.route("/ui/add/task")
-def ui_add_task():
-    return render_template("add_task.html", GLOBALURI=GLOBALURI)
-
-
-@app.route("/ui/get/tasks")
-def ui_get_tasks():
-    return render_template("get_tasks.html", GLOBALURI=GLOBALURI)
+@app.route("/supervisor/home")
+def supervisor_home():
+    return render_template("supervisor/home.html", user_name="Nate Sales",
+                           user_id="5e2cbf1c3246741b67f9201a",
+                           user_email="nate@nate.to",
+                           user_qr=Markup(qr("test"))
+                           )
 
 
 @app.route("/add/supervisor", methods=["POST"])
@@ -62,10 +56,10 @@ def add_user():
 def add_task():
     user = request.form["user"]
     name = request.form["name"]
-    desc = request.form["desc"]
+    description = request.form["description"]
     image = request.files["image"]
 
-    database.add_task(user, name, desc, image)
+    database.add_task(user, name, description, image)
     return SUCCESS
 
 
@@ -73,7 +67,7 @@ def add_task():
 def get_tasks():
     user = request.form["user"]
 
-    return str(database.get_tasks(user))
+    return database.get_tasks(user)
 
 
 app.run(host=HOST, port=PORT, debug=not PRODUCTION)

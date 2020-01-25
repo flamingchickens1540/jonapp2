@@ -1,0 +1,37 @@
+<html lang="en">
+
+<p>/add/supervisor</p>
+<form action="/add/supervisor" method="POST">
+    Name: <input name="name" type="text"><br>
+    Email: <input name="email" type="text"><br>
+    <input type="submit"><br>
+</form>
+<br><br>
+
+<p>/add/user</p>
+<form action="/add/user" method="POST">
+    Name: <input name="name" type="text"><br>
+    Supervisor: <input name="supervisor" type="text"><br>
+    <input type="submit"><br>
+</form>
+<br><br>
+
+<p>/add/task</p>
+<form action="/add/task" enctype="multipart/form-data" method="POST">
+    User: <input name="user" type="text"><br>
+    Name: <input name="name" type="text"><br>
+    Description: <input name="description" type="text"><br>
+    Image: <input name="image" type="file"><br>
+    <input type="submit"><br>
+</form>
+<br><br>
+
+<p>/get/tasks/{user}</p>
+<form action="/get/tasks" method="POST">
+    User: <input name="user" type="text"><br>
+    <input type="submit"><br>
+</form>
+<br><br>
+
+</html>
+
