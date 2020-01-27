@@ -37,7 +37,7 @@
 <div class="container" id="projectListCont">
     <div class="col mx-auto">
         <div class="jumbotron shadow-lg text-center" id="projectListJumbo">
-            <div class="d-flex justify-content-between w-100 overflow-auto mb-2" id="projectListHeader">
+            <div class="d-flex justify-content-between w-100 overflow-auto mb-4" id="projectListHeader">
                 <button class="btn btn-success m-2 invisible" type="button">Create Project</button>
                 <h1 class="display-6">Projects</h1>
                 <button class="btn btn-success m-2" data-target="#addModal" data-toggle="modal" id="addUserButton"
@@ -80,7 +80,9 @@
                         <td class="align-middle" onclick="$('.collapse_project1').collapse('toggle')">1</td>
                         <td class="align-middle" onclick="$('.collapse_project1').collapse('toggle')">1</td>
                         <td class="align-middle">
-                            <button class="btn btn-danger" onclick="$('#projectEditModal').modal();" type="button">Edit</button>
+                            <button class="btn btn-danger" onclick="$('#projectEditModal').modal();" type="button">
+                                Edit
+                            </button>
                         </td>
                     </tr>
 
@@ -112,7 +114,9 @@
             </div>
             <div class="modal-footer">
                 <div class="d-flex justify-content-between w-100">
-                    <button class="btn btn-danger" data-dismiss="modal" onclick="window.location='/account/delete';" type="button">Delete account</button>
+                    <button class="btn btn-danger" data-dismiss="modal" onclick="window.location='/account/delete';"
+                            type="button">Delete account
+                    </button>
                     <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Close</button>
                 </div>
             </div>
@@ -148,9 +152,11 @@
                             <div class="col-6">
                                 <img alt="" class="img-fluid" id="p-create-image" src="">
 
-                                <input accept="image/*;capture=camera" id="p-create-file" style="display: none;" type="file"/>
+                                <input accept="image/*;capture=camera" id="p-create-file" style="display: none;"
+                                       type="file"/>
                                 <div class="d-flex w-100">
-                                    <button class="btn btn-success mt-3 mx-auto" onclick="document.getElementById('p-create-file').click();" type="button">
+                                    <button class="btn btn-success mt-3 mx-auto"
+                                            onclick="document.getElementById('p-create-file').click();" type="button">
                                         Select New Image
                                     </button>
                                 </div>
@@ -188,273 +194,211 @@
 
 </script>
 
-<!--
-Project;
-edit;
-modal  -->
-< div;
-class
-= "modal fade";
-id = "projectEditModal";
-role = "dialog";
-tabindex = "-1" >
-< div;
-class
-= "modal-dialog modal-dialog-centered" >
-< div;
-class
-= "modal-content" >
+<!-- Project create modal -->
+<div class="modal fade" id="addModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Project</h5>
+                <button class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="p-create-name">Name</label>
+                                <input class="form-control" id="p-create-name" type="text">
 
-<!-- Modal Header -->
-< div;
-class
-= "modal-header" >
-< h4;
-class
-= "modal-title" > Edit;
-Project < /h4>
-< button;
-class
-= "close";
-data - dismiss = "modal";
-type = "button" >;×<
-/button>
-< /div>
+                                <label for="p-create-desc">Description</label>
+                                <textarea class="form-control" id="p-create-desc" rows="7"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <img alt="Project Image" class="img-fluid" id="p-create-image" src="/img/camera.png">
 
-<!-- Modal body -->
-< div;
-class
-= "modal-body" >
-< div;
-class
-= "container" >
-< div;
-class
-= "container mt-3" >
+                            <input accept="image/*;capture=camera" id="p-create-file" style="display: none;" type="file"/>
+                            <div class="d-flex w-100">
+                                <button class="btn btn-success mt-3 mx-auto" onclick="document.getElementById('p-create-file').click();" type="button">
+                                    Select New Image
+                                </button>
+                            </div>
 
-<!-- Nav tabs -->
-< ul;
-class
-= "d-flex nav nav-tabs justify-content-between" >
-< li;
-class
-= "nav-item" >
-< a;
-class
-= "nav-link active";
-data - toggle = "tab";
-href = "#info" > Info < /a>
-< /li>
-< li;
-class
-= "nav-item" >
-< a;
-class
-= "nav-link";
-data - toggle = "tab";
-href = "#users" > Users < /a>
-< /li>
-< li;
-class
-= "nav-item ml-auto" >
-< button;
-class
-= "btn btn-primary";
-data - dismiss = "modal";
-data - target = "#userAssignModal";
-data - toggle = "modal";
-type = "button" > Add;
-User < /button>
-< /li>
-< /ul>
-<!-- Nav tab content -->
-< div;
-class
-= "tab-content" >
-< div;
-class
-= "container tab-pane active";
-id = "info" > < br >
-< div;
-class
-= "container" >
-< div;
-class
-= "row" >
-< div;
-class
-= "col-6" >
-< div;
-class
-= "form-group" >
-< label;
-for= "p-edit-name" > Name < /label>
-< input class
-= "form-control";
-id = "p-edit-name";
-type = "text" >
-< label;
-for= "p-edit-desc" > Description < /label>
-< textarea class
-= "form-control";
-id = "p-edit-desc";
-rows = "5" > < /textarea>
 
-< input;
-id = "p-edit-id";
-type = "hidden" >
-< /div>
-< /div>
-< div;
-class
-= "col-6 my-auto" >
-< img;
-alt = "Project Image";
-class
-= "img-fluid p-4";
-id = "p-edit-image";
-src = "" >
-< /div>
-< /div>
-< /div>
-< /div>
-< div;
-class
-= "container tab-pane fade";
-id = "users" > < br >
-< table;
-class
-= "table table-hover" >
-< tbody >
-< tr >
-< td;
-class
-= "align-middle" > Jon < /td>
-< td >
-< button;
-class
-= "btn btn-danger float-right";
-onclick = "confirm('Are you sure you want to remove this user from your project?')";
-type = "button" > Delete < /button>
-< /td>
-< /tr>
-< /tbody>
-< /table>
-< /div>
-< /div>
-< /div>
-< /div>
-< /div>
+                            <script>
+                                function pCreateImgUpdate() {
+                                    if (this.files && this.files[0]) {
+                                        const FR = new FileReader();
 
-<!-- Modal footer -->
-< div;
-class
-= "modal-footer" >
-< div;
-class
-= "d-flex justify-content-between w-100" >
-< button;
-class
-= "btn btn-danger";
-data - dismiss = "modal";
-onclick = "deleteProject(document.getElementById('p-edit-id').value)";
-type = "button" > Delete < /button>
-< button;
-class
-= "btn btn-success";
-data - dismiss = "modal";
-onclick = "updateProject()";
-type = "button" > Save < /button>
-< /div>
-< /div>
-< /div>
-< /div>
-< /div>
+                                        FR.addEventListener("load", function (e) {
+                                            document.getElementById("p-create-image").src = e.target.result; // e.target.result is the b64
+                                        });
+
+                                        FR.readAsDataURL(this.files[0]);
+                                    } else {
+                                        alert("Error uploading image.");
+                                        throw new Error("Error uploading image."); // TODO: make this work with sentry without breaking things
+                                    }
+                                }
+
+                                document.getElementById("p-create-file").addEventListener("change", pCreateImgUpdate);
+                            </script>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Cancel</button>
+                <button class="btn btn-success" data-dismiss="modal"
+                        onclick="createProject(document.getElementById('p-create-name').value, document.getElementById('p-create-desc').value, document.getElementById('p-create-image').src)"
+                        type="button">Create
+                    Project
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Project edit modal  -->
+<div class="modal fade" id="projectEditModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Project</h4>
+                <button class="close" data-dismiss="modal" type="button">×</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <div class="container mt-3">
+
+                        <!-- Nav tabs -->
+                        <ul class="d-flex nav nav-tabs justify-content-between">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#info">Info</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#users">Users</a>
+                            </li>
+                            <li class="nav-item ml-auto">
+                                <button class="btn btn-primary" data-dismiss="modal" data-target="#userAssignModal" data-toggle="modal" type="button">Add User</button>
+                            </li>
+                        </ul>
+                        <!-- Nav tab content -->
+                        <div class="tab-content">
+                            <div class="container tab-pane active" id="info"><br>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="p-edit-name">Name</label>
+                                                <input class="form-control" id="p-edit-name" type="text">
+                                                <label for="p-edit-desc">Description</label>
+                                                <textarea class="form-control" id="p-edit-desc" rows="5"></textarea>
+
+                                                <input id="p-edit-id" type="hidden">
+                                            </div>
+                                        </div>
+                                        <div class="col-6 my-auto">
+                                            <img alt="Project Image" class="img-fluid p-4" id="p-edit-image" src="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container tab-pane fade" id="users"><br>
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <td class="align-middle">Jon</td>
+                                        <td>
+                                            <button class="btn btn-danger float-right" onclick="confirm('Are you sure you want to remove this user from your project?')" type="button">Delete</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <div class="d-flex justify-content-between w-100">
+                    <button class="btn btn-danger" data-dismiss="modal" onclick="deleteProject(document.getElementById('p-edit-id').value)" type="button">Delete</button>
+                    <button class="btn btn-success" data-dismiss="modal" onclick="updateProject()" type="button">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Assign user to project modal -->
-< div;
-class
-= "modal fade";
-id = "userAssignModal";
-role = "dialog";
-tabindex = "-1" >
-< div;
-class
-= "modal-dialog modal-dialog-centered";
-role = "document" >
-< div;
-class
-= "modal-content" >
-< div;
-class
-= "modal-header" >
-< h5;
-class
-= "modal-title" > Add;
-Project;
-User < /h5>
-< button;
-class
-= "close";
-data - dismiss = "modal";
-type = "button" >
-< span;
-aria - hidden = "true" > & times;
-<
-/span>
-< /button>
-< /div>
-< div;
-class
-= "modal-body" >
+<div class="modal fade" id="userAssignModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Project User</h5>
+                <button class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
 
-< input;
-id = "file-selector";
-style = "display: none;";
-type = "file" >
+                <input id="file-selector" style="display: none;" type="file">
 
-< div;
-class
-= "input-group" >
-< span;
-class
-= "input-group-btn pr-1" >
-< input;
-class
-= "btn btn-primary";
-onclick = "document.getElementById('file-selector').click();";
-type = "button";
-value = "Scan" / >
-< /span>
+                <div class="input-group">
+                    <span class="input-group-btn pr-1">
+                        <input class="btn btn-primary" onclick="document.getElementById('file-selector').click();" type="button" value="Scan"/>
+                    </span>
 
-< label;
-for= "new-user-id" > < /label>
-< input class
-= "form-control";
-id = "new-user-id";
-placeholder = "Scan or enter user code";
-type = "text" >
-< /div>
+                    <label for="new-user-id"></label>
+                    <input class="form-control" id="new-user-id" placeholder="Scan or enter user code" type="text">
+                </div>
 
-< /div>
-< div;
-class
-= "modal-footer" >
-< button;
-class
-= "btn btn-outline-primary";
-data - dismiss = "modal";
-type = "button" > Cancel < /button>
-< button;
-class
-= "btn btn-success";
-data - dismiss = "modal";
-onclick = "addProjectUser(document.getElementById('new-user-id').value)";
-type = "button" > Add;
-user < /button>
-< /div>
-< /div>
-< /div>
-< /div>
 
-< /body>;
+                <!--suppress JSFileReferences -->
+                <script type="module">
+                    import QrScanner from "/js/vendor/qr-scanner.min.js";
+
+                    QrScanner.WORKER_PATH = '/js/vendor/qr-scanner-worker.min.js';
+
+                    const fileSelector = document.getElementById("file-selector");
+                    const uidBox = document.getElementById("new-user-id");
+
+                    // Wait for modal in view
+                    $('#userAssignModal').on("shown.bs.modal", function () {
+                        QrScanner.hasCamera().then(hasCamera => {
+                            fileSelector.addEventListener('change', () => {
+                                const file = fileSelector.files[0];
+                                if (!file) {
+                                    return;
+                                }
+
+                                QrScanner.scanImage(file).then(result => {
+                                    console.log("Detected qr code: " + result);
+                                    uidBox.value = result;
+                                }).catch(() => {
+                                    console.log("ERROR: No data detected in image");
+                                });
+                            });
+                        });
+                    });
+                </script>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Cancel</button>
+                <button class="btn btn-success" data-dismiss="modal" type="button" onclick="addProjectUser(document.getElementById('new-user-id').value)">Add user</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>

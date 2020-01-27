@@ -1,0 +1,74 @@
+<!-- JonApp2 Supervisor Project Tasks HTML -->
+<!-- Authors: Seth Knights and Nate Sales -->
+<!-- This file contains all HTML for the current supervisor task page -->
+
+<!DOCTYPE html>
+<!--suppress JSUnresolvedLibraryURL, HtmlUnknownTarget -->
+<html lang="en">
+<head>
+    <title>Jon App 2</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <!--  Open Graph Tags  -->
+    <meta property="og:title" content="Jon App 2" />
+    <meta property="og:description" content="Revolutionizing employment for those with cognitive disabilities." />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Jon App 2" />
+    <meta property="og:url" content="https://jonapp.nate.to/" />
+    <meta property="og:image" content="https://jonapp.nate.to/img/logo.png" /> <!-- TODO -->
+
+    <!--  CSS  -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!--  Vendor libraries  -->
+    <script src="/js/vendor/jquery-3.4.1.min.js"></script>
+    <script src="/js/vendor/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark text-white fixed-top" id="supervisorNav">
+    <a class="navbar-brand" href="/">Jon App</a>
+    <button class="btn btn-dark my-*-1" type="button">Projects</button>
+    <button class="btn btn-dark my-*-1" onclick="logOut()" type="button">Logout</button>
+
+    <ul class="navbar-nav text-right">
+        <li>
+            <span class="nav-link" data-target="#userModal" data-toggle="modal" id="banner"></span>
+        </li>
+    </ul>
+</nav>
+
+<div class="container" id="projectListCont">
+    <div class="col mx-auto">
+        <div class="jumbotron shadow-lg text-center" id="projectListJumbo">
+            <div class="d-flex justify-content-between w-100 overflow-auto mb-2" id="projectListHeader">
+                <button class="btn btn-success m-2 invisible" type="button">Create Task</button>
+                <h1 class="display-6 mb-2">'ProjectID' 's Tasks:</h1>
+                <button class="btn btn-success m-2" data-target="#addModal" data-toggle="modal" id="addUserButton"
+                        type="button">Create Task
+                </button>
+            </div>
+            <div id="projectListTable" type="container">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Assigned Users</th>
+                        <th>Tasks</th>
+                        <th></th> <!-- Edit button -->
+                    </tr>
+                    </thead>
+
+                    <tbody id="table-body"></tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
