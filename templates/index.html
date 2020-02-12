@@ -16,9 +16,17 @@
 </form>
 <br><br>
 
+<p>/add/project</p>
+<form action="/add/project" method="POST">
+    Name: <input name="name" type="text"><br>
+    Description: <input name="description" type="text"><br>
+    <input type="submit"><br>
+</form>
+<br><br>
+
 <p>/add/task</p>
 <form action="/add/task" enctype="multipart/form-data" method="POST">
-    User: <input name="user" type="text"><br>
+    Project: <input name="project" type="text"><br>
     Name: <input name="name" type="text"><br>
     Description: <input name="description" type="text"><br>
     Image: <input name="image" type="file"><br>
