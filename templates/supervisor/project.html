@@ -29,16 +29,10 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark text-white fixed-top" id="supervisorNav">
-    <a class="navbar-brand" href="/">Jon App</a>
-    <button class="btn btn-dark my-*-1" type="button">Projects</button>
-    <button class="btn btn-dark my-*-1" onclick="window.location='/logout'" type="button">Logout</button>
-
-    <ul class="navbar-nav text-right">
-        <li>
-            <span class="nav-link" data-target="#userModal" data-toggle="modal" id="banner"></span>
-        </li>
-    </ul>
+<nav class="navbar navbar-expand-sm fixed-top pb-3 pt-3" id="supervisorNav">
+    <button class="btn" href="/" id="navBrand">Jon App</button>
+    <button class="btn ml-4 my-*-1" onclick="window.location='/logout'" type="button" id="logoutButton">Logout</button>
+    <button class="btn ml-4" data-target="#userModal" data-toggle="modal" id="banner">Logged in as {{ user_name }}</button>
 </nav>
 
 <div class="container" id="projectListCont">

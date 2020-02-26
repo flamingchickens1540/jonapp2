@@ -27,30 +27,30 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark text-white fixed-top" id="supervisorNav">
-    <a class="navbar-brand" href="/">Jon App</a>
-    <button class="btn btn-dark my-*-1" onclick="window.location='/logout'" type="button">Logout</button>
+<nav class="navbar navbar-expand-sm fixed-top pb-3 pt-3" id="supervisorNav">
+    <button class="btn" href="/" id="navBrand">Jon App</button>
+    <button class="btn ml-4 my-*-1" onclick="window.location='/logout'" type="button" id="logoutButton">Logout</button>
     <!--    TODO: Make this a darker color   -->
-    <span class="nav-link" data-target="#userModal" data-toggle="modal" id="banner">Logged in as {{ user_name }}</span>
+    <button class="btn ml-4" data-target="#userModal" data-toggle="modal" id="banner">Logged in as {{ user_name }}</button>
 </nav>
 
 <div class="container" id="projectListCont">
     <div class="col mx-auto">
-        <div class="jumbotron shadow-lg text-center" id="projectListJumbo">
-            <div class="d-flex justify-content-between w-100 overflow-auto mb-4" id="projectListHeader">
-                <button class="btn btn-success m-2 invisible" type="button">Create Project</button>
+        <div class="jumbotron text-center" id="projectListJumbo">
+            <div class="d-flex justify-content-between w-100 overflow-auto mb-4 align-items-center" id="projectListHeader">
+                <button class="btn btn-success my-4 ml-5 invisible" type="button">Create Project</button>
                 <h1 class="display-6">Projects</h1>
-                <button class="btn btn-success m-2" data-target="#addModal" data-toggle="modal" id="addUserButton"
+                <button class="btn m-2 mr-5" data-target="#addModal" data-toggle="modal" id="addUserButton"
                         type="button">Create Project
                 </button>
             </div>
             <div id="projectListTable" type="container">
-                <table class="table table-hover">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th>Name</th>
-                        <th>Assigned Users</th>
-                        <th>Tasks</th>
+                <table class="table">
+                    <thead class="thead">
+                    <tr class>
+                        <th><button class="btn" id="headerButtons">Name</button></th>
+                        <th><button class="btn" id="headerButtons">Assigned Users</button></th>
+                        <th><button class="btn" id="headerButtons">Tasks</button></th>
                         <th></th> <!-- Edit button -->
                     </tr>
                     </thead>
@@ -79,8 +79,8 @@
 
                         <td class="align-middle" onclick="$('.collapse_project1').collapse('toggle')">1</td>
                         <td class="align-middle" onclick="$('.collapse_project1').collapse('toggle')">1</td>
-                        <td class="align-middle">
-                            <button class="btn btn-danger" onclick="$('#projectEditModal').modal();" type="button">
+                        <td class="align-middle pt-3">
+                            <button class="btn" id="editModalButton" onclick="$('#projectEditModal').modal();" type="button">
                                 Edit
                             </button>
                         </td>
@@ -155,7 +155,7 @@
                                 <input accept="image/*;capture=camera" id="p-create-file" style="display: none;"
                                        type="file"/>
                                 <div class="d-flex w-100">
-                                    <button class="btn btn-success mt-3 mx-auto"
+                                    <button class="btn mt-3 mx-auto neo"
                                             onclick="document.getElementById('p-create-file').click();" type="button">
                                         Select New Image
                                     </button>
@@ -168,7 +168,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Cancel</button>
-                <button class="btn btn-success" data-dismiss="modal" type="submit">Create Project</button>
+                <button class="btn neo" data-dismiss="modal" type="submit">Create Project</button>
             </div>
         </div>
     </div>
@@ -221,7 +221,7 @@
 
                             <input accept="image/*;capture=camera" id="p-create-file" style="display: none;" type="file"/>
                             <div class="d-flex w-100">
-                                <button class="btn btn-success mt-3 mx-auto" onclick="document.getElementById('p-create-file').click();" type="button">
+                                <button class="btn mt-3 mx-auto neo" onclick="document.getElementById('p-create-file').click();" type="button">
                                     Select New Image
                                 </button>
                             </div>
@@ -252,7 +252,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline-primary" data-dismiss="modal" type="button">Cancel</button>
-                <button class="btn btn-success" data-dismiss="modal"
+                <button class="btn neo" data-dismiss="modal" id="modalCloseBut"
                         onclick="createProject(document.getElementById('p-create-name').value, document.getElementById('p-create-desc').value, document.getElementById('p-create-image').src)"
                         type="button">Create
                     Project

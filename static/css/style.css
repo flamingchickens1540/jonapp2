@@ -1,14 +1,51 @@
 html {
     height: 100%;
-    background-color: #17234E;
+    background: #E0E5EC;
     width: 100%;
     padding-top: 100px;
 }
 
 body {
     height: 100%;
-    background-color: #17234E;
+    background: #E0E5EC;
     width: 100%;
+}
+
+nav {
+    background: #E0E5EC;
+    border-radius: 4px;
+    box-shadow:
+            #E0E5EC 0px 0px 2px 2px,
+            #A3B1C6 4px 4px 8px,
+            #FFFFFF -4px -4px 8px;
+}
+
+#navBrand {
+    background: #E0E5EC;
+    font-size: 125%;
+    border-radius: 4px;
+    box-shadow:
+            #E0E5EC 0px 0px 2px 2px,
+            #A3B1C6 4px 4px 8px,
+            #FFFFFF -4px -4px 8px;
+}
+
+#banner {
+    background: #E0E5EC;
+    border-radius: 4px;
+    box-shadow:
+            #E0E5EC 0px 0px 2px 2px,
+            #A3B1C6 4px 4px 8px,
+            #FFFFFF -4px -4px 8px;
+}
+
+#logoutButton {
+    background: #E0E5EC;
+    border-radius: 4px;
+    box-shadow:
+            #E0E5EC 0px 0px 2px 2px,
+            #A3B1C6 4px 4px 8px,
+            #FFFFFF -4px -4px 8px;
 }
 
 #indexContainer { /*Main centered container for index*/
@@ -18,13 +55,95 @@ body {
     align-items: center;
 }
 
-#projectListCont {
-
+#headerButtons {
+    background: #E0E5EC;
+    border-radius: 4px;
+    box-shadow:
+            #E0E5EC 0px 0px 2px 2px,
+            #A3B1C6 4px 4px 8px,
+            #FFFFFF -4px -4px 8px;
 }
 
-#projectListJumbo {
+button.neo {
+    background: #E0E5EC;
+    border-radius: 4px;
+    box-shadow:
+            #E0E5EC 0px 0px 2px 2px,
+            #A3B1C6 4px 4px 8px,
+            #FFFFFF -4px -4px 8px;
+}
+
+div.container {
+    background: #E0E5EC;
+}
+
+div.jumbotron {
     height: 200%;
     width: 100%;
+    background: #E0E5EC;
+    border-radius: 4px;
+}
+div.modal {
+    background: #E0E5EC;
+}
+div.modal-body {
+    background: #E0E5EC;
+    border-radius: 4px;
+    box-shadow:
+            #E0E5EC 0px 0px 2px 2px,
+            #A3B1C6 4px 4px 8px,
+            #FFFFFF -4px -4px 8px;
+}
+
+div.modal-header,
+div.modal-footer {
+    background: #E0E5EC;
+}
+
+.modal-content  {
+    border-width: 0px;
+    outline: none;
+    -webkit-border-radius: 0px;
+    box-shadow:
+            #E0E5EC 0px 0px 2px 2px,
+            #A3B1C6 4px 4px 8px,
+            #FFFFFF -4px -4px 8px;
+}
+
+#addUserButton:hover {
+    background: #E0E5EC;
+    border-radius: 4px;
+    box-shadow:
+            #E0E5EC 0px 0px 2px 2px,
+            #FFFFFF 4px 4px 8px,
+            #A3B1C6 -4px -4px 8px;
+}
+
+#editModalButton {
+    background: #E0E5EC;
+    border-radius: 4px;
+    box-shadow:
+            #E0E5EC 0px 0px 2px 2px,
+            #A3B1C6 4px 4px 8px,
+            #FFFFFF -4px -4px 8px;
+}
+
+#addUserButton {
+    background: #E0E5EC;
+    border-radius: 4px;
+    box-shadow:
+            #E0E5EC 0px 0px 2px 2px,
+            #A3B1C6 4px 4px 8px,
+            #FFFFFF -4px -4px 8px;
+}
+
+#projectListHeader {
+    background: #E0E5EC;
+    border-radius: 4px;
+    box-shadow:
+            #E0E5EC 0px 0px 2px 2px,
+            #A3B1C6 4px 4px 8px,
+            #FFFFFF -4px -4px 8px;
 }
 
 #projectListTable {
@@ -32,6 +151,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+table:hover {
+    background: #d9dfe8;
+}
+
+.mr-6 {
+    margin-right: 4rem;
 }
 
 table {
@@ -47,19 +174,15 @@ tbody {
 
 thead {
     font-size: 20px;
+    background: #E0E5EC;
+    border-radius: 4px;
+    box-shadow:
+            #E0E5EC 0px 0px 2px 2px,
+            #A3B1C6 4px 4px 8px,
+            #FFFFFF -4px -4px 8px;
 
 }
 
 tr{
   align-items: center;
-}
-
-
-
-.bg-blue { /*Main background color*/
-    background-color: #17234E;
-}
-
-.bg-offwhite { /*White used for some containers*/
-    color: #0C0C0D;
 }
