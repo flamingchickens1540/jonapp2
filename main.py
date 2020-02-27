@@ -29,7 +29,7 @@ def index():
 
 
 @app.route("/status")
-def index():
+def status():
     return time.strftime("Started at %-I:%M:%S %P")
 
 # <supervisor>
