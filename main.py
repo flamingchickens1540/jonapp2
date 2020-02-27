@@ -10,6 +10,7 @@ from flask import (
 
 from database import JonAppDatabase
 from utils import qr
+import time
 
 HOST = "127.0.0.1"
 PORT = 5001
@@ -26,6 +27,10 @@ database = JonAppDatabase("mongodb://10.255.70.10:5000/")
 def index():
     return render_template("index.html")
 
+
+@app.route("/status")
+def index():
+    return time.strftime("Started at %-I:%M:%S %P")
 
 # <supervisor>
 
