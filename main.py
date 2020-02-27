@@ -21,7 +21,7 @@ SUCCESS = "Operation completed successfully."
 
 app = Flask(__name__)
 database = JonAppDatabase("mongodb://10.255.70.10:5000/")
-
+start_time = time.strftime("Started at %-I:%M:%S %P")
 
 @app.route("/")
 def index():
@@ -30,7 +30,7 @@ def index():
 
 @app.route("/status")
 def status():
-    return time.strftime("Started at %-I:%M:%S %P")
+    return start_time
 
 # <supervisor>
 
