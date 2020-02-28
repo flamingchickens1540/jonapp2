@@ -12,40 +12,16 @@ body {
 }
 
 nav {
-    background: #E0E5EC;
+    background: #48577D;
     border-radius: 4px;
     box-shadow:
-            #E0E5EC 0px 0px 2px 2px,
-            #A3B1C6 4px 4px 8px,
-            #FFFFFF -4px -4px 8px;
+            #48577D 0px 0px 2px 2px,
+            #232b3e 4px 4px 8px,
+            #7d8db5 -4px -4px 8px;
 }
 
 #navBrand {
-    background: #E0E5EC;
     font-size: 125%;
-    border-radius: 4px;
-    box-shadow:
-            #E0E5EC 0px 0px 2px 2px,
-            #A3B1C6 4px 4px 8px,
-            #FFFFFF -4px -4px 8px;
-}
-
-#banner {
-    background: #E0E5EC;
-    border-radius: 4px;
-    box-shadow:
-            #E0E5EC 0px 0px 2px 2px,
-            #A3B1C6 4px 4px 8px,
-            #FFFFFF -4px -4px 8px;
-}
-
-#logoutButton {
-    background: #E0E5EC;
-    border-radius: 4px;
-    box-shadow:
-            #E0E5EC 0px 0px 2px 2px,
-            #A3B1C6 4px 4px 8px,
-            #FFFFFF -4px -4px 8px;
 }
 
 #indexContainer { /*Main centered container for index*/
@@ -55,14 +31,6 @@ nav {
     align-items: center;
 }
 
-#headerButtons {
-    background: #E0E5EC;
-    border-radius: 4px;
-    box-shadow:
-            #E0E5EC 0px 0px 2px 2px,
-            #A3B1C6 4px 4px 8px,
-            #FFFFFF -4px -4px 8px;
-}
 
 button.neo {
     background: #E0E5EC;
@@ -71,6 +39,16 @@ button.neo {
             #E0E5EC 0px 0px 2px 2px,
             #A3B1C6 4px 4px 8px,
             #FFFFFF -4px -4px 8px;
+}
+
+button.neodark {
+    background: #48577D;
+    color: #FFFFFF;
+    border-radius: 4px;
+    box-shadow:
+            #48577D 0px 0px 2px 2px,
+            #232b3e 4px 4px 8px,
+            #7d8db5 -4px -4px 8px;
 }
 
 div.container {
@@ -117,24 +95,6 @@ div.modal-footer {
             #E0E5EC 0px 0px 2px 2px,
             #FFFFFF 4px 4px 8px,
             #A3B1C6 -4px -4px 8px;
-}
-
-#editModalButton {
-    background: #E0E5EC;
-    border-radius: 4px;
-    box-shadow:
-            #E0E5EC 0px 0px 2px 2px,
-            #A3B1C6 4px 4px 8px,
-            #FFFFFF -4px -4px 8px;
-}
-
-#addUserButton {
-    background: #E0E5EC;
-    border-radius: 4px;
-    box-shadow:
-            #E0E5EC 0px 0px 2px 2px,
-            #A3B1C6 4px 4px 8px,
-            #FFFFFF -4px -4px 8px;
 }
 
 #projectListHeader {

@@ -32,7 +32,7 @@
 <nav class="navbar navbar-expand-sm fixed-top pb-3 pt-3" id="supervisorNav">
     <button class="btn" href="/" id="navBrand">Jon App</button>
     <button class="btn ml-4 my-*-1" onclick="window.location='/logout'" type="button" id="logoutButton">Logout</button>
-    <button class="btn ml-4" data-target="#userModal" data-toggle="modal" id="banner">Logged in as {{ user_name }}</button>
+    <button class="btn ml-4" data-target="#userModal" data-toggle="modal" id="banner">Logged in as USERNAME</button>
 </nav>
 
 <div class="container" id="projectListCont">
@@ -40,7 +40,7 @@
         <div class="jumbotron shadow-lg text-center" id="projectListJumbo">
             <div class="d-flex justify-content-between w-100 overflow-auto mb-4" id="projectListHeader">
                 <button class="btn btn-success m-2 invisible" type="button">Create Task</button>
-                <h1 class="display-6 mb-2">{{ project_name }}</h1>
+                <h1 class="display-6 mb-2">Project Name</h1>
                 <button class="btn btn-success m-2" data-target="#addModal" data-toggle="modal" id="addUserButton"
                         type="button">Create Task
                 </button>
@@ -55,7 +55,7 @@
                     </thead>
 
                     <tbody id="table-body">
-                        {{ tasks_html }}
+                        Task 1
                     </tbody>
 
                 </table>
