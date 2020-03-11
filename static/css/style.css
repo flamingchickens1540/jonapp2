@@ -1,27 +1,19 @@
 html {
     height: 100%;
-    background: #E0E5EC;
     width: 100%;
-    padding-top: 100px;
 }
 
 body {
-    height: 100%;
-    background: #E0E5EC;
-    width: 100%;
+    background: #899BC9;
 }
 
+
 nav {
-    background: #48577D;
-    border-radius: 4px;
-    box-shadow:
-            #48577D 0px 0px 2px 2px,
-            #232b3e 4px 4px 8px,
-            #7d8db5 -4px -4px 8px;
+    background: #48577D !important;
 }
 
 #navBrand {
-    font-size: 125%;
+    padding-left: 1%;
 }
 
 #indexContainer { /*Main centered container for index*/
@@ -31,46 +23,111 @@ nav {
     align-items: center;
 }
 
-
-button.neo {
-    background: #E0E5EC;
-    border-radius: 4px;
-    box-shadow:
-            #E0E5EC 0px 0px 2px 2px,
-            #A3B1C6 4px 4px 8px,
-            #FFFFFF -4px -4px 8px;
+#logIn {
+    padding-bottom: 5%;
+    float: left !important;
 }
 
-button.neodark {
-    background: #48577D;
+#logOut {
+    float: right !important;
+}
+
+span.title {
+    font-family: open-sans, sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 16vw;
+    padding-top: 1%;
     color: #FFFFFF;
-    border-radius: 4px;
-    box-shadow:
-            #48577D 0px 0px 2px 2px,
-            #232b3e 4px 4px 8px,
-            #7d8db5 -4px -4px 8px;
 }
 
-div.container {
-    background: #E0E5EC;
+span.subtitle {
+    font-size: 2vw;
+    padding-bottom: 0px;
+    color: #FFFFFF;
+    font-style: italic;
 }
 
-div.jumbotron {
-    height: 200%;
+button.btn {
+    background: #48577D;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+}
+
+footer {
+    background: #899BC9 !important;
+}
+
+i {
+    padding-left: 5%;
+}
+
+#buttonsCont {
+    width: 25vw;
+}
+
+#page-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+#content-wrap {
+    padding-bottom: 2.5rem;    /* Footer height */
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
     width: 100%;
-    background: #E0E5EC;
-    border-radius: 4px;
+    height: 2.5rem;
+    padding-bottom: 5vh;
 }
+
+@media only screen and (max-width: 900px) {
+    #buttonsCont {
+        width: 45vw;
+    }
+}
+
+/*button.neo {*/
+/*    background: #E0E5EC;*/
+/*    border-radius: 4px;*/
+/*    box-shadow:*/
+/*            #E0E5EC 0px 0px 2px 2px,*/
+/*            #A3B1C6 4px 4px 8px,*/
+/*            #FFFFFF -4px -4px 8px;*/
+/*}*/
+
+/*button.neodark {*/
+/*    background: #48577D;*/
+/*    color: #FFFFFF;*/
+/*    border-radius: 4px;*/
+/*    box-shadow:*/
+/*            #48577D 0px 0px 2px 2px,*/
+/*            #232b3e 4px 4px 8px,*/
+/*            #7d8db5 -4px -4px 8px;*/
+/*}*/
+
+/*div.container {*/
+/*    background: #E0E5EC;*/
+/*}*/
+
+/*div.jumbotron {*/
+/*    height: 200%;*/
+/*    width: 100%;*/
+/*    background: #E0E5EC;*/
+/*    border-radius: 4px;*/
+/*}*/
 div.modal {
-    background: #E0E5EC;
 }
+
 div.modal-body {
     background: #E0E5EC;
     border-radius: 4px;
-    box-shadow:
-            #E0E5EC 0px 0px 2px 2px,
-            #A3B1C6 4px 4px 8px,
-            #FFFFFF -4px -4px 8px;
+    box-shadow: #E0E5EC 0px 0px 2px 2px,
+    #A3B1C6 4px 4px 8px,
+    #FFFFFF -4px -4px 8px;
 }
 
 div.modal-header,
@@ -78,33 +135,36 @@ div.modal-footer {
     background: #E0E5EC;
 }
 
-.modal-content  {
-    border-width: 0px;
-    outline: none;
-    -webkit-border-radius: 0px;
-    box-shadow:
-            #E0E5EC 0px 0px 2px 2px,
-            #A3B1C6 4px 4px 8px,
-            #FFFFFF -4px -4px 8px;
+.modal-content {
 }
 
-#addUserButton:hover {
-    background: #E0E5EC;
-    border-radius: 4px;
-    box-shadow:
-            #E0E5EC 0px 0px 2px 2px,
-            #FFFFFF 4px 4px 8px,
-            #A3B1C6 -4px -4px 8px;
-}
+/*#addUserButton:hover {*/
+/*    background: #E0E5EC;*/
+/*    border-radius: 4px;*/
+/*    box-shadow:*/
+/*            #E0E5EC 0px 0px 2px 2px,*/
+/*            #FFFFFF 4px 4px 8px,*/
+/*            #A3B1C6 -4px -4px 8px;*/
+/*}*/
 
-#projectListHeader {
-    background: #E0E5EC;
-    border-radius: 4px;
-    box-shadow:
-            #E0E5EC 0px 0px 2px 2px,
-            #A3B1C6 4px 4px 8px,
-            #FFFFFF -4px -4px 8px;
-}
+/*#projectListHeader {*/
+/*    background: #E0E5EC;*/
+/*    border-radius: 4px;*/
+/*    box-shadow:*/
+/*            #E0E5EC 0px 0px 2px 2px,*/
+/*            #A3B1C6 4px 4px 8px,*/
+/*            #FFFFFF -4px -4px 8px;*/
+/*}*/
+
+/*#mainHeader {*/
+/*    width: 100%;*/
+/*    background: #E0E5EC;*/
+/*    border-radius: 4px;*/
+/*    box-shadow:*/
+/*            #E0E5EC 0px 0px 2px 2px,*/
+/*            #A3B1C6 4px 4px 8px,*/
+/*            #FFFFFF -4px -4px 8px;*/
+/*}*/
 
 #projectListTable {
     height: 100%;
@@ -115,6 +175,9 @@ div.modal-footer {
 
 table:hover {
     background: #d9dfe8;
+}
+
+h1.title {
 }
 
 .mr-6 {
@@ -132,17 +195,17 @@ tbody {
 
 }
 
-thead {
-    font-size: 20px;
-    background: #E0E5EC;
-    border-radius: 4px;
-    box-shadow:
-            #E0E5EC 0px 0px 2px 2px,
-            #A3B1C6 4px 4px 8px,
-            #FFFFFF -4px -4px 8px;
+/*thead {*/
+/*    font-size: 20px;*/
+/*    background: #E0E5EC;*/
+/*    border-radius: 4px;*/
+/*    box-shadow:*/
+/*            #E0E5EC 0px 0px 2px 2px,*/
+/*            #A3B1C6 4px 4px 8px,*/
+/*            #FFFFFF -4px -4px 8px;*/
 
-}
+/*}*/
 
-tr{
-  align-items: center;
+tr {
+    align-items: center;
 }

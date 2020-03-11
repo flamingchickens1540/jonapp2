@@ -1,45 +1,73 @@
+<!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>Jon App 2</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
 
-<p>/add/supervisor</p>
-<form action="/add/supervisor" method="POST">
-    Name: <input name="name" type="text"><br>
-    Email: <input name="email" type="text"><br>
-    <input type="submit"><br>
-</form>
-<br><br>
+    <!--  Open Graph Tags  -->
+    <meta content="Jon App 2" property="og:title"/>
+    <meta content="Revolutionizing employment for those with cognitive disabilities." property="og:description"/>
+    <meta content="en_US" property="og:locale"/>
+    <meta content="Jon App 2" property="og:site_name"/>
+    <meta content="https://jonapp.nate.to/" property="og:url"/>
+    <meta content="https://jonapp.nate.to/img/logo.png" property="og:image"/> <!-- TODO -->
 
-<p>/add/user</p>
-<form action="/add/user" method="POST">
-    Name: <input name="name" type="text"><br>
-    Supervisor: <input name="supervisor" type="text"><br>
-    <input type="submit"><br>
-</form>
-<br><br>
+    <!--  CSS  -->
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.typekit.net/ngj4yzz.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-<p>/add/project</p>
-<form action="/add/project" method="POST">
-    Name: <input name="name" type="text"><br>
-    Description: <input name="description" type="text"><br>
-    <input type="submit"><br>
-</form>
-<br><br>
+    <!--  Vendor libraries  -->
+    <script src="/static/js/vendor/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
 
-<p>/add/task</p>
-<form action="/add/task" enctype="multipart/form-data" method="POST">
-    Project: <input name="project" type="text"><br>
-    Name: <input name="name" type="text"><br>
-    Description: <input name="description" type="text"><br>
-    Image: <input name="image" type="file"><br>
-    <input type="submit"><br>
-</form>
-<br><br>
+<body>
+<div id="page-container">
+    <div id="content-wrap">
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo" id="navBrand">JonApp</a>
+                    <ul id="nav-mobile" class="right">
+                        <li><a class="hide-on-med-and-down"	href="/">Logout</a></li>
+                        <li><a class="hide-on-med-and-down" href="/" data-target="#userModal" data-toggle="modal" id="banner">Logged in as {{ user_name }}</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
 
-<p>/get/tasks/{user}</p>
-<form action="/get/tasks" method="POST">
-    User: <input name="user" type="text"><br>
-    <input type="submit"><br>
-</form>
-<br><br>
+        <div class="container" id="indexContainer">
+            <div class="col-6 mx-auto center-align">
+                <span class="title center-align">JonApp</span>
+                <br>
+                <span class="subtitle center-align">Revolutionizing employment for those with cognitive disabilities</span>
+                <br>
+                <br>
+                <div class="container" id="buttonsCont">
+                    <span class= "center-align" id="logIn">
+                        <button class="waves-effect waves-light btn">Log In
+                            <i class="material-icons">vpn_key</i>
+                        </button>
+                    </span>
+                    <span class="center-align" id="logOut">
+                        <button class="waves-effect waves-light btn">Sign Up
+                            <i class="material-icons">assignment</i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+        <footer class="page-footer" id="footer">
+            <div class="container">
+                <div class="container center-align">
+                    © 2020 Seth Knights and Nate Sales
+                </div>
+            </div>
+        </footer>
+</div>
 
-</html>
-
+</body>
