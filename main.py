@@ -20,7 +20,7 @@ VERSION = "0.1"
 SUCCESS = "Operation completed successfully."
 
 app = Flask(__name__)
-database = JonAppDatabase("mongodb://10.255.70.10:5000/")
+database = JonAppDatabase("mongodb://jonapp.nate.to:5000/")
 start_time = time.strftime("Started at %-I:%M:%S %P")
 
 @app.route("/")
@@ -101,6 +101,5 @@ def add_project():
     description = request.form["description"]
 
     return database.add_project(name, description)
-
 
 app.run(host=HOST, port=PORT, debug=not PRODUCTION)
