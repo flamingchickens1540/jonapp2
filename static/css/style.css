@@ -1,12 +1,12 @@
-html {
+body {
+    background-color: #899BC9;
     height: 100%;
     width: 100%;
 }
 
-body {
-    background: #899BC9;
+html {
+    height: 100%;
 }
-
 
 nav {
     background: #48577D !important;
@@ -60,8 +60,8 @@ footer {
 }
 
 i {
-    padding-left: 5%;
-}
+    padding-left: 0%;
+} /* TODO: Make icon padding specific to index page */
 
 #buttonsCont {
     width: 25vw;
@@ -90,122 +90,57 @@ i {
     }
 }
 
-/*button.neo {*/
-/*    background: #E0E5EC;*/
-/*    border-radius: 4px;*/
-/*    box-shadow:*/
-/*            #E0E5EC 0px 0px 2px 2px,*/
-/*            #A3B1C6 4px 4px 8px,*/
-/*            #FFFFFF -4px -4px 8px;*/
-/*}*/
-
-/*button.neodark {*/
-/*    background: #48577D;*/
-/*    color: #FFFFFF;*/
-/*    border-radius: 4px;*/
-/*    box-shadow:*/
-/*            #48577D 0px 0px 2px 2px,*/
-/*            #232b3e 4px 4px 8px,*/
-/*            #7d8db5 -4px -4px 8px;*/
-/*}*/
-
-/*div.container {*/
-/*    background: #E0E5EC;*/
-/*}*/
-
-/*div.jumbotron {*/
-/*    height: 200%;*/
-/*    width: 100%;*/
-/*    background: #E0E5EC;*/
-/*    border-radius: 4px;*/
-/*}*/
-div.modal {
+.card-panel {
+    margin: auto;
 }
 
-div.modal-body {
-    background: #E0E5EC;
-    border-radius: 4px;
-    box-shadow: #E0E5EC 0px 0px 2px 2px,
-    #A3B1C6 4px 4px 8px,
-    #FFFFFF -4px -4px 8px;
-}
-
-div.modal-header,
-div.modal-footer {
-    background: #E0E5EC;
-}
-
-.modal-content {
-}
-
-/*#addUserButton:hover {*/
-/*    background: #E0E5EC;*/
-/*    border-radius: 4px;*/
-/*    box-shadow:*/
-/*            #E0E5EC 0px 0px 2px 2px,*/
-/*            #FFFFFF 4px 4px 8px,*/
-/*            #A3B1C6 -4px -4px 8px;*/
-/*}*/
-
-/*#projectListHeader {*/
-/*    background: #E0E5EC;*/
-/*    border-radius: 4px;*/
-/*    box-shadow:*/
-/*            #E0E5EC 0px 0px 2px 2px,*/
-/*            #A3B1C6 4px 4px 8px,*/
-/*            #FFFFFF -4px -4px 8px;*/
-/*}*/
-
-/*#mainHeader {*/
-/*    width: 100%;*/
-/*    background: #E0E5EC;*/
-/*    border-radius: 4px;*/
-/*    box-shadow:*/
-/*            #E0E5EC 0px 0px 2px 2px,*/
-/*            #A3B1C6 4px 4px 8px,*/
-/*            #FFFFFF -4px -4px 8px;*/
-/*}*/
-
-#projectListTable {
+.full-height {
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-table:hover {
-    background: #d9dfe8;
-}
-
-h1.title {
-}
-
-.mr-6 {
-    margin-right: 4rem;
-}
-
-table {
-    table-layout: fixed;
     width: 100%;
-    word-break: break-word;
+    margin: 0;
+    display: table;
 }
 
-tbody {
-    font-size: 15px;
-
+.sidenav {
+    color: #FFFFFF !important;
 }
 
-/*thead {*/
-/*    font-size: 20px;*/
-/*    background: #E0E5EC;*/
-/*    border-radius: 4px;*/
-/*    box-shadow:*/
-/*            #E0E5EC 0px 0px 2px 2px,*/
-/*            #A3B1C6 4px 4px 8px,*/
-/*            #FFFFFF -4px -4px 8px;*/
+.card-panel {
+    background: #C7D7FF !important;
+}
 
-/*}*/
+.table-title {
+    font-size: 3.5rem;
+}
 
-tr {
-    align-items: center;
+.modal-title {
+    font-size: 2.5rem;
+    margin-bottom: 2.5%;
+}
+
+.btn-floating {
+    margin-top: 2.5%;
+    margin-left: 2.5%;
+}
+
+#title-wrap {
+    margin-bottom: 2%;
+}
+
+@media only screen and (max-width: 1024px) {
+    .table-title {
+        font-size: 3.5vw;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .table-title {
+        font-size: 4.5vw;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .table-title {
+        font-size: 6.5vw;
+    }
 }

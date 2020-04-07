@@ -21,11 +21,12 @@ SUCCESS = "Operation completed successfully."
 
 app = Flask(__name__)
 database = JonAppDatabase("mongodb://jonapp.nate.to:5000/")
-start_time = time.strftime("Started at %-I:%M:%S %P")
+# start_time = time.strftime("Started at %-I:%M:%S %P")
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html",
+                           user_name="Seth Knights")
 
 
 @app.route("/status")
