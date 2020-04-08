@@ -25,6 +25,9 @@ def index():
     return render_template("index.html",
                            user_name="Seth Knights")
 
+@app.route("/login")
+def login():
+    return render_template("supervisor/login.html")
 
 # <supervisor>
 
