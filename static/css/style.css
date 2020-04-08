@@ -48,7 +48,7 @@ span.subtitle {
     font-style: italic;
 }
 
-button.btn {
+a.btn {
     background: #48577D;
     vertical-align: middle;
     display: flex;
@@ -127,9 +127,28 @@ i {
     margin-bottom: 2%;
 }
 
+#userModal {
+    width: 25%;
+}
+
+.user-id {
+    font-size: 1.5vw;
+}
+
+.qrcode {
+}
+
+.qr {
+    margin: auto;
+}
+
+
 @media only screen and (max-width: 1024px) {
     .table-title {
         font-size: 3.5vw;
+    }
+    #userModal {
+        width: 60%
     }
 }
 
@@ -137,10 +156,16 @@ i {
     .table-title {
         font-size: 5vw;
     }
+    #userModal {
+        width: 70%
+    }
 }
 
 @media only screen and (max-width: 600px) {
     .table-title {
         font-size: 7vw;
+    }
+    #userModal {
+        width: 80%
     }
 }

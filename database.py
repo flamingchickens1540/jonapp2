@@ -153,9 +153,6 @@ class JonAppDatabase:
         else:
             return False
 
-
-database = JonAppDatabase("mongodb://jonapp.nate.to:5000/")
-
 # database.register("nate@nate.to", "mypassword")
 
 # print(database.login("nate@nate.to", "mypass1word"))

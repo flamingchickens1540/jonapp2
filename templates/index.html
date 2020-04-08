@@ -53,9 +53,9 @@
                         </button>
                     </span>
                     <span class="center-align" id="logOut">
-                        <button class="waves-effect waves-light btn">Sign Up
+                        <a class="waves-effect waves-light btn modal-trigger" href="#SignUpModal">Sign Up
                             <i class="material-icons">assignment</i>
-                        </button>
+                        </a>
                     </span>
                 </div>
             </div>
@@ -70,4 +70,30 @@
         </footer>
 </div>
 
+<div id="SignUpModal" class="modal">
+    <div class="modal-content">
+        <div class="row">
+            <div class="input-field col s12 m4 l3">
+                <input id="first_name" type="text" class="validate">
+                <label for="first_name">First Name</label>
+            </div>
+            <div class="input-field col s12 m4 l3">
+                <input id="last_name" type="text" class="validate">
+                <label for="last_name">Last Name</label>
+            </div>
+        </div>
+        <div class="col s12 m8 l6"></div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.modal').modal();
+    });
+</script>
+
 </body>
+</html>

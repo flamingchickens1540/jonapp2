@@ -29,18 +29,28 @@
         <nav>
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo" id="navBrand">JonApp</a>
-                <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                <ul class="right hide-on-med-and-down">
-                    <li><a href="/">Logout</a></li>
-                    <li><a class="modal-trigger" href="#userModal" id="banner">Logged in as {{ user_name }}</a></li>
+
+                <ul class="right">
+                    <a href="#" data-target="mobile-nav" class="sidenav-trigger show-on-medium-and-up"><i class="material-icons">menu</i></a>
                 </ul>
             </div>
         </nav>
     </div>
 
     <ul class="sidenav" id="mobile-nav">
+        <li><div class="user-view">
+            <div class="background">
+                <img src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
+            </div>
+            <a href="#user"><img class="circle" src="https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png"></a>
+            <a href="#name"><span class="white-text name">{{ user_name }}</span></a>
+            <a href="#email"><span class="white-text email">{{ user_id }}</span></a>
+        </div></li>
+        <li><a class="modal-trigger" href="#userModal" id="banner">Display QR Code</a></li>
+        <li><div class="divider"></div></li>
+        <li><a class="subheader">Used for adding users to projects.</a></li>
+        <li><div class="divider"></div></li>
         <li><a href="/">Logout</a></li>
-        <li><a class="modal-trigger" href="#userModal" id="banner">Logged in as {{ user_name }}</a></li>
     </ul>
 
 
@@ -105,21 +115,17 @@
     <div id="userModal" class="modal">
         <div class="modal-content">
             <div class="row">
-                <h4>User Information</h4>
-                <div class="col s12 m6 l6">
-                    <span class="qrcode center-align">{{ user_qr }}</span>
-                    <h5 class="left-align">User QR Code</h5>
-                </div>
-
-                <div class="col s12 m6 l6" id="userinfo">
-                    <h5>Name: {{ user_name }}</h5>
-                    <h5>User ID: {{ user_id }}</h5>
+                <div class="col s12 m12 l12 center-align">
+                    <h4>User Information</h4>
+                    <span class="qr">{{ user_qr }}</span>
+                    <span class="user-id">{{ user_id }}</span>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="createModal" class="modal modal-fixed-footer">
+        <form method="post" action="/add/project">
         <div class="modal-content">
             <div class="col s12 m6 l6">
                 <span class="modal-title">New Project</span>
@@ -127,11 +133,11 @@
             <div class="row">
                 <div class="col s6 l6 m6">
                     <div class="input-field s6 l3 m3">
-                        <input id="proj_name" type="text" data-length="30">
+                        <input id="proj_name" type="text" name="name" data-length="30">
                         <label for="proj_name">Project Title</label>
                     </div>
                     <div class="input-field s6 l3 m3">
-                        <textarea id="proj_desc" class="materialize-textarea" data-length="120"></textarea>
+                        <textarea name="description" id="proj_desc" class="materialize-textarea" data-length="120"></textarea>
                         <label for="proj_desc">Project Description</label>
                     </div>
                 </div>
@@ -139,7 +145,7 @@
                     <div class="file-field input-field">
                         <div class="btn">
                             <span>Project Image</span>
-                            <input type="file">
+                            <input name="image" type="file">
                         </div>
                         <div class="file-path-wrapper">
                             <input class="file-path validate" type="text">
@@ -149,10 +155,11 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn waves-effect waves-light right modal-close" type="submit" name="action">Create
+            <button class="btn waves-effect waves-light right modal-close" id="submitbutton" type="submit" name="action">Create
                 <i class="material-icons right">send</i>
             </button>
         </div>
+    </form>
     </div>
 
     <script>
@@ -161,9 +168,8 @@
         });
 
         $(document).ready(function(){
-            $('.sidenav').sidenav();
+            $('.sidenav').sidenav({ edge: 'right' });
         });
-
 
         $(document).ready(function() {
             $('input#proj_name, #proj_desc').characterCounter();
