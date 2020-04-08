@@ -126,7 +126,8 @@ class JonAppDatabase:
                                 <img class="activator fit-to" src='""" + image + """'>
                                 </div>
                                 <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">""" + name + """<i class="material-icons right">more_vert</i></span>
+                                <span class="card-title activator grey-text text-darken-4">""" + name + """</span>
+                                <i class="material-icons right dropdown-trigger" data-target="dropdown1">more_vert</i>
                                 <p>Click to reveal.</p>
                                 </div>
                                 <div class="card-reveal">
@@ -134,6 +135,16 @@ class JonAppDatabase:
                                 <p>""" + description + """</p>
                                 </div>
                         </div>
+                        
+                         <ul id='dropdown1' class='dropdown-content'>
+                            <li><a href="#!">one</a></li>
+                            <li><a href="#!">two</a></li>
+                            <li class="divider" tabindex="-1"></li>
+                            <li><a href="#!">three</a></li>
+                            <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+                            <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+                          </ul>
+                        
                     </div>"""
 
         return projects_html
