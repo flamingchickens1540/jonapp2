@@ -33,7 +33,9 @@ def supervisor_home():
                            user_name="Nate Sales",
                            user_id="5e2cbf1c3246741b67f9201a",
                            user_email="nate@nate.to",
-                           user_qr=Markup(qr("test"))
+                           user_qr=Markup(qr("test")),
+
+                           projects_html=Markup(database.get_projects_html("nate"))
                            )
 
 
