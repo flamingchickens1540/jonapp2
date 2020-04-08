@@ -122,14 +122,17 @@ class JonAppDatabase:
                 projects_html += """
                     <div class="col s12 m6 l4">
                         <div class="card hoverable">
-                            <div class="card-image">
-                                <img src='""" + image + """'>
-                                <span class="card-title">""" + name + """</span>
-                                <a class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">create</i></a>
+                                <div class="card-image">
+                                <img class="activator fit-to" src='""" + image + """'>
                                 </div>
                                 <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4">""" + name + """<i class="material-icons right">more_vert</i></span>
+                                <p>Click to reveal.</p>
+                                </div>
+                                <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">""" + name + """<i class="material-icons right">close</i></span>
                                 <p>""" + description + """</p>
-                            </div>
+                                </div>
                         </div>
                     </div>"""
 

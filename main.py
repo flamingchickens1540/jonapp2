@@ -55,7 +55,7 @@ def add_project():
 @app.route("/login", methods=["GET", "POST"])
 def route_login():
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("/supervisor/login.html")
     elif request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
@@ -65,7 +65,9 @@ def route_login():
         else:
             return "Invalid username or password"
 
-
+@app.route("/signup")
+def signup():
+    return render_template("/supervisor/signup.html")
 # @app.route("/user/home")
 # def user_home():
 #     return render_template("user/home.html")
