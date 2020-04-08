@@ -55,6 +55,13 @@ a.btn {
     align-items: center;
 }
 
+.loginbutton {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 footer {
     background: #899BC9 !important;
 }
@@ -142,6 +149,32 @@ i {
     margin: auto;
 }
 
+#SignUpModal {
+    width: 50%;
+    overflow: hidden;
+}
+
+.padded {
+    padding-left: 1.25%;
+    padding-right: 1.25%;
+}
+
+.buttonicon {
+    padding-left: 3%;
+}
+
+#login-container {
+    min-height: 100vh; /* These two lines are counted as one :-)       */
+
+    display: flex;
+    align-items: center;
+}
+
+@media only screen and (max-width: 1440px) {
+    #userModal {
+        width: 30%
+    }
+}
 
 @media only screen and (max-width: 1024px) {
     .table-title {
@@ -149,6 +182,9 @@ i {
     }
     #userModal {
         width: 60%
+    }
+    .loginbutton {
+        width: 20%;
     }
 }
 
@@ -159,6 +195,9 @@ i {
     #userModal {
         width: 70%
     }
+    .loginbutton {
+        width: 20%;
+    }
 }
 
 @media only screen and (max-width: 600px) {
@@ -167,5 +206,9 @@ i {
     }
     #userModal {
         width: 80%
+    }
+    .loginbutton {
+        width: 100%;
+        margin-top: 5%;
     }
 }

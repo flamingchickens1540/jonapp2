@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Jon App 2</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <!--  Open Graph Tags  -->
+    <meta content="Jon App 2" property="og:title"/>
+    <meta content="Revolutionizing employment for those with cognitive disabilities." property="og:description"/>
+    <meta content="en_US" property="og:locale"/>
+    <meta content="Jon App 2" property="og:site_name"/>
+    <meta content="https://jonapp.nate.to/" property="og:url"/>
+    <meta content="https://jonapp.nate.to/img/logo.png" property="og:image"/> <!-- TODO -->
+
+    <!--  CSS  -->
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.typekit.net/ngj4yzz.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--  Vendor libraries  -->
+    <script src="/static/js/vendor/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo" id="navBrand">JonApp</a>
+
+                <ul class="right">
+                    <a href="#" data-target="mobile-nav" class="sidenav-trigger show-on-medium-and-up"><i class="material-icons">menu</i></a>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div id="login-container">
+        <div class="row">
+            <div class="col s12 m12 l6 offset-l3">
+                <div class="card-panel">
+                    <div class="row">
+                        <form method="post" action="">
+                            <div class="col s12 m12 l12 center-align">
+                                <span class="table-title">Login to JonApp</span>
+                            </div>
+                            <div class="col s12 m12 padded">
+                                <input id="email" type="email" class="validate" name="email" required>
+                                <label for="email">Email Address</label>
+                            </div>
+                            <div class="col s12 m12 l12 padded">
+                                <input id="password" type="password" class="validate" name="password" required>
+                                <label for="password">Password</label>
+                            </div>
+                            <div class="col s12 m12 l12">
+                                <a href="#" class="waves-effect waves-light btn loginbutton right center-align" type="submit">Log In
+                                    <i class="material-icons buttonicon">vpn_key</i>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
