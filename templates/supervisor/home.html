@@ -25,107 +25,120 @@
 </head>
 
 <body>
-    <div class="navbar-fixed">
-        <nav>
-            <div class="nav-wrapper">
-                <a href="#" class="brand-logo" id="navBrand">JonApp</a>
+<div class="navbar-fixed">
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo" id="navBrand">JonApp</a>
 
-                <ul class="right">
-                    <a href="#" data-target="mobile-nav" class="sidenav-trigger show-on-medium-and-up"><i class="material-icons">menu</i></a>
-                </ul>
-            </div>
-        </nav>
-    </div>
+            <ul class="right">
+                <a href="#" data-target="mobile-nav" class="sidenav-trigger show-on-medium-and-up"><i
+                            class="material-icons">menu</i></a>
+            </ul>
+        </div>
+    </nav>
+</div>
 
-    <ul class="sidenav" id="mobile-nav">
-        <li><div class="user-view">
+<ul class="sidenav" id="mobile-nav">
+    <li>
+        <div class="user-view">
             <div class="background">
                 <img src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
             </div>
-            <a href="#user"><img class="circle" src="https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png"></a>
+            <a href="#user"><img class="circle"
+                                 src="https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png"></a>
             <a href="#name"><span class="white-text name">{{ user_name }}</span></a>
             <a href="#email"><span class="white-text email">{{ user_id }}</span></a>
-        </div></li>
-        <li><a class="modal-trigger" href="#userModal" id="banner">Display QR Code</a></li>
-        <li><div class="divider"></div></li>
-        <li><a class="subheader">Used for adding users to projects.</a></li>
-        <li><div class="divider"></div></li>
-        <li><a href="/">Logout</a></li>
-    </ul>
-
-
-    <div class="row">
-        <div class="col s12 m8 l6 offset-m2 offset-l3">
-            <div class="card-panel">
-                <div class="valign-wrapper" id="title-wrap">
-                    <div class="col l4 m4 s4">
-                        <a class="btn-floating btn-large waves-effect waves-light hide-on-small-and-down modal-trigger" href="#createModal"><i class="material-icons">add</i></a>
-                        <a class="btn-floating btn-small waves-effect waves-light hide-on-med-and-up modal-trigger" href="#createModal"><i class="material-icons">add</i></a>
-                    </div>
-                    <div class="col l4 m4 s4 center-align">
-                        <span class="table-title">Projects</span>
-                    </div>
-                    <div class="col l4 m4 s4"></div>
-                </div>
-
-                <div class="row">
-                    <div class="col s12 m6 l4">
-                        <div class="card hoverable">
-                            <div class="card-image">
-                                <img src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
-                                <span class="card-title">Project 1</span>
-                                <a class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">create</i></a>
-                            </div>
-                            <div class="card-content">
-                                <p>This is a sample project card. Here I'll show you the description of each project you create!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m6 l4">
-                        <div class="card hoverable">
-                            <div class="card-image">
-                                <img src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
-                                <span class="card-title">Project 2</span>
-                                <a class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">create</i></a>
-                            </div>
-                            <div class="card-content">
-                                <p>This is a sample project card. Here I'll show you the description of each project you create!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m6 l4">
-                        <div class="card hoverable">
-                            <div class="card-image">
-                                <img src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
-                                <span class="card-title">Project 3</span>
-                                <a class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">create</i></a>
-                            </div>
-                            <div class="card-content">
-                                <p>This is a sample project card. Here I'll show you the description of each project you create!</p>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
+    </li>
+    <li><a class="modal-trigger" href="#userModal" id="banner">Display QR Code</a></li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li><a class="subheader">Used for adding users to projects.</a></li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li><a href="/">Logout</a></li>
+</ul>
 
 
-    <div id="userModal" class="modal">
-        <div class="modal-content">
+<div class="row">
+    <div class="col s12 m8 l6 offset-m2 offset-l3">
+        <div class="card-panel">
+            <div class="valign-wrapper" id="title-wrap">
+                <div class="col l4 m4 s4">
+                    <a class="btn-floating btn-large waves-effect waves-light hide-on-small-and-down modal-trigger"
+                       href="#createModal"><i class="material-icons">add</i></a>
+                    <a class="btn-floating btn-small waves-effect waves-light hide-on-med-and-up modal-trigger"
+                       href="#createModal"><i class="material-icons">add</i></a>
+                </div>
+                <div class="col l4 m4 s4 center-align">
+                    <span class="table-title">Projects</span>
+                </div>
+                <div class="col l4 m4 s4"></div>
+            </div>
+
             <div class="row">
-                <div class="col s12 m12 l12 center-align">
-                    <h4>User Information</h4>
-                    <span class="qr">{{ user_qr }}</span>
-                    <span class="user-id">{{ user_id }}</span>
+                <div class="col s12 m6 l4">
+                    <div class="card hoverable">
+                        <div class="card-image">
+                            <img src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
+                            <span class="card-title">Project 1</span>
+                            <a class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">create</i></a>
+                        </div>
+                        <div class="card-content">
+                            <p>This is a sample project card. Here I'll show you the description of each project you
+                                create!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4">
+                    <div class="card hoverable">
+                        <div class="card-image">
+                            <img src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
+                            <span class="card-title">Project 2</span>
+                            <a class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">create</i></a>
+                        </div>
+                        <div class="card-content">
+                            <p>This is a sample project card. Here I'll show you the description of each project you
+                                create!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4">
+                    <div class="card hoverable">
+                        <div class="card-image">
+                            <img src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
+                            <span class="card-title">Project 3</span>
+                            <a class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">create</i></a>
+                        </div>
+                        <div class="card-content">
+                            <p>This is a sample project card. Here I'll show you the description of each project you
+                                create!</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+</div>
 
-    <div id="createModal" class="modal modal-fixed-footer">
-        <form method="post" action="/add/project">
+
+<div id="userModal" class="modal">
+    <div class="modal-content">
+        <div class="row">
+            <div class="col s12 m12 l12 center-align">
+                <h4>User Information</h4>
+                <span class="qr">{{ user_qr }}</span>
+                <span class="user-id">{{ user_id }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="createModal" class="modal modal-fixed-footer">
+    <form method="post" action="/add/project" enctype=multipart/form-data>
         <div class="modal-content">
             <div class="col s12 m6 l6">
                 <span class="modal-title">New Project</span>
@@ -137,7 +150,8 @@
                         <label for="proj_name">Project Title</label>
                     </div>
                     <div class="input-field s6 l3 m3">
-                        <textarea name="description" id="proj_desc" class="materialize-textarea" data-length="120"></textarea>
+                        <textarea name="description" id="proj_desc" class="materialize-textarea"
+                                  data-length="120"></textarea>
                         <label for="proj_desc">Project Description</label>
                     </div>
                 </div>
@@ -155,27 +169,28 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn waves-effect waves-light right modal-close" id="submitbutton" type="submit" name="action">Create
+            <button class="btn waves-effect waves-light right modal-close" id="submitbutton" type="submit"
+                    name="action">Create
                 <i class="material-icons right">send</i>
             </button>
         </div>
     </form>
-    </div>
+</div>
 
-    <script>
-        $(document).ready(function(){
-            $('.modal').modal();
-        });
+<script>
+    $(document).ready(function () {
+        $('.modal').modal();
+    });
 
-        $(document).ready(function(){
-            $('.sidenav').sidenav({ edge: 'right' });
-        });
+    $(document).ready(function () {
+        $('.sidenav').sidenav({edge: 'right'});
+    });
 
-        $(document).ready(function() {
-            $('input#proj_name, #proj_desc').characterCounter();
-        });
+    $(document).ready(function () {
+        $('input#proj_name, #proj_desc').characterCounter();
+    });
 
-    </script>
+</script>
 
 
 </body>
