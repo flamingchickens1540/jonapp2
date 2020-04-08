@@ -4,27 +4,16 @@
 # This file provides safe wrappers for database operations.
 # It may be imported anywhere in the main server file.
 
-import base64
-
 import gridfs
 import pymongo
 from bson.objectid import ObjectId
 
 import bcrypt
 
+import base64
+import utils
+
 import validators as valid
-
-
-class State:
-    PENDING = 1
-    PROBLEM = 2
-    COMPLETE = 3
-
-
-class Role:
-    SUPERVISOR = 1
-    USER = 2
-    ADMIN = 3
 
 
 class JonAppDatabase:
@@ -51,94 +40,56 @@ class JonAppDatabase:
         content = entry.read()
         return "data:" + content_type + ";base64, " + base64.b64encode(content).decode()
 
-    def put_image(self, image):
-        if image:
-            return self._gridfs.put(image, content_type=image.content_type, filename=image.filename)
+    def put_image(self, image):  # TODO: content_type checking
+        if image and image.filename:
+            try:
+                extension = image.filename.split(".")[1]
+            except IndexError:  # No extension
+                return ""
+
+            return self._gridfs.put(image, content_type=image.content_type,
+                                    filename="image-" + utils.token() + "." + extension)
         else:
             return ""
 
     def delete_image(self, string_id):
         return self._gridfs.delete(ObjectId(string_id))
 
-    def add_supervisor(self, name, email):
-        if not valid.email(email):
-            raise ValueError("Invalid email in add_supervisor")
-
-        return str(self.supervisors.insert_one({
-            "name": name,
-            "email": email
-        }).inserted_id)
-
-    def add_user(self, name, supervisor):
-        return str(self.users.insert_one({
-            "name": name,
-            "supervisors": [supervisor],
-            "projects": []
-        }).inserted_id)
-
     def add_project(self, name, description, image):
-        return str(self.projects.insert_one({
+        self.projects.insert_one({
             "name": name,
             "description": description,
             "image": self.put_image(image),
             "users": [],
             "tasks": []
-        }).inserted_id)
+        })
+
+    def delete_project(self, project):
+        project_doc = self.projects.find_one({"_id": ObjectId(project)})
+
+        if not project_doc:
+            return
+        else:
+            project_image = project_doc["image"]
+
+            if project_image:
+                self.delete_image(project_image)
+
+        self.projects.delete_one({"_id": ObjectId(project)})
 
     def add_task(self, project, name, description, image):
         if not self.projects.find_one({"_id": ObjectId(project)}):
-            raise ValueError("Project id: " + project + " not found.")
+            return "Project not found"  # TODO: Real error page
 
         self.projects.update_one({"_id": ObjectId(project)}, {"$push": {"tasks": {
             "name": name,
             "description": description,
             "image": self.put_image(image),
-            "state": State.PENDING,
+            "state": "Pending",
             "subtasks": []
         }}})
 
-    def get_tasks_html(self, project):
-        tasks_html = ""
-
-        tasks = self.projects.find_one({"_id": ObjectId(project)})["tasks"]
-        for task in tasks:
-            task = self._tasks.find_one({"_id": ObjectId(task)})
-
-            id = str(task["_id"])
-            name = task["name"]
-            description = task["description"]
-            image = self.get_image(task["image"])
-
-            tasks_html += """
-                    <tr>
-                        <td class="align-middle" onclick="$('.collapse_""" + id + """').collapse('toggle')">
-                            <div class="panel-group" id="accordion">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h5 class="panel-title mb-0">""" + name + """</h5>
-                                    </div>
-                                    <div class="panel-collapse collapse in collapse_project1">
-                                        <div class="panel-body">
-                                            <p>""" + description + """</p>
-    
-                                            <div class="container">
-                                                <img alt="Project Image" class="img-fluid p-4" src=""" + image + """>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-    
-                        <td class="align-middle">
-                            <button class="btn btn-danger" onclick="$('#projectEditModal').modal();" type="button">Edit
-                            </button>
-                        </td>
-                   </tr>"""
-
-        return tasks_html
-
-    def register(self, email, password, role=Role.SUPERVISOR):
+    def register(self, email, password, role="Supervisor"):
         self.users.insert_one({
             "email": email,
             "hash": bcrypt.hashpw(password.encode(), self.salt.encode()),
@@ -146,16 +97,77 @@ class JonAppDatabase:
         })
 
     def login(self, email, password):
-        userdoc = self.users.find_one({"email": email})
+        user_doc = self.users.find_one({"email": email})
 
-        if userdoc:
-            return bcrypt.checkpw(password.encode(), userdoc["hash"])
-        else:
-            return False
+        if user_doc:  # If account exists
+            return user_doc["password_hash"] == password  # TODO: IMPORTANT! Hash the password with bcrypt!
 
-# database.register("nate@nate.to", "mypassword")
+    # def get_tasks_html(self, project):
+    #     tasks_html = ""
+    #
+    #     tasks = self.projects.find_one({"_id": ObjectId(project)})["tasks"]
+    #     for task in tasks:
+    #         task = self._tasks.find_one({"_id": ObjectId(task)})
+    #
+    #         name = task["name"]
+    #         description = task["description"]
+    #         image = self.get_image(task["image"])
+    #
+    #         tasks_html += """
+    #             <div class="col s12 m6 l4">
+    #                 <div class="card hoverable">
+    #                     <div class="card-image">
+    #                         <img src='""" + image + """'>
+    #                         <span class="card-title">""" + name + """</span>
+    #                         <a class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">create</i></a>
+    #                         </div>
+    #                         <div class="card-content">
+    #                         <p>""" + description + """</p>
+    #                     </div>
+    #                 </div>
+    #             </div>"""
+    #
+    #     return tasks_html
 
-# print(database.login("nate@nate.to", "mypass1word"))
+    # def add_supervisor(self, name, email):
+    #     if not valid.email(email):
+    #         raise ValueError("Invalid email in add_supervisor")
+    #
+    #     return str(self.supervisors.insert_one({
+    #         "name": name,
+    #         "email": email
+    #     }).inserted_id)
+    #
+    # def add_user(self, name, supervisor):
+    #     return str(self.users.insert_one({
+    #         "name": name,
+    #         "supervisors": [supervisor],
+    #         "projects": []
+    #     }).inserted_id)
+    #
+    # def add_task(self, project, name, description, image):
+    #     if not self.projects.find_one({"_id": ObjectId(project)}):
+    #         raise ValueError("Project id: " + project + " not found.")
+    #
+    #     self.projects.update_one({"_id": ObjectId(project)}, {"$push": {"tasks": {
+    #         "name": name,
+    #         "description": description,
+    #         "image": self.put_image(image),
+    #         "state": State.PENDING,
+    #         "subtasks": []
+    #     }}})
 
-# database.add_project("My project", "project dscr", "")
-# database.add_task("5e6130ca53074c9fe1e5e6d6", "Project Name", "Project descr", "")
+    # def login(self, email, password):
+    #     userdoc = self.users.find_one({"email": email})
+    #
+    #     if userdoc:
+    #         return bcrypt.checkpw(password.encode(), userdoc["hash"])
+    #     else:
+    #         return False
+
+    # database.register("nate@nate.to", "mypassword")
+
+    # print(database.login("nate@nate.to", "mypass1word"))
+
+    # database.add_project("My project", "project dscr", "")
+    # database.add_task("5e6130ca53074c9fe1e5e6d6", "Project Name", "Project descr", "")
