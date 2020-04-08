@@ -5,16 +5,16 @@ from flask import (
     Flask,
     request,
     render_template,
-    Markup
+    Markup,
+    redirect
 )
 
 from database import JonAppDatabase
-from utils import qr
+from utils import *
 
 HOST = "127.0.0.1"
 PORT = 5001
 PRODUCTION = False
-VERSION = "0.1"
 
 app = Flask(__name__)
 database = JonAppDatabase("mongodb://app1.srv.pdx1.nate.to:7000/")
@@ -22,12 +22,8 @@ database = JonAppDatabase("mongodb://app1.srv.pdx1.nate.to:7000/")
 
 @app.route("/")
 def index():
-    return render_template("index.html",
-                           user_name="Seth Knights")
+    return render_template("index.html", user_name="Seth Knights")
 
-@app.route("/login")
-def login():
-    return render_template("supervisor/login.html")
 
 # <supervisor>
 
@@ -41,63 +37,69 @@ def supervisor_home():
                            )
 
 
-@app.route("/supervisor/project", methods=["GET"])
-def supervisor_project():
-    id = request.args.get("id")
-
-    return render_template("supervisor/project.html",
-                           project_name="My project",
-                           tasks_html=Markup(database.get_tasks_html(id))
-                           )
-
-
 # </supervisor>
-
-
-@app.route("/user/home")
-def user_home():
-    return render_template("user/home.html")
-
-
-@app.route("/add/supervisor", methods=["POST"])
-def add_supervisor():
-    name = request.form["name"]
-    email = request.form["email"]
-
-    return database.add_supervisor(name, email)
-
-
-@app.route("/add/user", methods=["POST"])
-def add_user():
-    name = request.form["name"]
-    supervisor = request.form["supervisor"]
-
-    return database.add_user(name, supervisor)
-
-
-@app.route("/add/task", methods=["POST"])
-def add_task():
-    project = request.form["project"]
-    name = request.form["name"]
-    description = request.form["description"]
-    image = request.files["image"]
-
-    return database.add_task(project, name, description, image)
-
-
-@app.route("/get/tasks", methods=["POST"])
-def get_tasks():
-    user = request.form["user"]
-
-    return database.get_tasks(user)
 
 
 @app.route("/add/project", methods=["POST"])
 def add_project():
     name = request.form["name"]
     description = request.form["description"]
+    image = request.files["image"]
 
-    return database.add_project(name, description)
+    database.add_project(name, description, image)
+    return redirect("/supervisor/home")
+
+
+@app.route("/login", methods=["GET", "POST"])
+def route_login():
+    if request.method == "GET":
+        return render_template("login.html")
+    elif request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
+
+        if database.login(email, password):
+            return "Welcome"
+        else:
+            return "Invalid username or password"
+
+
+# @app.route("/user/home")
+# def user_home():
+#     return render_template("user/home.html")
+#
+#
+# @app.route("/add/supervisor", methods=["POST"])
+# def add_supervisor():
+#     name = request.form["name"]
+#     email = request.form["email"]
+#
+#     return database.add_supervisor(name, email)
+#
+#
+# @app.route("/add/user", methods=["POST"])
+# def add_user():
+#     name = request.form["name"]
+#     supervisor = request.form["supervisor"]
+#
+#     return database.add_user(name, supervisor)
+#
+#
+# @app.route("/add/task", methods=["POST"])
+# def add_task():
+#     project = request.form["project"]
+#     name = request.form["name"]
+#     description = request.form["description"]
+#     image = request.files["image"]
+#
+#     return database.add_task(project, name, description, image)
+#
+#
+# @app.route("/get/tasks", methods=["POST"])
+# def get_tasks():
+#     user = request.form["user"]
+#
+#     return database.get_tasks(user)
 
 
 app.run(host=HOST, port=PORT, debug=not PRODUCTION)
