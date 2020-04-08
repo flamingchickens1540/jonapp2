@@ -13,6 +13,9 @@ import bcrypt
 import base64
 import utils
 
+import random
+import string
+
 import validators as valid
 
 
@@ -28,10 +31,12 @@ class JonAppDatabase:
         self.projects = self._db["projects"]
         self.users = self._db["users"]
 
-        self.salt = "$2b$12$MfET9FATeW4fyP3f3OInGe"
-
     def get_image(self, object_id):  # TODO: No content_type checking. This should only allow images
-        entry = self._gridfs.get(object_id)
+        try:
+            entry = self._gridfs.get(object_id)
+        except gridfs.errors.NoFile:
+            return "https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png"
+
         content_type = entry.contentType.strip()
 
         if content_type.split("/")[0] != "image":
@@ -46,9 +51,10 @@ class JonAppDatabase:
                 extension = image.filename.split(".")[1]
             except IndexError:  # No extension
                 return ""
+            else:
 
-            return self._gridfs.put(image, content_type=image.content_type,
-                                    filename="image-" + utils.token() + "." + extension)
+                return self._gridfs.put(image, content_type=image.content_type, filename="image-" + "".join(
+                    random.choice(string.ascii_lowercase) for i in range(32)) + "." + extension)
         else:
             return ""
 
@@ -102,32 +108,32 @@ class JonAppDatabase:
         if user_doc:  # If account exists
             return user_doc["password_hash"] == password  # TODO: IMPORTANT! Hash the password with bcrypt!
 
-    # def get_tasks_html(self, project):
-    #     tasks_html = ""
-    #
-    #     tasks = self.projects.find_one({"_id": ObjectId(project)})["tasks"]
-    #     for task in tasks:
-    #         task = self._tasks.find_one({"_id": ObjectId(task)})
-    #
-    #         name = task["name"]
-    #         description = task["description"]
-    #         image = self.get_image(task["image"])
-    #
-    #         tasks_html += """
-    #             <div class="col s12 m6 l4">
-    #                 <div class="card hoverable">
-    #                     <div class="card-image">
-    #                         <img src='""" + image + """'>
-    #                         <span class="card-title">""" + name + """</span>
-    #                         <a class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">create</i></a>
-    #                         </div>
-    #                         <div class="card-content">
-    #                         <p>""" + description + """</p>
-    #                     </div>
-    #                 </div>
-    #             </div>"""
-    #
-    #     return tasks_html
+    def get_projects_html(self, user):
+        projects_html = ""
+
+        projects = self.projects.find({})
+        for project in projects:
+            # if user in project["users"]:
+            if True:
+                name = project["name"]
+                description = project["description"]
+                image = self.get_image(project["image"])
+
+                projects_html += """
+                    <div class="col s12 m6 l4">
+                        <div class="card hoverable">
+                            <div class="card-image">
+                                <img src='""" + image + """'>
+                                <span class="card-title">""" + name + """</span>
+                                <a class="btn-floating halfway-fab waves-effect waves-light"><i class="material-icons">create</i></a>
+                                </div>
+                                <div class="card-content">
+                                <p>""" + description + """</p>
+                            </div>
+                        </div>
+                    </div>"""
+
+        return projects_html
 
     # def add_supervisor(self, name, email):
     #     if not valid.email(email):
