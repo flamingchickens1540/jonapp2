@@ -10,28 +10,21 @@ from flask import (
 
 from database import JonAppDatabase
 from utils import qr
-import time
 
 HOST = "127.0.0.1"
 PORT = 5001
 PRODUCTION = False
 VERSION = "0.1"
 
-SUCCESS = "Operation completed successfully."
-
 app = Flask(__name__)
-database = JonAppDatabase("mongodb://jonapp.nate.to:5000/")
-# start_time = time.strftime("Started at %-I:%M:%S %P")
+database = JonAppDatabase("mongodb://app1.srv.pdx1.nate.to:7000/")
+
 
 @app.route("/")
 def index():
     return render_template("index.html",
                            user_name="Seth Knights")
 
-
-@app.route("/status")
-def status():
-    return start_time
 
 # <supervisor>
 
@@ -102,5 +95,6 @@ def add_project():
     description = request.form["description"]
 
     return database.add_project(name, description)
+
 
 app.run(host=HOST, port=PORT, debug=not PRODUCTION)
