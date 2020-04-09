@@ -31,7 +31,7 @@ class JonAppDatabase:
         self.projects = self._db["projects"]
         self.users = self._db["users"]
 
-    def get_image(self, object_id):  # TODO: No content_type checking. This should only allow images
+    def get_image(self, object_id):
         try:
             entry = self._gridfs.get(object_id)
         except gridfs.errors.NoFile:
@@ -40,7 +40,8 @@ class JonAppDatabase:
         content_type = entry.contentType.strip()
 
         if content_type.split("/")[0] != "image":
-            raise ValueError("Content type " + content_type + " not supported.")
+            return "https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png"
+            # raise ValueError("Content type " + content_type + " not supported.")
 
         content = entry.read()
         return "data:" + content_type + ";base64, " + base64.b64encode(content).decode()
@@ -52,9 +53,8 @@ class JonAppDatabase:
             except IndexError:  # No extension
                 return ""
             else:
-
-                return self._gridfs.put(image, content_type=image.content_type, filename="image-" + "".join(
-                    random.choice(string.ascii_lowercase) for i in range(32)) + "." + extension)
+                if image.content_type.split("/")[0] == "image":
+                    return self._gridfs.put(image, content_type=image.content_type, filename="image-" + "".join(random.choice(string.ascii_lowercase) for i in range(32)) + "." + extension)
         else:
             return ""
 
@@ -128,7 +128,7 @@ class JonAppDatabase:
                             </div>
                             <div class="card-content">
                             <span class="card-title activator grey-text text-darken-4">""" + name + """</span>
-                            <i class="material-icons right dropdown-trigger" data-target="dropdown1">more_vert</i>
+                            <i class="material-icons right dropdown-trigger" data-target='dropdown-""" + id + """'>more_vert</i>
                             <p>Click to reveal.</p>
                             </div>
                             <div class="card-reveal">
@@ -137,8 +137,8 @@ class JonAppDatabase:
                             </div>
                         </div>
                         
-                        <ul id='dropdown1' class='dropdown-content'>
-                            <li><a href='/delete/""" + id + """'><i class="material-icons">delete</i>Delete</a></li>
+                        <ul id='dropdown-""" + id + """' class='dropdown-content'>
+                            <li><a href='/project/delete/""" + id + """'><i class="material-icons">delete</i>Delete</a></li>
                         </ul>
                         
                     </div>"""

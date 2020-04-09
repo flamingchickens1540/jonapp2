@@ -70,8 +70,11 @@ def signup():
     return render_template("/supervisor/signup.html")
 
 
-# @app.route("/delete/")
-
+@app.route("/project/delete", defaults={"id": ""})
+@app.route("/project/delete/<path:id>")
+def route_project_delete(id):
+    database.delete_project(id)
+    return redirect("/supervisor/home")
 # @app.route("/user/home")
 # def user_home():
 #     return render_template("user/home.html")
