@@ -229,3 +229,13 @@ i {
         object-fit: cover;
     }
 }
+
+#p-create-image {
+    width: 100%;
+    height: 500px;
+    object-fit: scale-down;
+}
+
+#createModal {
+    width: 25%;
+}
