@@ -41,7 +41,6 @@ class JonAppDatabase:
 
         if content_type.split("/")[0] != "image":
             return "https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png"
-            # raise ValueError("Content type " + content_type + " not supported.")
 
         content = entry.read()
         return "data:" + content_type + ";base64, " + base64.b64encode(content).decode()
@@ -129,7 +128,7 @@ class JonAppDatabase:
                             <div class="card-content">
                             <span class="card-title activator grey-text text-darken-4">""" + name + """</span>
                             <i class="material-icons right dropdown-trigger" data-target='dropdown-""" + id + """'>more_vert</i>
-                            <p>Click to reveal.</p>
+                            <p>""" + description[:16] + """</p>
                             </div>
                             <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">""" + name + """<i class="material-icons right">close</i></span>
