@@ -115,6 +115,7 @@ class JonAppDatabase:
         for project in projects:
             # if user in project["users"]:
             if True:
+                id = str(project["_id"])
                 name = project["name"]
                 description = project["description"]
                 image = self.get_image(project["image"])
@@ -122,28 +123,23 @@ class JonAppDatabase:
                 projects_html += """
                     <div class="col s12 m6 l4">
                         <div class="card hoverable">
-                                <div class="card-image">
-                                <img class="activator fit-to" src='""" + image + """'>
-                                </div>
-                                <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">""" + name + """</span>
-                                <i class="material-icons right dropdown-trigger" data-target="dropdown1">more_vert</i>
-                                <p>Click to reveal.</p>
-                                </div>
-                                <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">""" + name + """<i class="material-icons right">close</i></span>
-                                <p>""" + description + """</p>
-                                </div>
+                            <div class="card-image">
+                            <img class="activator fit-to" src='""" + image + """'>
+                            </div>
+                            <div class="card-content">
+                            <span class="card-title activator grey-text text-darken-4">""" + name + """</span>
+                            <i class="material-icons right dropdown-trigger" data-target="dropdown1">more_vert</i>
+                            <p>Click to reveal.</p>
+                            </div>
+                            <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4">""" + name + """<i class="material-icons right">close</i></span>
+                            <p>""" + description + """</p>
+                            </div>
                         </div>
                         
-                         <ul id='dropdown1' class='dropdown-content'>
-                            <li><a href="#!">one</a></li>
-                            <li><a href="#!">two</a></li>
-                            <li class="divider" tabindex="-1"></li>
-                            <li><a href="#!">three</a></li>
-                            <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
-                            <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
-                          </ul>
+                        <ul id='dropdown1' class='dropdown-content'>
+                            <li><a href='/delete/""" + id + """'><i class="material-icons">delete</i>Delete</a></li>
+                        </ul>
                         
                     </div>"""
 

@@ -68,6 +68,10 @@ def route_login():
 @app.route("/signup")
 def signup():
     return render_template("/supervisor/signup.html")
+
+
+# @app.route("/delete/")
+
 # @app.route("/user/home")
 # def user_home():
 #     return render_template("user/home.html")
