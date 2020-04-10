@@ -20,7 +20,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!--  Vendor libraries  -->
-    <script src="/static/js/vendor/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
@@ -30,7 +30,8 @@
             <a href="#" class="brand-logo" id="navBrand">JonApp</a>
 
             <ul class="right">
-                <a href="#" data-target="mobile-nav" class="sidenav-trigger show-on-medium-and-up"><i class="material-icons">menu</i></a>
+                <a href="#" data-target="mobile-nav" class="sidenav-trigger show-on-medium-and-up"><i
+                            class="material-icons">menu</i></a>
             </ul>
         </div>
     </nav>
@@ -43,37 +44,45 @@
                     <div class="col s12 m12 l12 center-align">
                         <span class="table-title">Join JonApp</span>
                     </div>
-                    <form method="post" action="">
-                    <div class="col s12 m6 l6 padded">
-                        <input id="first_name" type="text" class="validate" required>
-                        <label for="first_name">First Name</label>
-                    </div>
-                    <div class="col s12 m6 l6 padded">
-                        <input id="last_name" type="text" class="validate" required>
-                        <label for="last_name">Last Name</label>
-                    </div>
-                    <div class="col s12 m12 l12">
-                        <input id="email" type="email" class="validate" name="email" required>
-                        <label for="email">Email Address</label>
-                    </div>
-                    <div class="col s12 m12 l12">
-                        <input id="password1" type="password" class="validate" name="password1" required>
-                        <label for="password1">Password</label>
-                    </div>
-                    <div class="col s12 m12 l12">
-                        <input id="password2" type="password" class="validate" name="password2" required>
-                        <label for="password2">Confirm Password</label>
-                    </div>
-                    <div class="col s12 m12 l12">
-                        <a href="#" class="waves-effect waves-light btn loginbutton right center-align" type="submit">Sign Up
-                            <i class="material-icons buttonicon">assignment</i>
-                        </a>
-                    </div>
+                    <form method="post" action="/signup" id="signupform">
+                        <div class="col s12 m12 l12">
+                            <input id="email" type="email" class="validate" name="email" required>
+                            <label for="email">Email Address</label>
+                        </div>
+                        <div class="col s12 m12 l12">
+                            <input id="password" type="password" class="validate" name="password" required>
+                            <label for="password">Password</label>
+                        </div>
+                        <div class="col s12 m12 l12">
+                            <input id="password2" type="password" class="validate" name="password2" required>
+                            <label for="password2">Confirm Password</label>
+                        </div>
+                        <div class="col s12 m12 l12">
+                            <a onclick="submit()" class="waves-effect waves-light btn loginbutton right center-align"
+                               type="submit">Sign Up
+                                <i class="material-icons buttonicon">assignment</i>
+                            </a>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function submit() {
+        let password = document.getElementById("password").value;
+        let password2 = document.getElementById("password2").value;
+
+        if (password !== password2) {
+            alert("Passwords are not the same.");
+        } else {
+            document.getElementById("signupform").submit();
+        }
+    }
+</script>
+
+
 </body>
 </html>

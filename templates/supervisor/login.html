@@ -20,7 +20,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!--  Vendor libraries  -->
-    <script src="/static/js/vendor/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
@@ -40,7 +40,7 @@
             <div class="col s12 m12 l6 offset-l3">
                 <div class="card-panel">
                     <div class="row">
-                        <form method="post" action="">
+                        <form method="post" action="/login">
                             <div class="col s12 m12 l12 center-align">
                                 <span class="table-title">Login to JonApp</span>
                             </div>
@@ -53,7 +53,7 @@
                                 <label for="password">Password</label>
                             </div>
                             <div class="col s12 m12 l12">
-                                <a href="#" class="waves-effect waves-light btn loginbutton right center-align" type="submit">Log In
+                                <a onclick="$(this).closest('form').submit()" class="waves-effect waves-light btn loginbutton right center-align" type="submit">Log In
                                     <i class="material-icons buttonicon">vpn_key</i>
                                 </a>
                             </div>
