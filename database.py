@@ -9,10 +9,7 @@ import pymongo
 from bson.objectid import ObjectId
 
 import bcrypt
-
 import base64
-import utils
-
 import random
 import string
 
@@ -53,7 +50,8 @@ class JonAppDatabase:
                 return ""
             else:
                 if image.content_type.split("/")[0] == "image":
-                    return self._gridfs.put(image, content_type=image.content_type, filename="image-" + "".join(random.choice(string.ascii_lowercase) for i in range(32)) + "." + extension)
+                    return self._gridfs.put(image, content_type=image.content_type, filename="image-" + "".join(
+                        random.choice(string.ascii_lowercase) for i in range(32)) + "." + extension)
         else:
             return ""
 
@@ -94,18 +92,21 @@ class JonAppDatabase:
             "subtasks": []
         }}})
 
-    def register(self, email, password, role="Supervisor"):
+    def signup(self, email, password):
+        if self.users.find_one({"email": email}): # If account already exists
+            return False
+
         self.users.insert_one({
             "email": email,
-            "hash": bcrypt.hashpw(password.encode(), self.salt.encode()),
-            "role": role
+            "password": bcrypt.hashpw(password.encode(), bcrypt.gensalt())
         })
+
+        return True
 
     def login(self, email, password):
         user_doc = self.users.find_one({"email": email})
 
-        if user_doc:  # If account exists
-            return user_doc["password_hash"] == password  # TODO: IMPORTANT! Hash the password with bcrypt!
+        return user_doc and bcrypt.checkpw(password.encode(), user_doc["password"])
 
     def get_projects_html(self, user):
         projects_html = ""
