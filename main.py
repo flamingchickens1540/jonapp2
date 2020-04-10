@@ -1,13 +1,7 @@
 #!/usr/bin/python3
 # main.py
 
-from flask import (
-    Flask,
-    request,
-    render_template,
-    Markup,
-    redirect
-)
+from flask import Flask, request, render_template, Markup, redirect
 
 from database import JonAppDatabase
 from utils import *
@@ -18,7 +12,6 @@ PRODUCTION = False
 
 app = Flask(__name__)
 database = JonAppDatabase("mongodb://app1.srv.pdx1.nate.to:7000/")
-
 
 @app.route("/")
 def index():
@@ -51,20 +44,6 @@ def add_project():
     database.add_project(name, description, image)
     return redirect("/supervisor/home")
 
-
-@app.route("/login", methods=["GET", "POST"])
-def route_login():
-    if request.method == "GET":
-        return render_template("/supervisor/login.html")
-    elif request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
-
-        if database.login(email, password):
-            return "Welcome"
-        else:
-            return "Invalid username or password"
-
 @app.route("/signup")
 def signup():
     return render_template("/supervisor/signup.html")
@@ -75,6 +54,47 @@ def signup():
 def route_project_delete(id):
     database.delete_project(id)
     return redirect("/supervisor/home")
+
+
+
+# Auth
+
+@app.route("/signup", methods=["GET", "POST"])
+def route_signup():
+    if request.method == "GET":
+        return render_template("/supervisor/signup.html")
+
+    elif request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
+
+        if email and password:
+            if database.signup(email, password):
+                return redirect("/login")
+            else:
+                return "An account with this email already exists."
+        else:
+            return "You may not leave the username or password field blank."
+
+
+@app.route("/login", methods=["GET", "POST"])
+def route_login():
+    if request.method == "GET":
+        return render_template("/supervisor/login.html")
+
+    elif request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
+
+        if database.login(email, password):
+            return "Welcome"
+        else:
+            return "Invalid username or password"
+
+
+# End auth
+
+
 # @app.route("/user/home")
 # def user_home():
 #     return render_template("user/home.html")
