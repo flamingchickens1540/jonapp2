@@ -56,7 +56,7 @@ a.btn {
 }
 
 .loginbutton {
-    width: 25%;
+    width: 10vw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -94,6 +94,12 @@ i {
 @media only screen and (max-width: 900px) {
     #buttonsCont {
         width: 45vw;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .loginbutton {
+        width: 12vw;
     }
 }
 
@@ -181,6 +187,10 @@ i {
     object-fit: cover;
 }
 
+.nopad {
+    float: right;
+}
+
 @media only screen and (max-width: 1440px) {
     #userModal {
         width: 30%
@@ -195,7 +205,7 @@ i {
         width: 60%
     }
     .loginbutton {
-        width: 20%;
+        width: 15vw;
     }
 }
 
@@ -207,7 +217,7 @@ i {
         width: 70%
     }
     .loginbutton {
-        width: 20%;
+        width: 18vw;
     }
 }
 
