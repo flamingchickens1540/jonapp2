@@ -62,6 +62,11 @@ a.btn {
     justify-content: center;
 }
 
+.inbut {
+    display: block;
+    height: inherit;
+}
+
 footer {
     background: #899BC9 !important;
 }
@@ -248,4 +253,23 @@ i {
 
 #createModal {
     width: 25%;
+}
+
+/* label focus color */
+input:focus + label {
+    color: black !important;
+}
+/* label underline focus color */
+input:focus {
+    border-bottom: 1px solid black !important;
+    box-shadow: 0 1px 0 0 black !important
+}
+/* label focus color */
+input + label {
+    color: black !important;
+}
+/* label underline focus color */
+input {
+    border-bottom: 1px solid black !important;
+    box-shadow: 0 1px 0 0 black !important
 }
