@@ -112,6 +112,10 @@ i {
     margin: auto;
 }
 
+.task {
+    margin-bottom: 0%;
+}
+
 .full-height {
     height: 100%;
     width: 100%;
@@ -123,7 +127,7 @@ i {
     color: #FFFFFF !important;
 }
 
-.card-panel {
+.lightpurple {
     background: #C7D7FF !important;
 }
 
@@ -196,6 +200,73 @@ i {
     float: right;
 }
 
+
+
+#p-create-image,
+#t-create-image {
+    width: 100%;
+    height: 500px;
+    object-fit: scale-down;
+}
+
+#createModal,
+#taskModal {
+    width: 35%;
+}
+
+input:focus + label {
+    color: black !important;
+}
+input:focus {
+    border-bottom: 1px solid black !important;
+    box-shadow: 0 1px 0 0 black !important
+}
+input + label {
+    color: black !important;
+}
+input {
+    border-bottom: 1px solid black !important;
+    box-shadow: 0 1px 0 0 black !important
+}
+
+textarea:focus + label {
+    color: black !important;
+}
+textarea + label {
+    color: black !important;
+}
+textarea {
+    border-bottom: 1px solid black !important;
+    box-shadow: 0 1px 0 0 black !important
+}
+
+
+.task-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.no-bottom-margin {
+    margin-bottom: 0px !important;
+}
+
+.default {}
+
+.myPlaceholder {
+    border: 0px solid #48577D;
+    height: 100%;
+    margin: 2%;
+}
+
+.task-title {
+    font-size: 1.5rem;
+}
+
+.modal-title {
+    margin-left: 2.5%;
+}
+
 @media only screen and (max-width: 1440px) {
     #userModal {
         width: 30%
@@ -212,6 +283,10 @@ i {
     .loginbutton {
         width: 15vw;
     }
+    #createModal,
+    #taskModal {
+        width: 50%;
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -223,6 +298,10 @@ i {
     }
     .loginbutton {
         width: 18vw;
+    }
+    #createModal,
+    #taskModal {
+        width: 90%;
     }
 }
 
@@ -243,33 +322,4 @@ i {
 
         object-fit: cover;
     }
-}
-
-#p-create-image {
-    width: 100%;
-    height: 500px;
-    object-fit: scale-down;
-}
-
-#createModal {
-    width: 25%;
-}
-
-/* label focus color */
-input:focus + label {
-    color: black !important;
-}
-/* label underline focus color */
-input:focus {
-    border-bottom: 1px solid black !important;
-    box-shadow: 0 1px 0 0 black !important
-}
-/* label focus color */
-input + label {
-    color: black !important;
-}
-/* label underline focus color */
-input {
-    border-bottom: 1px solid black !important;
-    box-shadow: 0 1px 0 0 black !important
 }

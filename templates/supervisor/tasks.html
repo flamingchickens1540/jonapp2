@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Jon App 2</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <!--  Open Graph Tags  -->
+    <meta content="Jon App 2" property="og:title"/>
+    <meta content="Revolutionizing employment for those with cognitive disabilities." property="og:description"/>
+    <meta content="en_US" property="og:locale"/>
+    <meta content="Jon App 2" property="og:site_name"/>
+    <meta content="https://jonapp.nate.to/" property="og:url"/>
+    <meta content="https://jonapp.nate.to/img/logo.png" property="og:image"/> <!-- TODO -->
+
+    <!--  CSS  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.typekit.net/ngj4yzz.css">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--  Vendor libraries  -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+<div class="navbar-fixed">
+    <nav>
+        <div class="nav-wrapper">
+            <a href="/supervisor/home" class="brand-logo" id="navBrand">JonApp</a>
+
+            <ul class="right">
+                <a href="#" data-target="mobile-nav" class="sidenav-trigger show-on-medium-and-up"><i
+                        class="material-icons">menu</i></a>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<ul class="sidenav" id="mobile-nav">
+    <li>
+        <div class="user-view">
+            <div class="background">
+                <img src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
+            </div>
+            <a href="#user"><img class="circle"
+                                 src="https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png"></a>
+            <a href="#name"><span class="white-text name">{{ user_name }}</span></a>
+            <a href="#email"><span class="white-text email">{{ user_id }}</span></a>
+        </div>
+    </li>
+    <li><a class="modal-trigger" href="#userModal" id="banner">Display QR Code</a></li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li><a class="subheader">Used for adding users to projects.</a></li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li><a href="/">Logout</a></li>
+</ul>
+
+<div class="row">
+    <div class="col s12 m8 l6 offset-m2 offset-l3">
+        <div class="card-panel lightpurple">
+            <div class="valign-wrapper" id="title-wrap">
+                <div class="col l4 m4 s4">
+                    <a class="btn-floating btn-large waves-effect waves-light hide-on-small-and-down modal-trigger"
+                       href="#taskModal"><i class="material-icons">add</i></a>
+                    <a class="btn-floating btn-small waves-effect waves-light hide-on-med-and-up modal-trigger"
+                       href="#taskModal"><i class="material-icons">add</i></a>
+                </div>
+                <div class="col l4 m4 s4 center-align">
+                    <span class="table-title">Tasks</span>
+                </div>
+                <div class="col l4 m4 s4"></div>
+            </div>
+
+            <ul id="sortable">
+                <li class="default" id="test1">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <div class="card-panel task white">
+                                <div class="row valign-wrapper no-bottom-margin">
+                                    <div class="col s3 m3 l2 valign-wrapper">
+                                        <img class="task-preview-img" src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
+                                    </div>
+                                    <div class="col s8 m8 l9">
+                                        <span class="task-title">Test task #<span id="num"></span></span>
+                                        <p class="task-desc grey-text text-darken-2">This is a task description, here you can add any extra description not present in the title of the task.</p>
+                                    </div>
+                                    <div class="col s1 m1 l1 valign-wrapper">
+                                        <i class="material-icons dropdown-trigger" data-target="dropdown1">more_vert</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="default" id="test2">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <div class="card-panel task white">
+                                <div class="row valign-wrapper no-bottom-margin">
+                                    <div class="col s3 m3 l2 valign-wrapper">
+                                        <img class="task-preview-img" src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
+                                    </div>
+                                    <div class="col s8 m8 l9">
+                                        <span class="task-title">Test task #<span id="num"></span></span>
+                                        <p class="task-desc grey-text text-darken-2">This is a task description, here you can add any extra description not present in the title of the task.</p>
+                                    </div>
+                                    <div class="col s1 m1 l1 valign-wrapper">
+                                        <i class="material-icons dropdown-trigger" data-target="dropdown1">more_vert</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="default" id="test3">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <div class="card-panel task white">
+                                <div class="row valign-wrapper no-bottom-margin">
+                                    <div class="col s3 m3 l2 valign-wrapper">
+                                        <img class="task-preview-img" src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
+                                    </div>
+                                    <div class="col s8 m8 l9">
+                                        <span class="task-title">Test task #<span id="num"></span></span>
+                                        <p class="task-desc grey-text text-darken-2">This is a task description, here you can add any extra description not present in the title of the task.</p>
+                                    </div>
+                                    <div class="col s1 m1 l1 valign-wrapper">
+                                        <i class="material-icons dropdown-trigger" data-target="dropdown1">more_vert</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<ul id="dropdown1" class="dropdown-content">
+    <li><a href="#"><i class="material-icons">delete</i>Delete</a></li>
+</ul>
+
+<div id="taskModal" class="modal modal-fixed-footer">
+    <form method="post" action="/add/task" enctype=multipart/form-data>
+        <div class="modal-content">
+            <div class="col s12 m6 l6">
+                <span class="modal-title">New Task</span>
+            </div>
+            <div class="row">
+                <div class="col s12 l12 m12">
+                    <div class="input-field col s12 l12 m12">
+                        <input id="name" type="text" name="task_name" data-length="30">
+                        <label for="name">Task Name</label>
+                    </div>
+                    <div class="input-field col s12 l12 m12">
+                        <textarea name="task_description" id="description" class="materialize-textarea"
+                                  data-length="120"></textarea>
+                        <label for="description">Task Description</label>
+                    </div>
+                </div>
+
+                <div class="col s12 l12 m12">
+                    <div class="file-field input-field">
+                        <input accept="image/*;capture=camera" id="t-create-file" name="image" style="display: none;" type="file"/>
+                    </div>
+
+                    <button class="btn" onclick="document.getElementById('t-create-file').click();" type="button">
+                        Select New Image
+                    </button>
+
+                    <img alt="Project Image" class="img-fluid" id="t-create-image" src="">
+
+                    <script>
+                        function tCreateImgUpdate() {
+                            if (this.files && this.files[0]) {
+                                const FR = new FileReader();
+
+                                FR.addEventListener("load", function (e) {
+                                    document.getElementById("t-create-image").src = e.target.result; // e.target.result is the b64
+                                });
+
+                                FR.readAsDataURL(this.files[0]);
+                            } else {
+                                alert("Error uploading image.");
+                                throw new Error("Error uploading image.");
+                            }
+                        }
+
+                        document.getElementById("t-create-file").addEventListener("change", tCreateImgUpdate);
+                    </script>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn waves-effect waves-light right modal-close" id="submitbutton" type="submit"
+                    name="action">Create
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    $(function() {
+        $("#sortable").sortable({
+            'forcePlaceholderSize': true,
+            placeholder: "myPlaceholder",
+            update: function(event, ui) {
+                var taskOrder = $(this).sortable('toArray');
+                for (var i = 0; i < taskOrder.length; i++) {
+                    $("#" + taskOrder[i]).find("#num").text(i+1)
+                }
+            },
+            create: function(event, ui) {
+                var taskOrder = $(this).sortable('toArray');
+                for (var i = 0; i < taskOrder.length; i++) {
+                    $("#" + taskOrder[i]).find("#num").text(i+1)
+                }
+            }
+        });
+        $("#sortable").disableSelection();
+    });
+
+    $(document).ready(function () {
+        $('.sidenav').sidenav({edge: 'right'});
+    });
+
+    $('.dropdown-trigger').dropdown({
+        'constrainWidth': false,
+    });
+
+    $(document).ready(function () {
+        $('.modal').modal();
+    });
+</script>
+
+</body>
+</html>

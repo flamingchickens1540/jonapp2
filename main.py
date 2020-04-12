@@ -91,6 +91,10 @@ def route_login():
         else:
             return "Invalid username or password"
 
+@app.route("/supervisor/tasks")
+def route_supervisor_tasks():
+    return render_template("/supervisor/tasks.html")
+
 
 # End auth
 
