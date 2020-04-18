@@ -99,7 +99,7 @@ def route_signup():
 
         if email and password:
             if database.signup(email, password):
-                return redirect("/login")
+                return redirect("/supervisor/login")
             else:
                 return "An account with this email already exists."
         else:
@@ -126,15 +126,25 @@ def route_login():
 @app.route("/project", defaults={"project": ""})
 @app.route("/project/<path:project>", methods=["GET", "POST"])
 def route_project(project):
-    if request.method == "POST":
-        name = request.form["name"]
-        description = request.form["description"]
-        image = request.files["image"]
-        
-        database.add_task(project, name, description, image)
+    try:
+        if not session["id"]:
+            return redirect("/supervisor/login")
+    except KeyError:
+        return redirect("/supervisor/login")
 
-    proj = database.get_tasks_html(project)
-    return render_template("/supervisor/tasks.html", tasks=Markup(proj))
+
+    if database.isAuthorized(project, id):
+        if request.method == "POST":
+            name = request.form["name"]
+            description = request.form["description"]
+            image = request.files["image"]
+
+            database.add_task(project, name, description, image)
+
+        proj = database.get_tasks_html(project)
+        return render_template("/supervisor/tasks.html", tasks=Markup(proj))
+    else:
+        return redirect("/supervisor/login")
 
 
 # End auth
