@@ -28,20 +28,19 @@ def index():
 def supervisor_home():
     try:
         id = session["id"]
+        if not id:
+            return redirect("/supervisor/login")
     except KeyError:
         return redirect("/supervisor/login")
 
-    if not id:
-        return redirect("/supervisor/login")
-    else:
-        user = database.get_user(id)
-        return render_template("supervisor/home.html",
-                               user_name="To be implemented",
-                               user_id=session["id"],
-                               user_email=user["email"],
-                               user_qr=Markup(qr(session["id"])),
-                               projects_html=Markup(database.get_projects_html(session["id"]))
-                               )
+    user = database.get_user(id)
+    return render_template("supervisor/home.html",
+                           user_name="To be implemented",
+                           user_id=session["id"],
+                           user_email=user["email"],
+                           user_qr=Markup(qr(session["id"])),
+                           projects_html=Markup(database.get_projects_html(session["id"]))
+                           )
 
 
 # </supervisor>
@@ -51,42 +50,42 @@ def supervisor_home():
 def add_project():
     try:
         id = session["id"]
+        if not id:
+            return redirect("/supervisor/login")
     except KeyError:
         return redirect("/supervisor/login")
 
-    if not id:
-        return redirect("/supervisor/login")
-    else:
-        name = request.form["name"]
-        description = request.form["description"]
-        image = request.files["image"]
+    name = request.form["name"]
+    description = request.form["description"]
+    image = request.files["image"]
 
-        database.add_project(name, description, image, id)
-        return redirect("/supervisor/home")
+    database.add_project(name, description, image, id)
+    return redirect("/supervisor/home")
 
 
 @app.route("/signup")
 def signup():
     return render_template("/supervisor/signup.html")
 
+
 @app.route("/logout")
 def logout():
     del session["id"]
     return redirect("/")
+
 
 @app.route("/project/delete", defaults={"project": ""})
 @app.route("/project/delete/<path:project>")
 def route_project_delete(project):
     try:
         id = session["id"]
+        if not id:
+            return redirect("/supervisor/login")
     except KeyError:
         return redirect("/supervisor/login")
 
-    if not id:
-        return redirect("/supervisor/login")
-    else:
-        database.delete_project(project, id)
-        return redirect("/supervisor/home")
+    database.delete_project(project, id)
+    return redirect("/supervisor/home")
 
 
 # Auth
@@ -111,6 +110,12 @@ def route_signup():
 
 @app.route("/supervisor/login", methods=["GET", "POST"])
 def route_login():
+    try:
+        if session["id"]:
+            return redirect("/supervisor/home")
+    except KeyError:
+        pass
+
     if request.method == "GET":
         return render_template("/supervisor/login.html")
 
