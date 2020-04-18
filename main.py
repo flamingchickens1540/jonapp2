@@ -132,7 +132,7 @@ def route_login():
 
 
 @app.route("/project", defaults={"project": ""})
-@app.route("/project/<path:project>", methods=["GET", "POST"])
+@app.route("/project/<path:project>", methods=["GET", "POST", "DELETE"])
 def route_project(project):
     try:
         id = session["id"]
@@ -148,6 +148,9 @@ def route_project(project):
             image = request.files["image"]
 
             database.add_task(project, name, description, image)
+        elif request.method == "DELETE":
+            database.delete_task(project, request.args.get("task"))
+            # print(, session["id"])
 
         proj = database.get_tasks_html(project)
         return render_template("/supervisor/tasks.html", tasks=Markup(proj))
