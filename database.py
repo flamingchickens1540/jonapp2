@@ -100,7 +100,6 @@ class JonAppDatabase:
             "password": bcrypt.hashpw(password.encode(), bcrypt.gensalt())
         })
 
-        return redirect("/")
 
     def login(self, email, password):
         user_doc = self.users.find_one({"email": email})
@@ -155,7 +154,6 @@ class JonAppDatabase:
 
         task_counter = 0
         for task in project_document["tasks"]:
-
             tasks_html += """
             <li class="default" id='task""" + str(task_counter) + """'>
                 <div class="row">
@@ -181,6 +179,10 @@ class JonAppDatabase:
             task_counter += 1
 
         return tasks_html
+
+    def isAuthorized(self, project, user):
+        return str(user) in self.projects.find_one({"_id": ObjectId(project)})["users"]
+
     # def add_supervisor(self, name, email):
     #     if not valid.email(email):
     #         raise ValueError("Invalid email in add_supervisor")
