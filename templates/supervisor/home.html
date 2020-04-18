@@ -126,7 +126,7 @@
                         Select New Image
                     </button>
 
-                    <img alt="Project Image" class="img-fluid" id="p-create-image" src="">
+                    <img alt="" class="img-fluid" id="p-create-image" src="" style="padding-top: 5px">
 
                     <script>
                         function pCreateImgUpdate() {
@@ -142,6 +142,8 @@
                                 alert("Error uploading image.");
                                 throw new Error("Error uploading image.");
                             }
+
+
                         }
 
                         document.getElementById("p-create-file").addEventListener("change", pCreateImgUpdate);
@@ -175,7 +177,6 @@
     //     $('input#proj_name, #proj_desc').characterCounter();
     // });
     //    Commented out by Nate...Testing a thing
-
 </script>
 
 
