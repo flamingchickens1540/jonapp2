@@ -100,7 +100,6 @@ class JonAppDatabase:
             "password": bcrypt.hashpw(password.encode(), bcrypt.gensalt())
         })
 
-
     def login(self, email, password):
         user_doc = self.users.find_one({"email": email})
 
@@ -111,6 +110,14 @@ class JonAppDatabase:
 
     def get_user(self, id):
         return self.users.find_one({"_id": ObjectId(id)})
+
+    def delete_task(self, project_id, task_id):
+        print("Deleting index " + str(task_id) + " from " + project_id)
+
+        project_list = self.projects.find_one({"_id": ObjectId(project_id)})["tasks"]
+        if project_list:
+            del project_list[int(task_id)]
+            self.projects.update_one({"_id": ObjectId(project_id)}, {"$set" : {"tasks": project_list}})
 
     def get_projects_html(self, user):
         projects_html = ""
@@ -143,7 +150,6 @@ class JonAppDatabase:
                         <ul id='dropdown-""" + id + """' class='dropdown-content'>
                             <li><a href='/project/delete/""" + id + """'><i class="material-icons">delete</i>Delete</a></li>
                         </ul>
-                        
                     </div>"""
 
         return projects_html
@@ -168,13 +174,17 @@ class JonAppDatabase:
                                     <p class="task-desc grey-text text-darken-2">""" + task["description"] + """</p>
                                 </div>
                                 <div class="col s1 m1 l1 valign-wrapper">
-                                    <i class="material-icons dropdown-trigger" data-target="dropdown1">more_vert</i>
+                                    <i class="material-icons dropdown-trigger" data-target="dropdown""" + str(task_counter) + """">more_vert</i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </li>"""
+            </li>
+            
+        <ul id="dropdown""" + str(task_counter) + """" class="dropdown-content">
+        <li><a onclick='deleteTask(""" + str(task_counter) + """)'><i class="material-icons">delete</i>Delete</a></li>
+        </ul>"""
 
             task_counter += 1
 
@@ -182,39 +192,3 @@ class JonAppDatabase:
 
     def isAuthorized(self, project, user):
         return str(user) in self.projects.find_one({"_id": ObjectId(project)})["users"]
-
-    # def add_supervisor(self, name, email):
-    #     if not valid.email(email):
-    #         raise ValueError("Invalid email in add_supervisor")
-    #
-    #     return str(self.supervisors.insert_one({
-    #         "name": name,
-    #         "email": email
-    #     }).inserted_id)
-    #
-    # def add_user(self, name, supervisor):
-    #     return str(self.users.insert_one({
-    #         "name": name,
-    #         "supervisors": [supervisor],
-    #         "projects": []
-    #     }).inserted_id)
-    #
-    # def add_task(self, project, name, description, image):
-    #     if not self.projects.find_one({"_id": ObjectId(project)}):
-    #         raise ValueError("Project id: " + project + " not found.")
-    #
-    #     self.projects.update_one({"_id": ObjectId(project)}, {"$push": {"tasks": {
-    #         "name": name,
-    #         "description": description,
-    #         "image": self.put_image(image),
-    #         "state": State.PENDING,
-    #         "subtasks": []
-    #     }}})
-
-    # def login(self, email, password):
-    #     userdoc = self.users.find_one({"email": email})
-    #
-    #     if userdoc:
-    #         return bcrypt.checkpw(password.encode(), userdoc["hash"])
-    #     else:
-    #         return False
