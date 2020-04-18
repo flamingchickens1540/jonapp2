@@ -76,7 +76,9 @@ i {
 } /* TODO: Make icon padding specific to index page */
 
 #buttonsCont {
-    width: 25vw;
+    width: 100%;
+    padding-left: 20%;
+    padding-right: 20%;
 }
 
 #page-container {
