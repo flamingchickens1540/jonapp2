@@ -40,7 +40,6 @@ def supervisor_home():
                                user_id=session["id"],
                                user_email=user["email"],
                                user_qr=Markup(qr(session["id"])),
-
                                projects_html=Markup(database.get_projects_html(session["id"]))
                                )
 
@@ -70,6 +69,10 @@ def add_project():
 def signup():
     return render_template("/supervisor/signup.html")
 
+@app.route("/logout")
+def logout():
+    del session["id"]
+    return redirect("/")
 
 @app.route("/project/delete", defaults={"project": ""})
 @app.route("/project/delete/<path:project>")
@@ -127,11 +130,11 @@ def route_login():
 @app.route("/project/<path:project>", methods=["GET", "POST"])
 def route_project(project):
     try:
-        if not session["id"]:
+        id = session["id"]
+        if not id:
             return redirect("/supervisor/login")
     except KeyError:
         return redirect("/supervisor/login")
-
 
     if database.isAuthorized(project, id):
         if request.method == "POST":
@@ -148,44 +151,6 @@ def route_project(project):
 
 
 # End auth
-
-
-# @app.route("/user/home")
-# def user_home():
-#     return render_template("user/home.html")
-#
-#
-# @app.route("/add/supervisor", methods=["POST"])
-# def add_supervisor():
-#     name = request.form["name"]
-#     email = request.form["email"]
-#
-#     return database.add_supervisor(name, email)
-#
-#
-# @app.route("/add/user", methods=["POST"])
-# def add_user():
-#     name = request.form["name"]
-#     supervisor = request.form["supervisor"]
-#
-#     return database.add_user(name, supervisor)
-#
-#
-# @app.route("/add/task", methods=["POST"])
-# def add_task():
-#     project = request.form["project"]
-#     name = request.form["name"]
-#     description = request.form["description"]
-#     image = request.files["image"]
-#
-#     return database.add_task(project, name, description, image)
-#
-#
-# @app.route("/get/tasks", methods=["POST"])
-# def get_tasks():
-#     user = request.form["user"]
-#
-#     return database.get_tasks(user)
 
 
 app.run(host=HOST, port=PORT, debug=not PRODUCTION)
