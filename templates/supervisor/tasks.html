@@ -78,66 +78,7 @@
             </div>
 
             <ul id="sortable">
-                <li class="default" id="test1">
-                    <div class="row">
-                        <div class="col s12 m12 l12">
-                            <div class="card-panel task white">
-                                <div class="row valign-wrapper no-bottom-margin">
-                                    <div class="col s3 m3 l2 valign-wrapper">
-                                        <img class="task-preview-img" src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
-                                    </div>
-                                    <div class="col s8 m8 l9">
-                                        <span class="task-title">Test task #<span id="num"></span></span>
-                                        <p class="task-desc grey-text text-darken-2">This is a task description, here you can add any extra description not present in the title of the task.</p>
-                                    </div>
-                                    <div class="col s1 m1 l1 valign-wrapper">
-                                        <i class="material-icons dropdown-trigger" data-target="dropdown1">more_vert</i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="default" id="test2">
-                    <div class="row">
-                        <div class="col s12 m12 l12">
-                            <div class="card-panel task white">
-                                <div class="row valign-wrapper no-bottom-margin">
-                                    <div class="col s3 m3 l2 valign-wrapper">
-                                        <img class="task-preview-img" src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
-                                    </div>
-                                    <div class="col s8 m8 l9">
-                                        <span class="task-title">Test task #<span id="num"></span></span>
-                                        <p class="task-desc grey-text text-darken-2">This is a task description, here you can add any extra description not present in the title of the task.</p>
-                                    </div>
-                                    <div class="col s1 m1 l1 valign-wrapper">
-                                        <i class="material-icons dropdown-trigger" data-target="dropdown1">more_vert</i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="default" id="test3">
-                    <div class="row">
-                        <div class="col s12 m12 l12">
-                            <div class="card-panel task white">
-                                <div class="row valign-wrapper no-bottom-margin">
-                                    <div class="col s3 m3 l2 valign-wrapper">
-                                        <img class="task-preview-img" src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
-                                    </div>
-                                    <div class="col s8 m8 l9">
-                                        <span class="task-title">Test task #<span id="num"></span></span>
-                                        <p class="task-desc grey-text text-darken-2">This is a task description, here you can add any extra description not present in the title of the task.</p>
-                                    </div>
-                                    <div class="col s1 m1 l1 valign-wrapper">
-                                        <i class="material-icons dropdown-trigger" data-target="dropdown1">more_vert</i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+                {{ tasks }}
             </ul>
         </div>
     </div>
@@ -148,7 +89,7 @@
 </ul>
 
 <div id="taskModal" class="modal modal-fixed-footer">
-    <form method="post" action="/add/task" enctype=multipart/form-data>
+    <form method="post" enctype=multipart/form-data> <!-- By omitting "action", the current page is used -->
         <div class="modal-content">
             <div class="col s12 m6 l6">
                 <span class="modal-title">New Task</span>
@@ -156,11 +97,11 @@
             <div class="row">
                 <div class="col s12 l12 m12">
                     <div class="input-field col s12 l12 m12">
-                        <input id="name" type="text" name="task_name" data-length="30">
+                        <input id="name" type="text" name="name" data-length="30">
                         <label for="name">Task Name</label>
                     </div>
                     <div class="input-field col s12 l12 m12">
-                        <textarea name="task_description" id="description" class="materialize-textarea"
+                        <textarea name="description" id="description" class="materialize-textarea"
                                   data-length="120"></textarea>
                         <label for="description">Task Description</label>
                     </div>
