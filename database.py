@@ -34,13 +34,11 @@ class JonAppDatabase:
         except gridfs.errors.NoFile:
             return "https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png"
 
-        content_type = entry.contentType.strip()
-
-        if content_type.split("/")[0] != "image":
+        if entry.contentType.strip().split("/")[0] != "image":  # If not an image
             return "https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png"
 
         content = entry.read()
-        return "data:" + content_type + ";base64, " + base64.b64encode(content).decode()
+        return "data:" + entry.contentType + ";base64, " + base64.b64encode(content).decode()
 
     def put_image(self, image):  # TODO: content_type checking
         if image and image.filename:
@@ -58,27 +56,28 @@ class JonAppDatabase:
     def delete_image(self, string_id):
         return self._gridfs.delete(ObjectId(string_id))
 
-    def add_project(self, name, description, image):
+    def add_project(self, name, description, image, user):
         self.projects.insert_one({
             "name": name,
             "description": description,
             "image": self.put_image(image),
-            "users": [],
+            "users": [user],
             "tasks": []
         })
 
-    def delete_project(self, project):
+    def delete_project(self, project, user):
         project_doc = self.projects.find_one({"_id": ObjectId(project)})
 
         if not project_doc:
             return
         else:
-            project_image = project_doc["image"]
+            if user in project_doc["users"]:
+                project_image = project_doc["image"]
 
-            if project_image:
-                self.delete_image(project_image)
+                if project_image:
+                    self.delete_image(project_image)
 
-        self.projects.delete_one({"_id": ObjectId(project)})
+                self.projects.delete_one({"_id": ObjectId(project)})
 
     def add_task(self, project, name, description, image):
         if not self.projects.find_one({"_id": ObjectId(project)}):
@@ -93,28 +92,33 @@ class JonAppDatabase:
         }}})
 
     def signup(self, email, password):
-        if self.users.find_one({"email": email}): # If account already exists
-            return False
+        if self.users.find_one({"email": email}):  # If account already exists
+            return "An account with this email already exists."
 
         self.users.insert_one({
             "email": email,
             "password": bcrypt.hashpw(password.encode(), bcrypt.gensalt())
         })
 
-        return True
+        return redirect("/")
 
     def login(self, email, password):
         user_doc = self.users.find_one({"email": email})
 
-        return user_doc and bcrypt.checkpw(password.encode(), user_doc["password"])
+        if user_doc and bcrypt.checkpw(password.encode(), user_doc["password"]):
+            return str(user_doc["_id"])
+        else:
+            return None
+
+    def get_user(self, id):
+        return self.users.find_one({"_id": ObjectId(id)})
 
     def get_projects_html(self, user):
         projects_html = ""
 
         projects = self.projects.find({})
         for project in projects:
-            # if user in project["users"]:
-            if True:
+            if user in project["users"]:
                 id = str(project["_id"])
                 name = project["name"]
                 description = project["description"]
@@ -124,7 +128,7 @@ class JonAppDatabase:
                     <div class="col s12 m6 l4">
                         <div class="card hoverable">
                             <div class="card-image">
-                            <img class="activator fit-to" src='""" + image + """'>
+                            <img onclick="window.location='/project/""" + id + """'" class="fit-to" src='""" + image + """'>
                             </div>
                             <div class="card-content">
                             <span class="card-title activator grey-text text-darken-4">""" + name + """</span>
@@ -145,6 +149,38 @@ class JonAppDatabase:
 
         return projects_html
 
+    def get_tasks_html(self, project_id):
+        project_document = self.projects.find_one({"_id": ObjectId(project_id)})
+        tasks_html = ""
+
+        task_counter = 0
+        for task in project_document["tasks"]:
+
+            tasks_html += """
+            <li class="default" id='task""" + str(task_counter) + """'>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <div class="card-panel task white">
+                            <div class="row valign-wrapper no-bottom-margin">
+                                <div class="col s3 m3 l2 valign-wrapper">
+                                    <img class="task-preview-img" src='""" + self.get_image(task["image"]) + """'>
+                                </div>
+                                <div class="col s8 m8 l9">
+                                    <span class="task-title">""" + task["name"] + """ #<span id="num"></span></span>
+                                    <p class="task-desc grey-text text-darken-2">""" + task["description"] + """</p>
+                                </div>
+                                <div class="col s1 m1 l1 valign-wrapper">
+                                    <i class="material-icons dropdown-trigger" data-target="dropdown1">more_vert</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>"""
+
+            task_counter += 1
+
+        return tasks_html
     # def add_supervisor(self, name, email):
     #     if not valid.email(email):
     #         raise ValueError("Invalid email in add_supervisor")
@@ -180,10 +216,3 @@ class JonAppDatabase:
     #         return bcrypt.checkpw(password.encode(), userdoc["hash"])
     #     else:
     #         return False
-
-    # database.register("nate@nate.to", "mypassword")
-
-    # print(database.login("nate@nate.to", "mypass1word"))
-
-    # database.add_project("My project", "project dscr", "")
-    # database.add_task("5e6130ca53074c9fe1e5e6d6", "Project Name", "Project descr", "")

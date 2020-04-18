@@ -1,17 +1,21 @@
 #!/usr/bin/python3
 # main.py
 
-from flask import Flask, request, render_template, Markup, redirect
+from flask import Flask, request, render_template, Markup, redirect, session
 
 from database import JonAppDatabase
 from utils import *
+
+import os
 
 HOST = "127.0.0.1"
 PORT = 5001
 PRODUCTION = False
 
 app = Flask(__name__)
+app.secret_key = os.urandom(64)
 database = JonAppDatabase("mongodb://app1.srv.pdx1.nate.to:7000/")
+
 
 @app.route("/")
 def index():
@@ -22,14 +26,23 @@ def index():
 
 @app.route("/supervisor/home")
 def supervisor_home():
-    return render_template("supervisor/home.html",
-                           user_name="Nate Sales",
-                           user_id="5e2cbf1c3246741b67f9201a",
-                           user_email="nate@nate.to",
-                           user_qr=Markup(qr("test")),
+    try:
+        id = session["id"]
+    except KeyError:
+        return redirect("/supervisor/login")
 
-                           projects_html=Markup(database.get_projects_html("nate"))
-                           )
+    if not id:
+        return redirect("/supervisor/login")
+    else:
+        user = database.get_user(id)
+        return render_template("supervisor/home.html",
+                               user_name="To be implemented",
+                               user_id=session["id"],
+                               user_email=user["email"],
+                               user_qr=Markup(qr(session["id"])),
+
+                               projects_html=Markup(database.get_projects_html(session["id"]))
+                               )
 
 
 # </supervisor>
@@ -37,24 +50,40 @@ def supervisor_home():
 
 @app.route("/add/project", methods=["POST"])
 def add_project():
-    name = request.form["name"]
-    description = request.form["description"]
-    image = request.files["image"]
+    try:
+        id = session["id"]
+    except KeyError:
+        return redirect("/supervisor/login")
 
-    database.add_project(name, description, image)
-    return redirect("/supervisor/home")
+    if not id:
+        return redirect("/supervisor/login")
+    else:
+        name = request.form["name"]
+        description = request.form["description"]
+        image = request.files["image"]
+
+        database.add_project(name, description, image, id)
+        return redirect("/supervisor/home")
+
 
 @app.route("/signup")
 def signup():
     return render_template("/supervisor/signup.html")
 
 
-@app.route("/project/delete", defaults={"id": ""})
-@app.route("/project/delete/<path:id>")
-def route_project_delete(id):
-    database.delete_project(id)
-    return redirect("/supervisor/home")
+@app.route("/project/delete", defaults={"project": ""})
+@app.route("/project/delete/<path:project>")
+def route_project_delete(project):
+    try:
+        id = session["id"]
+    except KeyError:
+        return redirect("/supervisor/login")
 
+    if not id:
+        return redirect("/supervisor/login")
+    else:
+        database.delete_project(project, id)
+        return redirect("/supervisor/home")
 
 
 # Auth
@@ -77,7 +106,7 @@ def route_signup():
             return "You may not leave the username or password field blank."
 
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/supervisor/login", methods=["GET", "POST"])
 def route_login():
     if request.method == "GET":
         return render_template("/supervisor/login.html")
@@ -86,14 +115,26 @@ def route_login():
         email = request.form["email"]
         password = request.form["password"]
 
-        if database.login(email, password):
-            return "Welcome"
+        id = database.login(email, password)
+        if id:
+            session["id"] = id
+            return redirect("/supervisor/home")
         else:
             return "Invalid username or password"
 
-@app.route("/supervisor/tasks")
-def route_supervisor_tasks():
-    return render_template("/supervisor/tasks.html")
+
+@app.route("/project", defaults={"project": ""})
+@app.route("/project/<path:project>", methods=["GET", "POST"])
+def route_project(project):
+    if request.method == "POST":
+        name = request.form["name"]
+        description = request.form["description"]
+        image = request.files["image"]
+        
+        database.add_task(project, name, description, image)
+
+    proj = database.get_tasks_html(project)
+    return render_template("/supervisor/tasks.html", tasks=Markup(proj))
 
 
 # End auth

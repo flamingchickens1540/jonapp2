@@ -19,4 +19,3 @@ def qr(data):
     image.save(buffer, format="JPEG")
     return "<img class=\"responsive-image\" src='data:image/png;base64, " + base64.b64encode(
         buffer.getvalue()).decode() + "'>"
-
