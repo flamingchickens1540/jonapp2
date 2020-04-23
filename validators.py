@@ -8,10 +8,8 @@ import re
 
 
 def email(raw):
-    _regex = "^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-    return re.search(_regex, raw)
+    return re.search("^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$", raw)
 
 
 def phone(raw):
-    _regex = "^[\dA-Z]{3}-[\dA-Z]{3}-[\dA-Z]{4}$"
-    return re.search(_regex, raw)
+    return re.search("^[\dA-Z]{3}-[\dA-Z]{3}-[\dA-Z]{4}$", raw)
