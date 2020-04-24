@@ -19,7 +19,7 @@ database = JonAppDatabase("mongodb://inventeam.catlin.edu:4497/")
 
 @app.route("/")
 def index():
-    return render_template("index.html", user_name="Seth Knights")
+    return render_template("index.html")
 
 
 # <supervisor>
