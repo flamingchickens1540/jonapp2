@@ -14,7 +14,7 @@ PRODUCTION = False
 
 app = Flask(__name__)
 app.secret_key = os.urandom(64)
-database = JonAppDatabase("mongodb://app1.srv.pdx1.nate.to:7000/")
+database = JonAppDatabase("mongodb://inventeam.catlin.edu:4497/")
 
 
 @app.route("/")
@@ -63,11 +63,6 @@ def add_project():
     return redirect("/supervisor/home")
 
 
-@app.route("/signup")
-def signup():
-    return render_template("/supervisor/signup.html")
-
-
 @app.route("/logout")
 def logout():
     del session["id"]
@@ -99,13 +94,12 @@ def route_signup():
         email = request.form["email"]
         password = request.form["password"]
 
-        if email and password:
-            if database.signup(email, password):
-                return redirect("/supervisor/login")
-            else:
-                return "An account with this email already exists."
+        if not email and password: return "You may not leave the username or password field blank."
+        
+        if database.signup(email, password):
+            return redirect("/supervisor/login")
         else:
-            return "You may not leave the username or password field blank."
+            return "An account with this email already exists."
 
 
 @app.route("/supervisor/login", methods=["GET", "POST"])

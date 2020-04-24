@@ -93,12 +93,14 @@ class JonAppDatabase:
 
     def signup(self, email, password):
         if self.users.find_one({"email": email}):  # If account already exists
-            return "An account with this email already exists."
+            return False
 
         self.users.insert_one({
             "email": email,
             "password": bcrypt.hashpw(password.encode(), bcrypt.gensalt())
         })
+
+        return True
 
     def login(self, email, password):
         user_doc = self.users.find_one({"email": email})
