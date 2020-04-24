@@ -95,7 +95,7 @@ def route_signup():
         password = request.form["password"]
 
         if not email and password: return "You may not leave the username or password field blank."
-        
+
         if database.signup(email, password):
             return redirect("/supervisor/login")
         else:
@@ -125,8 +125,7 @@ def route_login():
             return "Invalid username or password"
 
 
-@app.route("/project", defaults={"project": ""})
-@app.route("/project/<path:project>", methods=["GET", "POST", "DELETE"])
+@app.route("/project/<path:project>/", methods=["GET", "POST"])
 def route_project(project):
     try:
         id = session["id"]
@@ -135,24 +134,36 @@ def route_project(project):
     except KeyError:
         return redirect("/supervisor/login")
 
-    if database.isAuthorized(project, id):
+    project = project.strip("/")
+    if database.isAuthorized(project, id):  # TODO: Catch BSON InvalidId error in database
         if request.method == "POST":
             name = request.form["name"]
             description = request.form["description"]
             image = request.files["image"]
 
             database.add_task(project, name, description, image)
-        elif request.method == "DELETE":
-            database.delete_task(project, request.args.get("task"))
-            # print(, session["id"])
 
-        proj = database.get_tasks_html(project)
-        return render_template("/supervisor/tasks.html", tasks=Markup(proj))
+        return render_template("/supervisor/tasks.html", tasks=Markup(database.get_tasks_html(project)))
     else:
         return redirect("/supervisor/login")
 
 
-# End auth
+@app.route("/project/<path:project>/<path:task>/<path:method>", methods=["GET"])
+def route_project_delete2(project, task, method):
+    try:
+        id = session["id"]
+        if not id:
+            return redirect("/supervisor/login")
+    except KeyError:
+        return redirect("/supervisor/login")
+
+    project = project.strip("/")
+    if database.isAuthorized(project, id):  # TODO: Catch BSON InvalidId error in database
+        if method == "delete":
+            database.delete_task(project, task)
+            return redirect("/project/" + project)
+    else:
+        return redirect("/supervisor/login")
 
 
 app.run(host=HOST, port=PORT, debug=not PRODUCTION)

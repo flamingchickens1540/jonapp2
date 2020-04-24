@@ -185,7 +185,7 @@ class JonAppDatabase:
             </li>
             
         <ul id="dropdown""" + str(task_counter) + """" class="dropdown-content">
-        <li><a onclick='deleteTask(""" + str(task_counter) + """)'><i class="material-icons">delete</i>Delete</a></li>
+        <li><a href='""" + str(task_counter) + """/delete'><i class="material-icons">delete</i>Delete</a></li>
         </ul>"""
 
             task_counter += 1
