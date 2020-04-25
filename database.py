@@ -133,15 +133,15 @@ class JonAppDatabase:
                 image = self.get_image(project["image"])
 
                 projects_html += """
-                    <div class="col s12 m6 l4">
+                    <div class="col s12 m6 l4" id='""" + id + """'>
                         <div class="card hoverable">
                             <div class="card-image">
-                            <img onclick="window.location='/project/""" + id + """'" class="fit-to" src='""" + image + """'>
+                            <img onclick="window.location='/project/""" + id + """'" id='projimg-""" + id + """' class="fit-to" src='""" + image + """'>
                             </div>
                             <div class="card-content">
-                            <span class="card-title activator grey-text text-darken-4">""" + name + """</span>
+                            <span class="card-title activator grey-text text-darken-4" id='projname-""" + id + """'>""" + name + """</span>
                             <i class="material-icons right dropdown-trigger" data-target='dropdown-""" + id + """'>more_vert</i>
-                            <p>""" + description[:16] + """</p>
+                            <p id='projdesc-""" + id + """'>""" + description[:16] + """</p>
                             </div>
                             <div class="card-reveal">
                             <span class="card-title grey-text text-darken-4">""" + name + """<i class="material-icons right">close</i></span>
@@ -151,6 +151,7 @@ class JonAppDatabase:
                         
                         <ul id='dropdown-""" + id + """' class='dropdown-content'>
                             <li><a href='/project/delete/""" + id + """'><i class="material-icons">delete</i>Delete</a></li>
+                            <li><a href="#projectEditModal" class="modal-trigger" onclick="openModal('""" + id + """')"><i class="material-icons">border_color</i>Edit</a></li>
                         </ul>
                     </div>"""
 
@@ -186,6 +187,7 @@ class JonAppDatabase:
             
         <ul id="dropdown""" + str(task_counter) + """" class="dropdown-content">
         <li><a href='""" + str(task_counter) + """/delete'><i class="material-icons">delete</i>Delete</a></li>
+        <li><a href='""" + str(task_counter) + """/delete' class="modal-trigger" data-target="#taskEditModal"><i class="material-icons">border_color</i>Edit</a></li>
         </ul>"""
 
             task_counter += 1
