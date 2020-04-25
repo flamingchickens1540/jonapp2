@@ -13,6 +13,11 @@
     <meta content="https://jonapp.nate.to/" property="og:url"/>
     <meta content="https://jonapp.nate.to/img/logo.png" property="og:image"/> <!-- TODO -->
 
+    <!-- Icon Stuff -->
+    <link rel="static/apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="static/icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="static/icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
     <!--  CSS  -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.typekit.net/ngj4yzz.css">
@@ -161,10 +166,82 @@
     </form>
 </div>
 
+<div id="projectEditModal" class="modal modal-fixed-footer">
+    <form method="post" action="/add/project" enctype=multipart/form-data>
+        <div class="modal-content">
+            <div class="col s12 m6 l6">
+                <span class="modal-title">Edit Project</span>
+            </div>
+            <div class="row">
+                <div class="col s12 l12 m12">
+                    <div class="input-field col s12 l12 m12">
+                        <input id="editname" type="text" name="name">
+                        <label id="editnamelabel" for="editname">Project Title</label>
+                    </div>
+                    <div class="input-field col s12 l12 m12">
+                        <textarea name="description" id="editdescription" class="materialize-textarea"></textarea>
+                        <label id="editdescriptionlabel" for="editdescription">Project Description</label>
+                    </div>
+                </div>
+
+                <div class="col s12 l12 m12">
+                    <div class="file-field input-field">
+                        <input accept="image/*;capture=camera" id="p-create-file" name="image" style="display: none;" type="file"/>
+                    </div>
+
+                    <button class="btn btn-success mt-3 mx-auto" onclick="document.getElementById('p-create-file').click();" type="button">
+                        Select New Image
+                    </button>
+
+                    <img alt="" class="img-fluid" id="edit-p-create-image" src="" style="padding-top: 5px">
+
+                    <script>
+                        function pCreateImgUpdate() {
+                            if (this.files && this.files[0]) {
+                                const FR = new FileReader();
+
+                                FR.addEventListener("load", function (e) {
+                                    document.getElementById("edit-p-create-image").src = e.target.result; // e.target.result is the b64
+                                });
+
+                                FR.readAsDataURL(this.files[0]);
+                            } else {
+                                alert("Error uploading image.");
+                                throw new Error("Error uploading image.");
+                            }
+
+
+                        }
+
+                        document.getElementById("p-create-file").addEventListener("change", pCreateImgUpdate);
+                    </script>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn waves-effect waves-light right modal-close" id="submitbutton" type="submit"
+                    name="action">Create
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
+    </form>
+</div>
+
 <script>
-    $(document).ready(function () {
+    $(document).ready(function(){
         $('.modal').modal();
     });
+
+    function openModal(projectid) {
+        console.log(projectid);
+        document.getElementById("editdescriptionlabel").class = 'active';
+        document.getElementById("editname").value = document.getElementById("projname-" + projectid).innerText;
+        document.getElementById("editnamelabel").class = 'active';
+        document.getElementById("editdescription").value = document.getElementById("projdesc-" + projectid).innerText;
+        M.updateTextFields();
+        document.getElementById("edit-p-create-image").src = document.getElementById("projimg-" + projectid).src;
+    }
 
     $(document).ready(function () {
         $('.sidenav').sidenav({edge: 'right'});
@@ -177,6 +254,7 @@
     //     $('input#proj_name, #proj_desc').characterCounter();
     // });
     //    Commented out by Nate...Testing a thing
+
 </script>
 
 
