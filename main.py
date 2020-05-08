@@ -37,7 +37,7 @@ def supervisor_home():
     if not authenticated(): return redirect("/supervisor/login")
 
     user = database.get_user(session["id"])
-    return render_template("supervisor/home.html",
+    return render_template("supervisor/projects.html",
                            user_name="To be implemented",
                            user_id=session["id"],
                            user_email=user["email"],
