@@ -152,7 +152,8 @@
 </div>
 
 <div id="updateTaskModal" class="modal modal-fixed-footer">
-    <form method="post" enctype=multipart/form-data id="t-update-form"> <!-- By omitting "action", the current page is used -->
+    <form method="post" enctype=multipart/form-data id="t-update-form">
+        <!-- By omitting "action", the current page is used -->
         <div class="modal-content">
             <div class="col s12 m6 l6">
                 <span class="modal-title">New Task</span>
@@ -196,6 +197,7 @@
                                 throw new Error("Error uploading image.");
                             }
                         }
+
                         M.updateTextFields();
                         document.getElementById("t-create-file").addEventListener("change", tCreateImgUpdate);
                     </script>
@@ -258,9 +260,7 @@
     });
 
     function deleteTask(id) {
-        fetch(window.location + "?task=" + id, {
-            method: 'delete'
-        }).then(() => {
+        fetch(window.location + "?task=" + id, {method: 'delete'}).then(() => {
             location.reload();
         });
     }
