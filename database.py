@@ -102,13 +102,17 @@ class JonAppDatabase:
         if not self.projects.find_one({"_id": ObjectId(project)}):
             return "Project not found"  # TODO: Real error page
 
-        self.projects.update_one({"_id": ObjectId(project)}, {"$set": {"tasks." + task: {
-            "name": name,
-            "description": description,
-            "image": self.put_image(image),
-            "state": "Pending",
-            "subtasks": []
-        }}})
+        if image == 'none':
+            self.projects.update_one({"_id": ObjectId(project)}, {"$set": {"tasks." + task: {
+                "name": name,
+                "description": description,
+            }}})
+        else:
+            self.projects.update_one({"_id": ObjectId(project)}, {"$set": {"tasks." + task: {
+                "name": name,
+                "description": description,
+                "image": self.put_image(image),
+            }}})
 
     def signup(self, email, password):
         if self.users.find_one({"email": email}):  # If account already exists

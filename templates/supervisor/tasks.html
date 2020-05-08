@@ -89,7 +89,7 @@
 </div>
 
 <div id="taskModal" class="modal modal-fixed-footer">
-    <form method="post" enctype=multipart/form-data> <!-- By omitting "action", the current page is used -->
+    <form method="post" enctype=multipart/form-data action="/create/task"> <!-- By omitting "action", the current page is used -->
         <div class="modal-content">
             <div class="col s12 m6 l6">
                 <span class="modal-title">New Task</span>
@@ -99,6 +99,7 @@
                     <div class="input-field col s12 l12 m12">
                         <input id="name" type="text" name="name" data-length="30">
                         <label for="name">Task Name</label>
+                        <input type="hidden" id="project-id-form" name="project" value="">
                     </div>
                     <div class="input-field col s12 l12 m12">
                         <textarea name="description" id="description" class="materialize-textarea"
@@ -234,13 +235,16 @@
         $("#sortable").disableSelection();
     });
 
+    document.getElementById("project-id-form").value = (window.location.pathname).toString().split("/")[2]
+
     function openModal(taskid) {
         console.log(taskid);
         document.getElementById("edit-description-l").class = 'active';
-        document.getElementById("edit-name").value = document.getElementById("task-name-" + taskid).innerText;
+        document.getElementById("edit-name").value = document.getElementById("task-name-" + taskid).innerText.split(' #')[0];
         document.getElementById("edit-name-l").class = 'active';
         document.getElementById("edit-description").value = document.getElementById("task-desc-" + taskid).innerText;
-        document.getElementById("t-update-form").action = "/update/task/" + taskid;
+        console.log("/task/" + (window.location.pathname).toString().split("/")[2] + "/" + taskid);
+        document.getElementById("t-update-form").action = "/task/" + (window.location.pathname).toString().split("/")[2] + "/" + taskid + "/";
         M.updateTextFields();
         document.getElementById("edit-t-create-image").src = document.getElementById("task-img-" + taskid).src;
     }
@@ -262,6 +266,7 @@
             location.reload();
         });
     }
+
 </script>
 
 </body>

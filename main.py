@@ -38,6 +38,7 @@ def supervisor_home():
 
     user = database.get_user(session["id"])
     return render_template("supervisor/projects.html",
+
                            user_name="To be implemented",
                            user_id=session["id"],
                            user_email=user["email"],
@@ -110,7 +111,15 @@ def route_project(project):
         if request.method == "GET":  # View the project
             return render_template("/supervisor/tasks.html", tasks=Markup(database.get_tasks_html(project)))
         elif request.method == "POST":  # Edit the project
-            pass  # TODO: Process the editing here
+            name = request.form["name"]
+            description = request.form["description"]
+            if request.files['image'] == '':
+                image = 'none'
+            else:
+                image = request.files['image']
+
+            database.update_project(name, description, image, project)
+
         elif request.method == "DELETE":  # Delete the project
             pass  # TODO: Delete the project
 
@@ -131,7 +140,7 @@ def route_create_task():
     image = request.files["image"]
 
     database.add_task(project, name, description, image)
-    return redirect("/projects")
+    return redirect("/project/" + project)
 
 # Edit or delete a task
 @app.route("/task/<path:project>/<path:task>/", methods=["POST", "DELETE"])
@@ -140,9 +149,22 @@ def route_task(project, task):
 
     if database.isAuthorized(project, session["id"]):  # TODO: Catch BSON InvalidId error in database
         if request.method == "POST":  # Edit the task
-            pass
+            print("request received")
+            name = request.form['name']
+            description = request.form['description']
+
+            if request.files['image'] == '':
+                image = 'none'
+            else:
+                image = request.files['image']
+
+            database.update_task(project, task, name, description, image)
+
+
         elif request.method == "DELETE":  # Delete the task
-            pass
+            database.delete_task(project, task)
+
+        return redirect("/project/" + project)
     else:
         return redirect("/supervisor/login")
 

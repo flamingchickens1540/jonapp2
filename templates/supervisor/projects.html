@@ -237,14 +237,14 @@
         document.getElementById("editname").value = document.getElementById("projname-" + projectid).innerText;
         document.getElementById("editnamelabel").class = 'active';
         document.getElementById("editdescription").value = document.getElementById("projdesc-" + projectid).innerText;
-        document.getElementById("p-update-form").action = "/update/project/" + projectid;
+        document.getElementById("p-update-form").action = "/project/" + projectid + "/";
         M.updateTextFields();
         document.getElementById("edit-p-create-image").src = document.getElementById("projimg-" + projectid).src;
     }
 
 
     $(document).ready(function () {
-        $('.sidenav').sidenav({edge: 'right'});
+        $('.sidenav').sidenav({edge: 'right', preventScrolling: false});
     });
 
     $('.dropdown-trigger').dropdown({
