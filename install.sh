@@ -1,5 +1,4 @@
 apt-get update
-apt-get upgrade
 apt-get install gnupg python3 python3-dev python3-pip image
 pip3 install flask pymongo
 wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -
