@@ -90,7 +90,7 @@ def route_logout():
 
 # Create a project
 @app.route("/create/project", methods=["POST"])
-def add_project():
+def create_project():
     if not authenticated(): return redirect("/supervisor/login")
 
     name = request.form["name"]
@@ -120,7 +120,7 @@ def route_project(project):
         return redirect("/supervisor/login")
 
 
-# Create a project
+# Create a task
 @app.route("/create/task", methods=["POST"])
 def route_create_task():
     if not authenticated(): return redirect("/supervisor/login")
