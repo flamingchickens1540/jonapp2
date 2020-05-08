@@ -50,7 +50,7 @@
                 <img src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png">
             </div>
             <a href="#user"><img class="circle"
-                                 src="https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png"></a>
+                                 src="https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png"></a>
             <a href="#name"><span class="white-text name">{{ user_name }}</span></a>
             <a href="#email"><span class="white-text email">{{ user_email }}</span></a>
         </div>
@@ -127,7 +127,7 @@
                         <input accept="image/*;capture=camera" id="p-create-file" name="image" style="display: none;" type="file"/>
                     </div>
 
-                    <button class="btn btn-success mt-3 mx-auto" onclick="document.getElementById('p-create-file').click();" type="button">
+                    <button class="btn" onclick="document.getElementById('p-create-file').click();" type="button">
                         Select New Image
                     </button>
 
@@ -167,7 +167,7 @@
 </div>
 
 <div id="projectEditModal" class="modal modal-fixed-footer">
-    <form method="post" action="/add/project" enctype=multipart/form-data>
+    <form method="post" action="/update/project" enctype=multipart/form-data id="p-update-form">
         <div class="modal-content">
             <div class="col s12 m6 l6">
                 <span class="modal-title">Edit Project</span>
@@ -220,8 +220,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn waves-effect waves-light right modal-close" id="submitbutton" type="submit"
-                    name="action">Create
+            <button class="btn waves-effect waves-light right modal-close" id="submitbutton" onclick=""
+                    name="action">Update
                 <i class="material-icons right">send</i>
             </button>
         </div>
@@ -239,9 +239,11 @@
         document.getElementById("editname").value = document.getElementById("projname-" + projectid).innerText;
         document.getElementById("editnamelabel").class = 'active';
         document.getElementById("editdescription").value = document.getElementById("projdesc-" + projectid).innerText;
+        document.getElementById("p-update-form").action = "/update/project/" + projectid;
         M.updateTextFields();
         document.getElementById("edit-p-create-image").src = document.getElementById("projimg-" + projectid).src;
     }
+
 
     $(document).ready(function () {
         $('.sidenav').sidenav({edge: 'right'});

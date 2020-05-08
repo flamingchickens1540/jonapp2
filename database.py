@@ -65,6 +65,13 @@ class JonAppDatabase:
             "tasks": []
         })
 
+    def update_project(self, name, description, image, id):
+        self.projects.update_one({'_id': ObjectId(id)}, {'$set': {
+            "name": name,
+            "description": description,
+            "image": self.put_image(image),
+        }})
+
     def delete_project(self, project, user):
         project_doc = self.projects.find_one({"_id": ObjectId(project)})
 
@@ -84,6 +91,18 @@ class JonAppDatabase:
             return "Project not found"  # TODO: Real error page
 
         self.projects.update_one({"_id": ObjectId(project)}, {"$push": {"tasks": {
+            "name": name,
+            "description": description,
+            "image": self.put_image(image),
+            "state": "Pending",
+            "subtasks": []
+        }}})
+
+    def update_task(self, project, task, name, description, image):
+        if not self.projects.find_one({"_id": ObjectId(project)}):
+            return "Project not found"  # TODO: Real error page
+
+        self.projects.update_one({"_id": ObjectId(project)}, {"$set": {"tasks." + task: {
             "name": name,
             "description": description,
             "image": self.put_image(image),
@@ -170,11 +189,11 @@ class JonAppDatabase:
                         <div class="card-panel task white">
                             <div class="row valign-wrapper no-bottom-margin">
                                 <div class="col s3 m3 l2 valign-wrapper">
-                                    <img class="task-preview-img" src='""" + self.get_image(task["image"]) + """'>
+                                    <img class="task-preview-img" src='""" + self.get_image(task["image"]) + """' id="task-img-""" + str(task_counter) + """">
                                 </div>
                                 <div class="col s8 m8 l9">
-                                    <span class="task-title">""" + task["name"] + """ #<span id="num"></span></span>
-                                    <p class="task-desc grey-text text-darken-2">""" + task["description"] + """</p>
+                                    <span class="task-title" id="task-name-""" + str(task_counter) + """">""" + task["name"] + """ #<span id="num"></span></span>
+                                    <p class="task-desc grey-text text-darken-2" id="task-desc-""" + str(task_counter) + """">""" + task["description"] + """</p>
                                 </div>
                                 <div class="col s1 m1 l1 valign-wrapper">
                                     <i class="material-icons dropdown-trigger" data-target="dropdown""" + str(task_counter) + """">more_vert</i>
@@ -187,7 +206,7 @@ class JonAppDatabase:
             
         <ul id="dropdown""" + str(task_counter) + """" class="dropdown-content">
         <li><a href='""" + str(task_counter) + """/delete'><i class="material-icons">delete</i>Delete</a></li>
-        <li><a href='""" + str(task_counter) + """/delete' class="modal-trigger" data-target="#taskEditModal"><i class="material-icons">border_color</i>Edit</a></li>
+        <li><a href="#updateTaskModal" class="modal-trigger" onclick="openModal('""" + str(task_counter) + """')"><i class="material-icons">border_color</i>Edit</a></li>
         </ul>"""
 
             task_counter += 1

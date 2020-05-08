@@ -62,6 +62,21 @@ def add_project():
     database.add_project(name, description, image, id)
     return redirect("/supervisor/home")
 
+@app.route("/update/project/<project>", methods=["POST"])
+def update_project(project):
+    try:
+        id = session["id"]
+        if not id:
+            return redirect("/supervisor/login")
+    except KeyError:
+        return redirect("/supervisor/login")
+
+    name = request.form["name"]
+    description = request.form["description"]
+    image = request.files["image"]
+
+    database.update_project(name, description, image, project)
+    return redirect("/supervisor/home")
 
 @app.route("/logout")
 def logout():
@@ -125,8 +140,8 @@ def route_login():
             return "Invalid username or password"
 
 
-@app.route("/project/<path:project>/", methods=["GET", "POST"])
-def route_project(project):
+@app.route("/project/<path:project>/<path:method>", methods=["GET", "POST"])
+def route_project(project, method):
     try:
         id = session["id"]
         if not id:
@@ -136,12 +151,19 @@ def route_project(project):
 
     project = project.strip("/")
     if database.isAuthorized(project, id):  # TODO: Catch BSON InvalidId error in database
-        if request.method == "POST":
+        if request.method == "POST" and method == 'create':
             name = request.form["name"]
             description = request.form["description"]
             image = request.files["image"]
 
             database.add_task(project, name, description, image)
+
+        elif request.method == "POST" and method == 'update':
+            name = request.form["name"]
+            description = request.form["description"]
+            image = request.files["image"]
+
+            # database.update_task(project, task)
 
         return render_template("/supervisor/tasks.html", tasks=Markup(database.get_tasks_html(project)))
     else:
@@ -162,6 +184,10 @@ def route_project_delete2(project, task, method):
         if method == "delete":
             database.delete_task(project, task)
             return redirect("/project/" + project)
+        elif method == 'update':
+            database.update_task(project, task)
+            return redirect("/project/" + project)
+
     else:
         return redirect("/supervisor/login")
 
