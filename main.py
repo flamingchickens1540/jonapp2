@@ -120,6 +120,19 @@ def route_project(project):
         return redirect("/supervisor/login")
 
 
+# Create a project
+@app.route("/create/task", methods=["POST"])
+def route_create_task():
+    if not authenticated(): return redirect("/supervisor/login")
+
+    project = request.form["project"]
+    name = request.form["name"]
+    description = request.form["description"]
+    image = request.files["image"]
+
+    database.add_task(project, name, description, image)
+    return redirect("/projects")
+
 # Edit or delete a task
 @app.route("/task/<path:project>/<path:task>/", methods=["POST", "DELETE"])
 def route_task(project, task):
