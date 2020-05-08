@@ -1,14 +1,13 @@
 #!/usr/bin/python3
 # main.py
 
+import os
 from flask import Flask, request, render_template, Markup, redirect, session
 
 from database import JonAppDatabase
 from utils import *
 
-import os
-
-HOST = "127.0.0.1"
+HOST = "0.0.0.0"
 PORT = 5001
 PRODUCTION = False
 
@@ -16,22 +15,26 @@ app = Flask(__name__)
 app.secret_key = os.urandom(64)
 database = JonAppDatabase("mongodb://inventeam.catlin.edu:4497/")
 
+# Is a user authenticated?
+def authenticated():
+    try:
+        id = session["id"]
+        if not id:
+            raise KeyError  # Cause an exception to be caught below
+    except KeyError:
+        return False
+    else:
+        return True
+
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
 
-# <supervisor>
-
-@app.route("/supervisor/home")
+@app.route("/projects")
 def supervisor_home():
-    try:
-        id = session["id"]
-        if not id:
-            return redirect("/supervisor/login")
-    except KeyError:
-        return redirect("/supervisor/login")
+    if not authenticated(): return redirect("/supervisor/login")
 
     user = database.get_user(id)
     return render_template("supervisor/home.html",
@@ -43,59 +46,34 @@ def supervisor_home():
                            )
 
 
-# </supervisor>
-
-
 @app.route("/add/project", methods=["POST"])
 def add_project():
-    try:
-        id = session["id"]
-        if not id:
-            return redirect("/supervisor/login")
-    except KeyError:
-        return redirect("/supervisor/login")
+    if not authenticated(): return redirect("/supervisor/login")
 
     name = request.form["name"]
     description = request.form["description"]
     image = request.files["image"]
 
     database.add_project(name, description, image, id)
-    return redirect("/supervisor/home")
+    return redirect("/projects")
+
 
 @app.route("/update/project/<project>", methods=["POST"])
 def update_project(project):
-    try:
-        id = session["id"]
-        if not id:
-            return redirect("/supervisor/login")
-    except KeyError:
-        return redirect("/supervisor/login")
+    if not authenticated(): return redirect("/supervisor/login")
 
     name = request.form["name"]
     description = request.form["description"]
     image = request.files["image"]
 
     database.update_project(name, description, image, project)
-    return redirect("/supervisor/home")
+    return redirect("/projects")
+
 
 @app.route("/logout")
 def logout():
     del session["id"]
     return redirect("/")
-
-
-@app.route("/project/delete", defaults={"project": ""})
-@app.route("/project/delete/<path:project>")
-def route_project_delete(project):
-    try:
-        id = session["id"]
-        if not id:
-            return redirect("/supervisor/login")
-    except KeyError:
-        return redirect("/supervisor/login")
-
-    database.delete_project(project, id)
-    return redirect("/supervisor/home")
 
 
 # Auth
@@ -119,11 +97,7 @@ def route_signup():
 
 @app.route("/supervisor/login", methods=["GET", "POST"])
 def route_login():
-    try:
-        if session["id"]:
-            return redirect("/supervisor/home")
-    except KeyError:
-        pass
+    if not authenticated(): return redirect("/supervisor/login")
 
     if request.method == "GET":
         return render_template("/supervisor/login.html")
@@ -135,49 +109,33 @@ def route_login():
         id = database.login(email, password)
         if id:
             session["id"] = id
-            return redirect("/supervisor/home")
+            return redirect("/projects")
         else:
             return "Invalid username or password"
 
 
-@app.route("/project/<path:project>/<path:method>", methods=["GET", "POST"])
-def route_project(project, method):
-    try:
-        id = session["id"]
-        if not id:
-            return redirect("/supervisor/login")
-    except KeyError:
-        return redirect("/supervisor/login")
+@app.route("/project/delete/<path:project>")
+def route_project_delete(project):
+    if not authenticated(): return redirect("/supervisor/login")
 
-    project = project.strip("/")
+    database.delete_project(project, id)
+    return redirect("/projects")
+
+
+# View, edit, or delete a project
+@app.route("/project/<path:project>", methods=["GET", "POST", "DELETE"])
+def project(pid):
+    if not authenticated(): return redirect("/supervisor/login")
+
     if database.isAuthorized(project, id):  # TODO: Catch BSON InvalidId error in database
-        if request.method == "POST" and method == 'create':
-            name = request.form["name"]
-            description = request.form["description"]
-            image = request.files["image"]
-
-            database.add_task(project, name, description, image)
-
-        elif request.method == "POST" and method == 'update':
-            name = request.form["name"]
-            description = request.form["description"]
-            image = request.files["image"]
-
-            # database.update_task(project, task)
-
-        return render_template("/supervisor/tasks.html", tasks=Markup(database.get_tasks_html(project)))
+        return render_template("/supervisor/tasks.html", tasks=Markup(database.get_tasks_html(pid)))
     else:
         return redirect("/supervisor/login")
 
 
 @app.route("/project/<path:project>/<path:task>/<path:method>", methods=["GET"])
 def route_project_delete2(project, task, method):
-    try:
-        id = session["id"]
-        if not id:
-            return redirect("/supervisor/login")
-    except KeyError:
-        return redirect("/supervisor/login")
+    if not authenticated(): return redirect("/supervisor/login")
 
     project = project.strip("/")
     if database.isAuthorized(project, id):  # TODO: Catch BSON InvalidId error in database
