@@ -64,6 +64,8 @@ def route_login():
     if email is None or password is None:
         return response(400, "Required argument username/password must not be empty")
 
+    database.login(email, password)
+
     return response(501)
 
 
@@ -83,6 +85,11 @@ def route_signup():
 
 
 # Project routes
+
+@app.route("/projects", methods=["POST"])
+def project_create():
+    return response(501)
+
 
 @app.route("/project/create", methods=["POST"])
 def project_create():
