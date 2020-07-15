@@ -36,7 +36,7 @@ defaults = {
 }
 
 
-def response(code, detail=None):
+def response(code, data=None):
     resp = {
         "message": defaults[code]
     }
