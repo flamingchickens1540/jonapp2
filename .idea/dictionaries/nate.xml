@@ -3,6 +3,7 @@
     <words>
       <w>bcrypt</w>
       <w>datastores</w>
+      <w>gridfs</w>
       <w>hoverable</w>
       <w>jonapp</w>
       <w>subtasks</w>

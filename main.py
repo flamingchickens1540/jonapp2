@@ -73,17 +73,22 @@ def route_login():
 
 @app.route("/signup", methods=["POST"])
 def route_signup():
-    email = request.form.get("email")
-    password = request.form("password")
-    type = request.form.get("type")
+    try:
+        email = request.json["email"]
+        password = request.json["password"]
+        type = request.json["type"]
+    except KeyError:
+        return response(400, "Required argument email/password/type not found")
 
     if not (type == "supervisor" or type == "user"):
+        print(type)
         return response(400, "Type must be either 'supervisor' or 'user'")
 
-    if email is None or password is None:  # type == None would be caught above
-        return response(400, "email/password must not be empty")
+    account_exists = database.signup(email, password, type)
+    if account_exists:
+        return response(400, "Account with this email already exists")
 
-    return response(501)
+    return response(201)
 
 
 # Project routes

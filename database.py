@@ -13,13 +13,7 @@ import string
 from bson.objectid import ObjectId
 
 
-def error(message="Server error"):
-    return {
-        "message": message
-    }
-
-
-def random_filename():
+def random_string():
     return "".join(random.choice(string.ascii_lowercase) for i in range(32))
 
 
@@ -134,22 +128,23 @@ class JonAppDatabase:
 
     # Authentication
 
-    def signup(self, email, password):
+    def signup(self, email, password, type):
         if self.users.find_one({"email": email}):  # If account already exists
-            return False
+            return True  # Account already exists
 
         self.users.insert_one({
             "email": email,
-            "password": bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+            "password": bcrypt.hashpw(password.encode(), bcrypt.gensalt()),
+            "type": type
         })
 
-        return True
+        return False  # Account doesn't already exist
 
     def login(self, email, password):
         user_doc = self.users.find_one({"email": email})
 
         if user_doc and bcrypt.checkpw(password.encode(), user_doc["password"]):
-            return str(user_doc["_id"])
+            return random_string()
         else:
             return None
 
