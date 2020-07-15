@@ -58,6 +58,9 @@ def index():
 
 @app.route("/login", methods=["POST"])
 def route_login():
+    if request.json is None:
+        return response(400, "JSON payload must not be empty")
+
     try:
         email = request.json["email"]
         password = request.json["password"]
@@ -73,6 +76,9 @@ def route_login():
 
 @app.route("/signup", methods=["POST"])
 def route_signup():
+    if request.json is None:
+        return response(400, "JSON payload must not be empty")
+
     try:
         email = request.json["email"]
         password = request.json["password"]
