@@ -58,11 +58,11 @@ def index():
 
 @app.route("/login", methods=["POST"])
 def route_login():
-    email = request.form.get("email")
-    password = request.form.get("password")
-
-    if email is None or password is None:
-        return response(400, "Required argument username/password must not be empty")
+    try:
+        email = request.json["email"]
+        password = request.json["password"]
+    except KeyError:
+        return response(400, "Required argument email/password/ not found")
 
     token = database.login(email, password)
     if not token:
