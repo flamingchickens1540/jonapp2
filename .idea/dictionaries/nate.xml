@@ -2,7 +2,9 @@
   <dictionary name="nate">
     <words>
       <w>bcrypt</w>
+      <w>datastores</w>
       <w>hoverable</w>
+      <w>jonapp</w>
       <w>subtasks</w>
     </words>
   </dictionary>

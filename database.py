@@ -2,61 +2,69 @@
 # Author: Nate Sales
 #
 # This file provides safe wrappers for database operations.
-# It may be imported anywhere in the main server file.
+# It may be imported and used anywhere in the main server file.
 
+import base64
+import bcrypt
 import gridfs
 import pymongo
-from bson.objectid import ObjectId
-
-import bcrypt
-import base64
 import random
 import string
+from bson.objectid import ObjectId
 
-import validators as valid
+
+def error(message="Server error"):
+    return {
+        "message": message
+    }
+
+
+def random_filename():
+    return "".join(random.choice(string.ascii_lowercase) for i in range(32))
 
 
 class JonAppDatabase:
     def __init__(self, mongo_uri):
         # Core datastores
-        self._client = pymongo.MongoClient(mongo_uri)
-        self._db = self._client["jonapp2"]
-        self._gridfs = gridfs.GridFS(self._db)
+        self.client = pymongo.MongoClient(mongo_uri)
+        self.db = self.client["jonapp2"]
+        self.gridfs = gridfs.GridFS(self.db)
 
         # Collections
-        self.supervisors = self._db["supervisors"]
-        self.projects = self._db["projects"]
-        self.users = self._db["users"]
+        self.supervisors = self.db["supervisors"]
+        self.projects = self.db["projects"]
+        self.users = self.db["users"]
 
     def get_image(self, object_id):
         try:
-            entry = self._gridfs.get(object_id)
+            entry = self.gridfs.get(object_id)
         except gridfs.errors.NoFile:
-            return "https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png"
+            return None
 
-        if entry.contentType.strip().split("/")[0] != "image":  # If not an image
-            return "https://cdn.discordapp.com/attachments/473705436793798676/696918972771074068/Untitled_drawing_3.png"
+        if entry.contentType.strip().split("/")[0] != "image":  # If not an image, delete it.
+            self._gridfs.delete(object_id)
+            return None
 
-        content = entry.read()
-        return "data:" + entry.contentType + ";base64, " + base64.b64encode(content).decode()
+        return "data:" + entry.contentType + ";base64, " + base64.b64encode(entry.read()).decode()
 
-    def put_image(self, image):  # TODO: content_type checking
+    def put_image(self, image):
         if image and image.filename:
             try:
                 extension = image.filename.split(".")[1]
             except IndexError:  # No extension
-                return ""
+                return error("No image extension specified")
             else:
                 if image.content_type.split("/")[0] == "image":
-                    return self._gridfs.put(image, content_type=image.content_type, filename="image-" + "".join(
-                        random.choice(string.ascii_lowercase) for i in range(32)) + "." + extension)
+                    return self._gridfs.put(image, content_type=image.content_type, filename="image-" + random_filename() + "." + extension)
         else:
-            return ""
+            return error("No image specified")
 
     def delete_image(self, string_id):
         return self._gridfs.delete(ObjectId(string_id))
 
-    def add_project(self, name, description, image, user):
+    # Projects
+
+    def create_project(self, name, description, image, user):
         self.projects.insert_one({
             "name": name,
             "description": description,
@@ -65,19 +73,19 @@ class JonAppDatabase:
             "tasks": []
         })
 
-    def update_project(self, name, description, image, id):
-        self.projects.update_one({'_id': ObjectId(id)}, {'$set': {
+    def update_project(self, project_id, name, description, image):
+        self.projects.update_one({'_id': ObjectId(project_id)}, {'$set': {
             "name": name,
             "description": description,
             "image": self.put_image(image),
         }})
 
-    def delete_project(self, project, user):
-        project_doc = self.projects.find_one({"_id": ObjectId(project)})
+    def delete_project(self, project_id, user):
+        project_doc = self.projects.find_one({"_id": ObjectId(project_id)})
 
-        if not project_doc:
+        if not project_doc:  # If project with project_id doesn't exist, no need to do anything.
             return
-        else:
+        else:  # If it does exit, delete it.
             if user in project_doc["users"]:
                 project_image = project_doc["image"]
 
@@ -86,8 +94,10 @@ class JonAppDatabase:
 
                 self.projects.delete_one({"_id": ObjectId(project)})
 
-    def add_task(self, project, name, description, image):
-        if not self.projects.find_one({"_id": ObjectId(project)}):
+    # Tasks
+
+    def add_task(self, project_id, name, description, image):
+        if not self.projects.find_one({"_id": ObjectId(project_id)}):
             return "Project not found"  # TODO: Real error page
 
         self.projects.update_one({"_id": ObjectId(project)}, {"$push": {"tasks": {
@@ -98,12 +108,12 @@ class JonAppDatabase:
             "subtasks": []
         }}})
 
-    def update_task(self, project, task, name, description, image):
-        if not self.projects.find_one({"_id": ObjectId(project)}):
+    def update_task(self, project_id, task, name, description, image):
+        if not self.projects.find_one({"_id": ObjectId(project_id)}):
             return "Project not found"  # TODO: Real error page
 
         if image == 'none':
-            self.projects.update_one({"_id": ObjectId(project)}, {"$set": {"tasks." + task: {
+            self.projects.update_one({"_id": ObjectId(project)}, {"$set": {"tasks." + task: {  # Append the new task
                 "name": name,
                 "description": description,
             }}})
@@ -113,6 +123,16 @@ class JonAppDatabase:
                 "description": description,
                 "image": self.put_image(image),
             }}})
+
+    def delete_task(self, project_id, task_id):
+        print("Deleting index " + str(task_id) + " from " + project_id)
+
+        project_list = self.projects.find_one({"_id": ObjectId(project_id)})["tasks"]
+        if project_list:
+            del project_list[int(task_id)]
+            self.projects.update_one({"_id": ObjectId(project_id)}, {"$set": {"tasks": project_list}})
+
+    # Authentication
 
     def signup(self, email, password):
         if self.users.find_one({"email": email}):  # If account already exists
@@ -136,18 +156,13 @@ class JonAppDatabase:
     def get_user(self, id):
         return self.users.find_one({"_id": ObjectId(id)})
 
-    def delete_task(self, project_id, task_id):
-        print("Deleting index " + str(task_id) + " from " + project_id)
+    def is_authorized(self, project, user):
+        return str(user) in self.projects.find_one({"_id": ObjectId(project)})["users"]
 
-        project_list = self.projects.find_one({"_id": ObjectId(project_id)})["tasks"]
-        if project_list:
-            del project_list[int(task_id)]
-            self.projects.update_one({"_id": ObjectId(project_id)}, {"$set" : {"tasks": project_list}})
+    # Getters
 
     def get_projects_html(self, user):
-        projects_html = ""
-
-        projects = self.projects.find({})
+        projects = self.projects.find()
         for project in projects:
             if user in project["users"]:
                 id = str(project["_id"])
@@ -155,67 +170,10 @@ class JonAppDatabase:
                 description = project["description"]
                 image = self.get_image(project["image"])
 
-                projects_html += """
-                    <div class="col s12 m6 l4" id='""" + id + """'>
-                        <div class="card hoverable">
-                            <div class="card-image">
-                            <img onclick="window.location='/project/""" + id + """'" id='projimg-""" + id + """' class="fit-to" src='""" + image + """'>
-                            </div>
-                            <div class="card-content">
-                            <span class="card-title activator grey-text text-darken-4" id='projname-""" + id + """'>""" + name + """</span>
-                            <i class="material-icons right dropdown-trigger" data-target='dropdown-""" + id + """'>more_vert</i>
-                            <p id='projdesc-""" + id + """'>""" + description[:16] + """</p>
-                            </div>
-                            <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4">""" + name + """<i class="material-icons right">close</i></span>
-                            <p>""" + description + """</p>
-                            </div>
-                        </div>
-                        
-                        <ul id='dropdown-""" + id + """' class='dropdown-content'>
-                            <li><a href='/project/delete/""" + id + """'><i class="material-icons">delete</i>Delete</a></li>
-                            <li><a href="#projectEditModal" class="modal-trigger" onclick="openModal('""" + id + """')"><i class="material-icons">border_color</i>Edit</a></li>
-                        </ul>
-                    </div>"""
-
-        return projects_html
-
     def get_tasks_html(self, project_id):
         project_document = self.projects.find_one({"_id": ObjectId(project_id)})
         tasks_html = ""
 
         task_counter = 0
         for task in project_document["tasks"]:
-            tasks_html += """
-            <li class="default" id='task""" + str(task_counter) + """'>
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <div class="card-panel task white">
-                            <div class="row valign-wrapper no-bottom-margin">
-                                <div class="col s3 m3 l2 valign-wrapper">
-                                    <img class="task-preview-img" src='""" + self.get_image(task["image"]) + """' id="task-img-""" + str(task_counter) + """">
-                                </div>
-                                <div class="col s8 m8 l9">
-                                    <span class="task-title" id="task-name-""" + str(task_counter) + """">""" + task["name"] + """ #<span id="num"></span></span>
-                                    <p class="task-desc grey-text text-darken-2" id="task-desc-""" + str(task_counter) + """">""" + task["description"] + """</p>
-                                </div>
-                                <div class="col s1 m1 l1 valign-wrapper">
-                                    <i class="material-icons dropdown-trigger" data-target="dropdown""" + str(task_counter) + """">more_vert</i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            
-        <ul id="dropdown""" + str(task_counter) + """" class="dropdown-content">
-        <li><a href='""" + str(task_counter) + """/delete'><i class="material-icons">delete</i>Delete</a></li>
-        <li><a href="#updateTaskModal" class="modal-trigger" onclick="openModal('""" + str(task_counter) + """')"><i class="material-icons">border_color</i>Edit</a></li>
-        </ul>"""
-
-            task_counter += 1
-
-        return tasks_html
-
-    def isAuthorized(self, project, user):
-        return str(user) in self.projects.find_one({"_id": ObjectId(project)})["users"]
+            pass

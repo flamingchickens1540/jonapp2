@@ -1,172 +1,134 @@
 #!/usr/bin/python3
 # main.py
 
-from flask import Flask, request, render_template, Markup, redirect, session
+import json
+import json
+import os
+from bson.errors import InvalidId
+from bson.objectid import ObjectId
+from flask import Flask, request, Response
 
 from database import JonAppDatabase
-from utils import *
 
-HOST = "0.0.0.0"
+HOST = "localhost"
 PORT = 5001
-PRODUCTION = False
+PRODUCTION = (HOST != "localhost")
 
 app = Flask(__name__)
-app.secret_key = b'13568888'  # os.urandom(64)
+app.secret_key = os.urandom(64)
 database = JonAppDatabase("mongodb://inventeam.catlin.edu:4497/")
 
+# TODO: Static typing in function parameters
 
-# Is a user authenticated?
-def authenticated():
-    try:
-        id = session["id"]
-        if not id:
-            raise KeyError  # Cause an exception to be caught below
-    except KeyError:
-        return False
-    else:
-        return True
+defaults = {
+    # HTTP 2xx
+    200: "Operation completed successfully",
+    201: "Object created successfully",
 
+    # HTTP 4xx
+    400: "Bad Request",
+    403: "Forbidden",
+    404: "Not Found",
+
+    # HTTP 5xx
+    500: "Internal Server Error",
+    501: "Not Implemented"
+}
+
+
+def response(code, detail=None):
+    resp = {
+        "message": defaults[code]
+    }
+
+    if detail is not None:
+        resp["detail"] = detail
+
+    return Response(json.dumps(resp), status=code, mimetype="application/json")
+
+
+# General routes
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return response(404)
 
 
-@app.route("/projects")
-def supervisor_home():
-    if not authenticated(): return redirect("/supervisor/login")
+# Authentication routes
 
-    user = database.get_user(session["id"])
-    return render_template("supervisor/projects.html",
-
-                           user_name="To be implemented",
-                           user_id=session["id"],
-                           user_email=user["email"],
-                           user_qr=Markup(qr(session["id"])),
-                           projects_html=Markup(database.get_projects_html(session["id"]))
-                           )
-
-
-@app.route("/signup", methods=["GET", "POST"])
-def route_signup():
-    if request.method == "GET":
-        return render_template("/supervisor/signup.html")
-
-    elif request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
-
-        if not email and password: return "You may not leave the username or password field blank."
-
-        if database.signup(email, password):
-            return redirect("/supervisor/login")
-        else:
-            return "An account with this email already exists."
-
-
-@app.route("/supervisor/login", methods=["GET", "POST"])
+@app.route("/login", methods=["POST"])
 def route_login():
-    if authenticated(): return redirect("/projects")
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    if email is None or password is None:
+        return response(400, "Required argument username/password must not be empty")
+
+    return response(501)
+
+
+@app.route("/signup", methods=["POST"])
+def route_signup():
+    email = request.form.get("email")
+    password = request.form("password")
+    type = request.form.get("type")
+
+    if not (type == "supervisor" or type == "user"):
+        return response(400, "Type must be either 'supervisor' or 'user'")
+
+    if email is None or password is None:  # type == None would be caught above
+        return response(400, "email/password must not be empty")
+
+    return response(501)
+
+
+# Project routes
+
+@app.route("/project/create", methods=["POST"])
+def project_create():
+    name = request.form.get("name")
+    description = request.form.get("description")
+    image = request.files.get("image")
+
+    if name is None or description is None or image is None:
+        return response(400, "Required argument name/description/image must not be none")
+
+    return response(501)
+
+
+@app.route("/project", methods=["GET", "POST", "DELETE"])
+def project():
+    project_id = request.args.get("id")
+
+    if project_id is None:
+        return response(400, "Required URL parameter id must not be none")
+
+    try:
+        garbage = ObjectId(project_id)
+    except InvalidId:  # Reject bad ObjectIds
+        return response(400, "URL parameter isn't a valid ID")
 
     if request.method == "GET":
-        return render_template("/supervisor/login.html")
-
+        return response(501)
     elif request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
-
-        id = database.login(email, password)
-        if id:
-            session["id"] = id
-            return redirect("/projects")
-        else:
-            return "Invalid username or password"
+        return response(501)
+    elif request.method == "DELETE":
+        return response(501)
 
 
-@app.route("/logout")
-def route_logout():
-    del session["id"]
-    return redirect("/")
+# Task routes
 
+@app.route("/task/create", methods=["POST"])
+def task_create():
+    name = request.form.get("name")
+    description = request.form.get("description")
+    image = request.files.get("image")
+    project_id = request.form.get("project-id")
 
-# Create a project
-@app.route("/create/project", methods=["POST"])
-def create_project():
-    if not authenticated(): return redirect("/supervisor/login")
+    if name is None or description is None or image is None:
+        return response(400, "Required argument name/description/image/project_id must not be none")
 
-    name = request.form["name"]
-    description = request.form["description"]
-    image = request.files["image"]
-
-    database.add_project(name, description, image, session["id"])
-    return redirect("/projects")
-
-
-# View, edit, or delete a project
-@app.route("/project/<path:project>/", methods=["GET", "POST", "DELETE"])
-def route_project(project):
-    if not authenticated(): return redirect("/supervisor/login")
-
-    if database.isAuthorized(project, session["id"]):  # TODO: Catch BSON InvalidId error in database
-        if request.method == "GET":  # View the project
-            return render_template("/supervisor/tasks.html", tasks=Markup(database.get_tasks_html(project)))
-        elif request.method == "POST":  # Edit the project
-            name = request.form["name"]
-            description = request.form["description"]
-            if request.files['image'] == '':
-                image = 'none'
-            else:
-                image = request.files['image']
-
-            database.update_project(name, description, image, project)
-
-        elif request.method == "DELETE":  # Delete the project
-            pass  # TODO: Delete the project
-
-        return redirect("/projects")
-
-    else:
-        return redirect("/supervisor/login")
-
-
-# Create a task
-@app.route("/create/task", methods=["POST"])
-def route_create_task():
-    if not authenticated(): return redirect("/supervisor/login")
-
-    project = request.form["project"]
-    name = request.form["name"]
-    description = request.form["description"]
-    image = request.files["image"]
-
-    database.add_task(project, name, description, image)
-    return redirect("/project/" + project)
-
-# Edit or delete a task
-@app.route("/task/<path:project>/<path:task>/", methods=["POST", "DELETE"])
-def route_task(project, task):
-    if not authenticated(): return redirect("/supervisor/login")
-
-    if database.isAuthorized(project, session["id"]):  # TODO: Catch BSON InvalidId error in database
-        if request.method == "POST":  # Edit the task
-            print("request received")
-            name = request.form['name']
-            description = request.form['description']
-
-            if request.files['image'] == '':
-                image = 'none'
-            else:
-                image = request.files['image']
-
-            database.update_task(project, task, name, description, image)
-
-
-        elif request.method == "DELETE":  # Delete the task
-            database.delete_task(project, task)
-
-        return redirect("/project/" + project)
-    else:
-        return redirect("/supervisor/login")
+    return response(501)
 
 
 app.run(host=HOST, port=PORT, debug=not PRODUCTION)
