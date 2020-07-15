@@ -41,8 +41,8 @@ def response(code, detail=None):
         "message": defaults[code]
     }
 
-    if detail is not None:
-        resp["detail"] = detail
+    if data is not None:
+        resp["data"] = data
 
     return Response(json.dumps(resp), status=code, mimetype="application/json")
 
@@ -64,9 +64,11 @@ def route_login():
     if email is None or password is None:
         return response(400, "Required argument username/password must not be empty")
 
-    database.login(email, password)
+    token = database.login(email, password)
+    if not token:
+        return response(403, "Username or password is incorrect")
 
-    return response(501)
+    return response(200, token)
 
 
 @app.route("/signup", methods=["POST"])
@@ -87,7 +89,7 @@ def route_signup():
 # Project routes
 
 @app.route("/projects", methods=["POST"])
-def project_create():
+def projects():
     return response(501)
 
 
