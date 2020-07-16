@@ -153,8 +153,16 @@ class JonAppDatabase:
     def get_user(self, id):
         return self.users.find_one({"_id": ObjectId(id)})
 
-    def is_authorized(self, project, user):
-        return str(user) in self.projects.find_one({"_id": ObjectId(project)})["users"]
+    def is_authorized(self, token, target_id):
+        user_id = token.split(";")[0]
+        token = token.split(";")[1]
+        user_object = self.users.find_one({"_id": ObjectId(user_id)})
+
+        if user_object and (token.split(";")[1] in user_object["tokens"]):
+            target_object = self.projects.find_one({"_id": ObjectId(target_id)})
+            return target_object and (user_id in target_object["users"])
+
+        return False
 
     # Getters
 
