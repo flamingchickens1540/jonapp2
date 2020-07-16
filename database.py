@@ -150,9 +150,6 @@ class JonAppDatabase:
         else:
             return None
 
-    def get_user(self, id):
-        return self.users.find_one({"_id": ObjectId(id)})
-
     def is_authorized(self, token, target_id):
         user_id = token.split(";")[0]
         token = token.split(";")[1]
