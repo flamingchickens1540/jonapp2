@@ -100,17 +100,22 @@ def route_signup():
 
 # Project routes
 
-@app.route("/projects", methods=["POST"])
+@app.route("/projects", methods=["GET"])
 def projects():
     return response(501)
 
 
 @app.route("/project/create", methods=["POST"])
 def project_create():
-    name = request.form.get("name")
-    description = request.form.get("description")
-    image = request.files.get("image")
+    if request.json is None:
+        return response(400, "JSON payload must not be empty")
 
+    try:
+        name = request.json["name"]
+        description = request.json["description"]
+        image = request.json["image"]
+    except KeyError:
+        return response(400, "Required argument name/description/image not found")
     if name is None or description is None or image is None:
         return response(400, "Required argument name/description/image must not be none")
 
