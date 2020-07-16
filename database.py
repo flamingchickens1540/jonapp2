@@ -146,7 +146,7 @@ class JonAppDatabase:
         if user_doc and bcrypt.checkpw(password.encode(), user_doc["password"]):
             token = random_string()
             self.users.update_one(user_doc, {"$push": {"tokens": token}})
-            return token
+            return str(user_doc["_id"]) + ";" + token
         else:
             return None
 
