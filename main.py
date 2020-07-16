@@ -81,6 +81,7 @@ def route_signup():
 
     try:
         email = request.json["email"]
+        name = request.json["name"]
         password = request.json["password"]
         type = request.json["type"]
     except KeyError:
@@ -90,7 +91,7 @@ def route_signup():
         print(type)
         return response(400, "Type must be either 'supervisor' or 'user'")
 
-    account_exists = database.signup(email, password, type)
+    account_exists = database.signup(email, name, password, type)
     if account_exists:
         return response(400, "Account with this email already exists")
 

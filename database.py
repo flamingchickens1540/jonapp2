@@ -128,12 +128,13 @@ class JonAppDatabase:
 
     # Authentication
 
-    def signup(self, email, password, type):
+    def signup(self, email, name, password, type):
         if self.users.find_one({"email": email}):  # If account already exists
             return True  # Account already exists
 
         self.users.insert_one({
             "email": email,
+            "name": name,
             "password": bcrypt.hashpw(password.encode(), bcrypt.gensalt()),
             "type": type
         })

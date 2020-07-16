@@ -5,7 +5,7 @@ All endpoints under `/users` , and `/projects` must be authenticated by supplyin
 | Endpoint                     | Method | Arguments             | Usage              |
 | ---------------------------- | ------ | --------------------- | ------------------ |
 | /login                     | POST  | `email`, `password` | Get token for user |
-| /signup | POST | `email`, `password`, `type` | Sign a user up |
+| /signup | POST | `email`, `name`, `password`, `type` | Sign a user up |
 | /project/create | POST | `name`, `description`, `image` | Create a project |
 | /project?id=<id> | GET, POST, DELETE | `id` supplied as a URL parameter | Get, edit, or delete a project |
 | /task/create | POST | `name`, `description`, `image`, `project-id` | Create a project |
