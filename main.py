@@ -67,7 +67,7 @@ def validate(*args):
 
 @app.route("/")
 def index():
-    return response(404)
+    return response(200, "API Documentation available in the README: https://github.com/flamingchickens1540/jonapp2-react-backend")
 
 
 # Authentication routes
