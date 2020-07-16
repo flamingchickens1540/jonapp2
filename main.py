@@ -47,6 +47,22 @@ def response(code, data=None):
     return Response(json.dumps(resp), status=code, mimetype="application/json")
 
 
+def validate(*args):
+    if request.json is None:
+        return response(400, "JSON payload must not be empty")
+
+    for arg in args:
+        try:
+            arg_val = request.json[arg]
+        except KeyError:
+            return response(400, "Required argument '" + arg + "' not found")
+        else:
+            if arg_val is None:
+                return response(400, "Required argument '" + arg + "' must not be empty")
+
+    return None  # No error
+
+
 # General routes
 
 @app.route("/")
@@ -58,14 +74,12 @@ def index():
 
 @app.route("/login", methods=["POST"])
 def route_login():
-    if request.json is None:
-        return response(400, "JSON payload must not be empty")
+    arg_error = validate("email", "password")
+    if arg_error is not None:
+        return arg_error
 
-    try:
-        email = request.json["email"]
-        password = request.json["password"]
-    except KeyError:
-        return response(400, "Required argument email/password/ not found")
+    email = request.json["email"]
+    password = request.json["password"]
 
     token = database.login(email, password)
     if not token:
@@ -76,16 +90,14 @@ def route_login():
 
 @app.route("/signup", methods=["POST"])
 def route_signup():
-    if request.json is None:
-        return response(400, "JSON payload must not be empty")
+    arg_error = validate("email", "name", "password", "type")
+    if arg_error is not None:
+        return arg_error
 
-    try:
-        email = request.json["email"]
-        name = request.json["name"]
-        password = request.json["password"]
-        type = request.json["type"]
-    except KeyError:
-        return response(400, "Required argument email/password/type not found")
+    email = request.json["email"]
+    name = request.json["name"]
+    password = request.json["password"]
+    type = request.json["type"]
 
     if not (type == "supervisor" or type == "user"):
         print(type)
