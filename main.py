@@ -73,7 +73,7 @@ def index():
 # Authentication routes
 
 @app.route("/login", methods=["POST"])
-def route_login():
+def login():
     arg_error = validate("email", "password")
     if arg_error is not None:
         return arg_error
@@ -89,7 +89,7 @@ def route_login():
 
 
 @app.route("/signup", methods=["POST"])
-def route_signup():
+def signup():
     arg_error = validate("email", "name", "password", "type")
     if arg_error is not None:
         return arg_error
