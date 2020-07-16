@@ -9,12 +9,11 @@ import bcrypt
 import gridfs
 import pymongo
 import random
-import string
 from bson.objectid import ObjectId
 
 
 def random_string():
-    return "".join(random.choice(string.ascii_lowercase) for i in range(32))
+    return "".join(random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") for i in range(32))
 
 
 class JonAppDatabase:
