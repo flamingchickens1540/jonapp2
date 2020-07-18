@@ -62,7 +62,7 @@ class JonAppDatabase:
         self.projects.insert_one({
             "name": name,
             "description": description,
-            "image": self.put_image(image),
+            "image": image,  # TODO: replace with self.put_image(image),
             "users": [user],
             "tasks": []
         })

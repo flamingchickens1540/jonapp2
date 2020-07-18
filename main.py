@@ -26,6 +26,7 @@ defaults = {
 
     # HTTP 4xx
     400: "Bad Request",
+    401: "Unauthorized",
     403: "Forbidden",
     404: "Not Found",
 
@@ -125,18 +126,26 @@ def projects():
     if user is not None:
         return response(200, user.get("projects"))
     else:
-        return response(403)
+        return response(401)
 
-
+# TODO: Test this endpoint
 @app.route("/project/create", methods=["POST"])
 def project_create():
-    validate("name", "description", "image")
+    token = request.headers.get("Authorization").strip("Basic ")
+    user = database.uid_by_token(token)
+    if user is not None:
+        arg_error = validate("name", "description", "image")
+        if arg_error is not None:
+            return arg_error
 
-    name = request.json["name"]
-    description = request.json["description"]
-    image = request.json["image"]
+        name = request.json["name"]
+        description = request.json["description"]
+        image = request.json["image"]
 
-    return response(501)
+        database.create_project(name, description, image, user.get("_id"))
+
+        return response(201)
+    return response(401)
 
 
 @app.route("/project", methods=["GET", "POST", "DELETE"])
