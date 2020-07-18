@@ -9,6 +9,7 @@ import bcrypt
 import gridfs
 import pymongo
 import random
+from bson.errors import InvalidId
 from bson.objectid import ObjectId
 
 
@@ -150,10 +151,25 @@ class JonAppDatabase:
         else:
             return None
 
+    def uid_by_token(self, raw_token):
+        if (raw_token is not None) and (len(raw_token.split(";")) == 2):
+            user_id = raw_token.split(";")[0]
+
+            try:
+                garbage = ObjectId(user_id)
+            except InvalidId:  # Reject bad ObjectIds
+                return None
+
+            token = raw_token.split(";")[1]
+            user_object = self.users.find_one({"_id": ObjectId(user_id)})
+
+            if token in user_object.get("tokens"):
+                return user_object
+        else:
+            return None
+
     def is_authorized(self, token, target_id):
-        user_id = token.split(";")[0]
-        token = token.split(";")[1]
-        user_object = self.users.find_one({"_id": ObjectId(user_id)})
+        user_id, token, user_object = self.parse_token(token)
 
         if user_object and (token.split(";")[1] in user_object["tokens"]):
             target_object = self.projects.find_one({"_id": ObjectId(target_id)})
@@ -174,8 +190,5 @@ class JonAppDatabase:
 
     def get_tasks_html(self, project_id):
         project_document = self.projects.find_one({"_id": ObjectId(project_id)})
-        tasks_html = ""
-
-        task_counter = 0
         for task in project_document["tasks"]:
             pass

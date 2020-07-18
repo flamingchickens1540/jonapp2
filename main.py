@@ -35,12 +35,19 @@ defaults = {
 }
 
 
-def response(code, data=None):
+class UndefinedType:
+    # This is an UndefinedType to represent an undefined kwarg value in the response factory.
+    # TODO: There is probably a better way to do this.
+    def __init__(self):
+        pass
+
+
+def response(code, data=UndefinedType):
     resp = {
         "message": defaults[code]
     }
 
-    if data is not None:
+    if data is not UndefinedType:
         resp["data"] = data
 
     return Response(json.dumps(resp), status=code, mimetype="application/json")
@@ -114,7 +121,11 @@ def signup():
 @app.route("/projects", methods=["GET"])
 def projects():
     token = request.headers.get("Authorization").strip("Basic ")
-    return response(501)
+    user = database.uid_by_token(token)
+    if user is not None:
+        return response(200, user.get("projects"))
+    else:
+        return response(403)
 
 
 @app.route("/project/create", methods=["POST"])
