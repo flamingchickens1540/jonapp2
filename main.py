@@ -128,6 +128,7 @@ def projects():
     else:
         return response(401)
 
+
 # TODO: Test this endpoint
 @app.route("/project/create", methods=["POST"])
 def project_create():

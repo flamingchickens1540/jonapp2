@@ -59,13 +59,17 @@ class JonAppDatabase:
     # Projects
 
     def create_project(self, name, description, image, user):
-        self.projects.insert_one({
+        # TODO: Type checking and error handling
+
+        new_project = self.projects.insert_one({
             "name": name,
             "description": description,
             "image": image,  # TODO: replace with self.put_image(image),
             "users": [user],
             "tasks": []
         })
+
+        self.users.update_one({"_id": user}, {"$push": {"projects": str(new_project.inserted_id)}})
 
     def update_project(self, project_id, name, description, image):
         self.projects.update_one({'_id': ObjectId(project_id)}, {'$set': {
