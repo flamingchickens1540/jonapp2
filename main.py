@@ -118,7 +118,7 @@ def signup():
 
 @app.route("/projects", methods=["GET"])
 def projects():
-    token = request.headers.get("Authorization").strip("Basic ")
+    token = get_req_token()
     user = database.uid_by_token(token)
     if user is not None:
         return response(200, user.get("projects"))
