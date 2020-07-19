@@ -65,8 +65,7 @@ class JonAppDatabase:
             "name": name,
             "description": description,
             "image": image,  # TODO: replace with self.put_image(image),
-            "users": [user],
-            "tasks": []
+            "users": [user]
         })
 
         self.users.update_one({"_id": user}, {"$push": {"projects": str(new_project.inserted_id)}})
