@@ -103,8 +103,7 @@ def signup():
     password = request.json["password"]
     user_type = request.json["type"]
 
-    if not (type == "supervisor" or user_type == "user"):
-        print(type)
+    if not (user_type == "supervisor" or user_type == "user"):
         return response(400, "Type must be either 'supervisor' or 'user'")
 
     account_exists = database.signup(email, name, password, user_type)
