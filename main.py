@@ -63,6 +63,10 @@ def validate(*args):
     return None  # No error
 
 
+def get_req_token() -> str:
+    return request.headers.get("Authorization").strip("Basic ")
+
+
 # General routes
 
 @app.route("/")
@@ -125,7 +129,7 @@ def projects():
 # TODO: Test this endpoint
 @app.route("/project/create", methods=["POST"])
 def project_create():
-    token = request.headers.get("Authorization").strip("Basic ")
+    token = get_req_token()
     user = database.uid_by_token(token)
     if user is not None:
         arg_error = validate("name", "description", "image")
@@ -155,6 +159,8 @@ def project():
         return response(400, "URL parameter isn't a valid ID")
 
     if request.method == "GET":
+        if database.is_authorized(token, project_id):
+            return
         return response(501)
     elif request.method == "POST":
         return response(501)
