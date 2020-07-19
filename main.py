@@ -160,8 +160,8 @@ def project():
 
     if request.method == "GET":
         if database.is_authorized(token, project_id):
-            return
-        return response(501)
+            return database.get_project(project_id)
+        return response(401)
     elif request.method == "POST":
         return response(501)
     elif request.method == "DELETE":

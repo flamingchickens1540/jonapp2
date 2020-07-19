@@ -54,7 +54,7 @@ class JonAppDatabase:
             return error("No image specified")
 
     def delete_image(self, string_id):
-        return self._gridfs.delete(ObjectId(string_id))
+        return self._gridfs.delete(bson.objectid.ObjectId(string_id))
 
     # Projects
 
@@ -71,14 +71,14 @@ class JonAppDatabase:
         self.users.update_one({"_id": user}, {"$push": {"projects": str(new_project.inserted_id)}})
 
     def update_project(self, project_id: str, name: str, description: str, image):
-        self.projects.update_one({'_id': ObjectId(project_id)}, {'$set': {
+        self.projects.update_one({'_id': bson.objectid.ObjectId(project_id)}, {'$set': {
             "name": name,
             "description": description,
             "image": self.put_image(image),
         }})
 
     def delete_project(self, project_id: str, user: str):
-        project_doc = self.projects.find_one({"_id": ObjectId(project_id)})
+        project_doc = self.projects.find_one({"_id": bson.objectid.ObjectId(project_id)})
 
         if not project_doc:  # If project with project_id doesn't exist, no need to do anything.
             return
@@ -89,15 +89,15 @@ class JonAppDatabase:
                 if project_image:
                     self.delete_image(project_image)
 
-                self.projects.delete_one({"_id": ObjectId(project)})
+                self.projects.delete_one({"_id": bson.objectid.ObjectId(project)})
 
     # Tasks
 
     def add_task(self, project_id: str, name: str, description: str, image):
-        if not self.projects.find_one({"_id": ObjectId(project_id)}):
+        if not self.projects.find_one({"_id": bson.objectid.ObjectId(project_id)}):
             return "Project not found"  # TODO: Real error page
 
-        self.projects.update_one({"_id": ObjectId(project)}, {"$push": {"tasks": {
+        self.projects.update_one({"_id": bson.objectid.ObjectId(project)}, {"$push": {"tasks": {
             "name": name,
             "description": description,
             "image": self.put_image(image),
@@ -106,16 +106,16 @@ class JonAppDatabase:
         }}})
 
     def update_task(self, project_id: str, task: str, name: str, description: str, image):
-        if not self.projects.find_one({"_id": ObjectId(project_id)}):
+        if not self.projects.find_one({"_id": bson.objectid.ObjectId(project_id)}):
             return "Project not found"  # TODO: Real error page
 
         if image == 'none':
-            self.projects.update_one({"_id": ObjectId(project)}, {"$set": {"tasks." + task: {  # Append the new task
+            self.projects.update_one({"_id": bson.objectid.ObjectId(project)}, {"$set": {"tasks." + task: {  # Append the new task
                 "name": name,
                 "description": description,
             }}})
         else:
-            self.projects.update_one({"_id": ObjectId(project)}, {"$set": {"tasks." + task: {
+            self.projects.update_one({"_id": bson.objectid.ObjectId(project)}, {"$set": {"tasks." + task: {
                 "name": name,
                 "description": description,
                 "image": self.put_image(image),
@@ -124,10 +124,10 @@ class JonAppDatabase:
     def delete_task(self, project_id, task_id):
         print("Deleting index " + str(task_id) + " from " + project_id)
 
-        project_list = self.projects.find_one({"_id": ObjectId(project_id)})["tasks"]
+        project_list = self.projects.find_one({"_id": bson.objectid.ObjectId(project_id)})["tasks"]
         if project_list:
             del project_list[int(task_id)]
-            self.projects.update_one({"_id": ObjectId(project_id)}, {"$set": {"tasks": project_list}})
+            self.projects.update_one({"_id": bson.objectid.ObjectId(project_id)}, {"$set": {"tasks": project_list}})
 
     # Authentication
 
@@ -182,16 +182,8 @@ class JonAppDatabase:
 
     # Getters
 
-    def get_projects_html(self, user):
-        projects = self.projects.find()
-        for project in projects:
-            if user in project["users"]:
-                id = str(project["_id"])
-                name = project["name"]
-                description = project["description"]
-                image = self.get_image(project["image"])
-
-    def get_tasks_html(self, project_id):
-        project_document = self.projects.find_one({"_id": ObjectId(project_id)})
-        for task in project_document["tasks"]:
-            pass
+    def get_project(self, project_id: str) -> any:
+        try:
+            return self.projects.find_one({"_id", bson.objectid.ObjectId(project_id)})
+        except bson.errors.InvalidId:
+            return None
