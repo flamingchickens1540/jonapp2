@@ -172,7 +172,7 @@ def task_create():
     project_id = request.form.get("project-id")
 
     if name is None or description is None or image is None:
-        return response(400, "Required argument name/description/image/project_id must not be none")
+        return response(400, "Required argument name/description/image/project-id must not be none")
 
     return response(501)
 
