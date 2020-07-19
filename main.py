@@ -3,15 +3,15 @@
 
 import json
 import os
-from bson.errors import InvalidId
-from bson.objectid import ObjectId
+import bson.errors
+import bson.objectid
 from flask import Flask, request, Response
 
 from database import JonAppDatabase
 
-HOST = "localhost"
-PORT = 5001
-PRODUCTION = (HOST != "localhost")
+HOST: str = "localhost"
+PORT: int = 5001
+PRODUCTION: bool = (HOST != "localhost")
 
 app = Flask(__name__)
 app.secret_key = os.urandom(64)
@@ -36,19 +36,12 @@ defaults = {
 }
 
 
-class UndefinedType:
-    # This is an UndefinedType to represent an undefined kwarg value in the response factory.
-    # TODO: There is probably a better way to do this.
-    def __init__(self):
-        pass
-
-
-def response(code, data=UndefinedType):
+def response(code: int, data: str = ""):
     resp = {
         "message": defaults[code]
     }
 
-    if data is not UndefinedType:
+    if data != "":
         resp["data"] = data
 
     return Response(json.dumps(resp), status=code, mimetype="application/json")
@@ -157,8 +150,8 @@ def project():
         return response(400, "Required URL parameter id must not be none")
 
     try:
-        garbage = ObjectId(project_id)
-    except InvalidId:  # Reject bad ObjectIds
+        garbage = bson.objectid.ObjectId(project_id)
+    except bson.errors.InvalidId:  # Reject bad ObjectIds
         return response(400, "URL parameter isn't a valid ID")
 
     if request.method == "GET":

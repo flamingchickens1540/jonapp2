@@ -9,8 +9,8 @@ import bcrypt
 import gridfs
 import pymongo
 import random
-from bson.errors import InvalidId
-from bson.objectid import ObjectId
+import bson.errors
+import bson.objectid
 
 
 def random_string():
@@ -154,17 +154,17 @@ class JonAppDatabase:
         else:
             return ""
 
-    def uid_by_token(self, raw_token) -> object:
+    def uid_by_token(self, raw_token) -> any:  # TODO: What type of object is this?
         if (raw_token is not None) and (len(raw_token.split(";")) == 2):
             user_id = raw_token.split(";")[0]
 
             try:
-                garbage = ObjectId(user_id)
-            except InvalidId:  # Reject bad ObjectIds
+                garbage = bson.objectid.ObjectId(user_id)
+            except bson.errors.InvalidId:  # Reject bad ObjectIds
                 return None
 
             token = raw_token.split(";")[1]
-            user_object = self.users.find_one({"_id": ObjectId(user_id)})
+            user_object = self.users.find_one({"_id": bson.objectid.ObjectId(user_id)})
 
             if token in user_object.get("tokens"):
                 return user_object
