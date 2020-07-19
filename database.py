@@ -18,7 +18,7 @@ def random_string():
 
 
 class JonAppDatabase:
-    def __init__(self, mongo_uri):
+    def __init__(self, mongo_uri: str):
         # Core datastores
         self.client = pymongo.MongoClient(mongo_uri)
         self.db = self.client["jonapp2"]
@@ -29,7 +29,7 @@ class JonAppDatabase:
         self.projects = self.db["projects"]
         self.users = self.db["users"]
 
-    def get_image(self, object_id):
+    def get_image(self, object_id: str):
         try:
             entry = self.gridfs.get(object_id)
         except gridfs.errors.NoFile:
@@ -58,7 +58,7 @@ class JonAppDatabase:
 
     # Projects
 
-    def create_project(self, name, description, image, user):
+    def create_project(self, name: str, description: str, image, user: str):
         # TODO: Type checking and error handling
 
         new_project = self.projects.insert_one({
@@ -71,14 +71,14 @@ class JonAppDatabase:
 
         self.users.update_one({"_id": user}, {"$push": {"projects": str(new_project.inserted_id)}})
 
-    def update_project(self, project_id, name, description, image):
+    def update_project(self, project_id: str, name: str, description: str, image):
         self.projects.update_one({'_id': ObjectId(project_id)}, {'$set': {
             "name": name,
             "description": description,
             "image": self.put_image(image),
         }})
 
-    def delete_project(self, project_id, user):
+    def delete_project(self, project_id: str, user: str):
         project_doc = self.projects.find_one({"_id": ObjectId(project_id)})
 
         if not project_doc:  # If project with project_id doesn't exist, no need to do anything.
@@ -94,7 +94,7 @@ class JonAppDatabase:
 
     # Tasks
 
-    def add_task(self, project_id, name, description, image):
+    def add_task(self, project_id: str, name: str, description: str, image):
         if not self.projects.find_one({"_id": ObjectId(project_id)}):
             return "Project not found"  # TODO: Real error page
 
@@ -106,7 +106,7 @@ class JonAppDatabase:
             "subtasks": []
         }}})
 
-    def update_task(self, project_id, task, name, description, image):
+    def update_task(self, project_id: str, task: str, name: str, description: str, image):
         if not self.projects.find_one({"_id": ObjectId(project_id)}):
             return "Project not found"  # TODO: Real error page
 
@@ -132,7 +132,7 @@ class JonAppDatabase:
 
     # Authentication
 
-    def signup(self, email, name, password, type):
+    def signup(self, email: str, name: str, password: str, user_type: str) -> bool:
         if self.users.find_one({"email": email}):  # If account already exists
             return True  # Account already exists
 
@@ -140,12 +140,12 @@ class JonAppDatabase:
             "email": email,
             "name": name,
             "password": bcrypt.hashpw(password.encode(), bcrypt.gensalt()),
-            "type": type
+            "type": user_type
         })
 
         return False  # Account doesn't already exist
 
-    def login(self, email, password):
+    def login(self, email: str, password: str) -> str:
         user_doc = self.users.find_one({"email": email})
 
         if user_doc and bcrypt.checkpw(password.encode(), user_doc["password"]):
@@ -153,9 +153,9 @@ class JonAppDatabase:
             self.users.update_one(user_doc, {"$push": {"tokens": token}})
             return str(user_doc["_id"]) + ";" + token
         else:
-            return None
+            return ""
 
-    def uid_by_token(self, raw_token):
+    def uid_by_token(self, raw_token) -> object:
         if (raw_token is not None) and (len(raw_token.split(";")) == 2):
             user_id = raw_token.split(";")[0]
 
@@ -172,7 +172,7 @@ class JonAppDatabase:
         else:
             return None
 
-    def is_authorized(self, token, target_id):
+    def is_authorized(self, token, target_id) -> bool:
         user_id, token, user_object = self.parse_token(token)
 
         if user_object and (token.split(";")[1] in user_object["tokens"]):
