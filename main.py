@@ -97,13 +97,13 @@ def signup():
     email = request.json["email"]
     name = request.json["name"]
     password = request.json["password"]
-    type = request.json["type"]
+    user_type = request.json["type"]
 
-    if not (type == "supervisor" or type == "user"):
+    if not (type == "supervisor" or user_type == "user"):
         print(type)
         return response(400, "Type must be either 'supervisor' or 'user'")
 
-    account_exists = database.signup(email, name, password, type)
+    account_exists = database.signup(email, name, password, user_type)
     if account_exists:
         return response(400, "Account with this email already exists")
 
