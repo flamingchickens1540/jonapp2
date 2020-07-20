@@ -46,12 +46,12 @@ class JonAppDatabase:
             try:
                 extension = image.filename.split(".")[1]
             except IndexError:  # No extension
-                return error("No image extension specified")
+                return "No image extension specified"
             else:
                 if image.content_type.split("/")[0] == "image":
                     return self._gridfs.put(image, content_type=image.content_type, filename="image-" + random_filename() + "." + extension)
         else:
-            return error("No image specified")
+            return "No image specified"
 
     def delete_image(self, string_id):
         return self._gridfs.delete(bson.objectid.ObjectId(string_id))
@@ -154,7 +154,7 @@ class JonAppDatabase:
         else:
             return ""
 
-    def uid_by_token(self, raw_token) -> any:  # TODO: What type of object is this?
+    def user_by_token(self, raw_token) -> any:  # TODO: What type of object is this?
         if (raw_token is not None) and (len(raw_token.split("*")) == 2):
             user_id = raw_token.split("*")[0]
 
@@ -187,3 +187,13 @@ class JonAppDatabase:
             return self.projects.find_one({"_id", bson.objectid.ObjectId(project_id)})
         except bson.errors.InvalidId:
             return None
+
+    def get_projects(self, user_doc: any) -> list:
+        projects = []
+
+        for project_id in user_doc.get("projects"):
+            project = self.projects.find_one({"_id": project_id})
+            if project:
+                projects.append(project)
+
+        return projects
