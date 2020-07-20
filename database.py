@@ -92,7 +92,7 @@ class JonAppDatabase:
             "users": [user]
         })
 
-        self.users.update_one({"_id": user}, {"$push": {"projects": str(new_project.inserted_id)}})
+        self.users.update_one({"_id": user}, {"$push": {"projects": new_project.inserted_id}})
 
     def update_project(self, project_id: str, name: str, description: str, image):
         """
@@ -222,7 +222,7 @@ class JonAppDatabase:
         else:
             return ""
 
-    def user_by_token(self, raw_token) -> any:  # TODO: What type of object is this?
+    def user_by_token(self, raw_token) -> any:
         """
         Parse a raw token cookie and return user object
         :param raw_token: Authentication token
@@ -231,7 +231,7 @@ class JonAppDatabase:
         if (not raw_token) and (len(raw_token.split("*")) == 2):
             user_id = raw_token.split("*")[0]
             token = raw_token.split("*")[1]
-            
+
             try:
                 user_object = self.users.find_one({"_id": bson.objectid.ObjectId(user_id)})
             except bson.errors.InvalidId:  # Reject bad ObjectIds
@@ -254,17 +254,6 @@ class JonAppDatabase:
 
     # Getters
 
-    def get_project(self, project_id: str) -> any:
-        """
-        Get a single project
-        :param project_id: ID of project document
-        :return: Project document
-        """
-        try:
-            return self.projects.find_one({"_id", bson.objectid.ObjectId(project_id)})
-        except bson.errors.InvalidId:
-            return None
-
     def get_projects(self, user_doc: any) -> list:
         """
         Get all projects for a user
@@ -276,7 +265,7 @@ class JonAppDatabase:
         projects_available = user_doc.get("projects")
         if projects_available:
             for project_id in projects_available:
-                project = self.get_project(project_id)
+                project = self.projects.find_one({"_id", project_id})
                 if project:
                     projects.append(project)
 
