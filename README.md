@@ -3,7 +3,7 @@
 All endpoints except for `/login` must be authenticated by supplying the `Authorization: Basic <TOKEN>` header which can be obtained through a POST to `/login`
 
 | Endpoint                     | Method | Arguments             | Usage              |
-| ---------------------------- | ------ | --------------------- | ------------------ |
+| ---------------------------- | :------: | --------------------- | ------------------ |
 | `/login`                   | POST  | `email`, `password` | Get token for user |
 | `/signup` | POST | `email`, `name`, `password`, `type` | Sign a user up |
 | `/projects` | GET | None | Get a user's projects |
