@@ -228,7 +228,7 @@ class JonAppDatabase:
         :param raw_token: Authentication token
         :return: User document
         """
-        if (raw_token is not None) and (len(raw_token.split("*")) == 2):
+        if (not raw_token) and (len(raw_token.split("*")) == 2):
             user_id = raw_token.split("*")[0]
             token = raw_token.split("*")[1]
             

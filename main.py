@@ -62,7 +62,11 @@ def validate(*args):
 
 
 def get_req_token() -> str:
-    return request.headers.get("Authorization").strip("Basic ")
+    raw = request.headers.get("Authorization")
+    if raw is None:
+        return ""
+    else:
+        return raw.strip("Basic ")
 
 
 # General routes
