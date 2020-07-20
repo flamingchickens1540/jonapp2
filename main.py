@@ -36,13 +36,11 @@ defaults = {
 }
 
 
-def response(code: int, data: any = ""):
+def response(code: int, data: any = None):
     resp = {
-        "message": defaults[code]
+        "message": defaults[code],
+        "data": data
     }
-
-    if data != "":
-        resp["data"] = data
 
     return Response(json.dumps(resp), status=code, mimetype="application/json")
 
