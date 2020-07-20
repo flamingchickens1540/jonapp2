@@ -42,7 +42,7 @@ def response(code: int, data: any = None):
         "data": data
     }
 
-    return Response(json.dumps(resp), status=code, mimetype="application/json")
+    return Response(json.dumps(resp, default=str), status=code, mimetype="application/json")
 
 
 def validate(*args):
@@ -160,9 +160,7 @@ def project():
         return response(400, "URL parameter isn't a valid ID")
 
     if request.method == "GET":
-        if database.is_authorized(token, project_id):
-            return database.get_project(project_id)
-        return response(401)
+        return response(501)
     elif request.method == "POST":
         return response(501)
     elif request.method == "DELETE":

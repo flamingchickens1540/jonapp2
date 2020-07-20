@@ -262,10 +262,11 @@ class JonAppDatabase:
         """
         projects = []
 
-        projects_available = user_doc.get("projects")
-        if projects_available:
-            for project_id in projects_available:
-                project = self.projects.find_one({"_id", project_id})
+        users_projects = user_doc.get("projects")
+        if users_projects:
+            for project_id in users_projects:
+                print(project_id, type(project_id))
+                project = self.projects.find_one({"_id": project_id})
                 if project:
                     projects.append(project)
 
