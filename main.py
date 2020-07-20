@@ -36,7 +36,7 @@ defaults = {
 }
 
 
-def response(code: int, data: str = ""):
+def response(code: int, data: any = ""):
     resp = {
         "message": defaults[code]
     }

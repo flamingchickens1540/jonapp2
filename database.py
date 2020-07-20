@@ -36,7 +36,7 @@ class JonAppDatabase:
             return None
 
         if entry.contentType.strip().split("/")[0] != "image":  # If not an image, delete it.
-            self._gridfs.delete(object_id)
+            self.gridfs.delete(object_id)
             return None
 
         return "data:" + entry.contentType + ";base64, " + base64.b64encode(entry.read()).decode()
@@ -49,12 +49,12 @@ class JonAppDatabase:
                 return "No image extension specified"
             else:
                 if image.content_type.split("/")[0] == "image":
-                    return self._gridfs.put(image, content_type=image.content_type, filename="image-" + random_filename() + "." + extension)
+                    return self.gridfs.put(image, content_type=image.content_type, filename="image-" + random_string() + "." + extension)
         else:
             return "No image specified"
 
     def delete_image(self, string_id):
-        return self._gridfs.delete(bson.objectid.ObjectId(string_id))
+        return self.gridfs.delete(bson.objectid.ObjectId(string_id))
 
     # Projects
 
@@ -89,7 +89,7 @@ class JonAppDatabase:
                 if project_image:
                     self.delete_image(project_image)
 
-                self.projects.delete_one({"_id": bson.objectid.ObjectId(project)})
+                self.projects.delete_one({"_id": bson.objectid.ObjectId(project_id)})
 
     # Tasks
 
@@ -97,7 +97,7 @@ class JonAppDatabase:
         if not self.projects.find_one({"_id": bson.objectid.ObjectId(project_id)}):
             return "Project not found"  # TODO: Real error page
 
-        self.projects.update_one({"_id": bson.objectid.ObjectId(project)}, {"$push": {"tasks": {
+        self.projects.update_one({"_id": bson.objectid.ObjectId(project_id)}, {"$push": {"tasks": {
             "name": name,
             "description": description,
             "image": self.put_image(image),
@@ -110,12 +110,12 @@ class JonAppDatabase:
             return "Project not found"  # TODO: Real error page
 
         if image == 'none':
-            self.projects.update_one({"_id": bson.objectid.ObjectId(project)}, {"$set": {"tasks." + task: {  # Append the new task
+            self.projects.update_one({"_id": bson.objectid.ObjectId(project_id)}, {"$set": {"tasks." + task: {  # Append the new task
                 "name": name,
                 "description": description,
             }}})
         else:
-            self.projects.update_one({"_id": bson.objectid.ObjectId(project)}, {"$set": {"tasks." + task: {
+            self.projects.update_one({"_id": bson.objectid.ObjectId(project_id)}, {"$set": {"tasks." + task: {
                 "name": name,
                 "description": description,
                 "image": self.put_image(image),
