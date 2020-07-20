@@ -115,7 +115,7 @@ class JonAppDatabase:
         """
         project_doc = self.projects.find_one({"_id": bson.objectid.ObjectId(project_id)})
         if not project_doc:  # If project with project_id doesn't exist, no need to do anything.
-            return
+            return  # TODO: Return something meaningful
         else:  # If it does exit, delete it.
             project_image = project_doc["image"]
             if project_image:
@@ -222,13 +222,13 @@ class JonAppDatabase:
         else:
             return ""
 
-    def user_by_token(self, raw_token) -> any:
+    def user_by_token(self, raw_token: str) -> any:
         """
         Parse a raw token cookie and return user object
         :param raw_token: Authentication token
         :return: User document
         """
-        if (not raw_token) and (len(raw_token.split("*")) == 2):
+        if raw_token and (len(raw_token.split("*")) == 2):
             user_id = raw_token.split("*")[0]
             token = raw_token.split("*")[1]
 
