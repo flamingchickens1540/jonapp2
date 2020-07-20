@@ -129,7 +129,7 @@ def projects():
 @app.route("/project/create", methods=["POST"])
 def project_create():
     token = get_req_token()
-    user = database.uid_by_token(token)
+    user = database.user_by_token(token)
     if user is not None:
         arg_error = validate("name", "description", "image")
         if arg_error is not None:
