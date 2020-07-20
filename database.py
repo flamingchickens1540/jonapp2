@@ -150,20 +150,20 @@ class JonAppDatabase:
         if user_doc and bcrypt.checkpw(password.encode(), user_doc["password"]):
             token = random_string()
             self.users.update_one(user_doc, {"$push": {"tokens": token}})
-            return str(user_doc["_id"]) + ";" + token
+            return str(user_doc["_id"]) + "*" + token
         else:
             return ""
 
     def uid_by_token(self, raw_token) -> any:  # TODO: What type of object is this?
-        if (raw_token is not None) and (len(raw_token.split(";")) == 2):
-            user_id = raw_token.split(";")[0]
+        if (raw_token is not None) and (len(raw_token.split("*")) == 2):
+            user_id = raw_token.split("*")[0]
 
             try:
                 garbage = bson.objectid.ObjectId(user_id)
             except bson.errors.InvalidId:  # Reject bad ObjectIds
                 return None
 
-            token = raw_token.split(";")[1]
+            token = raw_token.split("*")[1]
             user_object = self.users.find_one({"_id": bson.objectid.ObjectId(user_id)})
 
             if token in user_object.get("tokens"):
@@ -174,8 +174,8 @@ class JonAppDatabase:
     def is_authorized(self, token, target_id) -> bool:
         user_id, token, user_object = self.parse_token(token)
 
-        if user_object and (token.split(";")[1] in user_object["tokens"]):
-            target_object = self.projects.find_one({"_id": ObjectId(target_id)})
+        if user_object and (token.split("*")[1] in user_object["tokens"]):
+            target_object = self.projects.find_one({"_id": bson.objectid.ObjectId(target_id)})
             return target_object and (user_id in target_object["users"])
 
         return False
